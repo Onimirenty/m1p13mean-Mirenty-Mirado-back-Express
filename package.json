@@ -1,0 +1,24 @@
+{
+  "name": "m1p13mean-mirenty-mirado-back-express",
+  "version": "1.0.0",
+  "description": "web application de centre commercial partie backend, developper avec Express js par 1890 et 1786 ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Onimirenty/m1p13mean-Mirenty-Mirado-back-Express.git"
+  },
+  "author": "Mirenty 1890 , Mirado 1786",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Onimirenty/m1p13mean-Mirenty-Mirado-back-Express/issues"
+  },
+  "homepage": "https://github.com/Onimirenty/m1p13mean-Mirenty-Mirado-back-Express#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongodb": "^7.0.0",
+    "mongoose": "^9.1.5"
+  }
+}
