@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Onimirenty/m1p13mean-Mirenty-Mirado-back-Express#readme",
   "dependencies": {
+    "cloudinary": "^2.9.0",
     "express": "^5.2.1",
     "mongodb": "^7.0.0",
     "mongoose": "^9.1.5"
