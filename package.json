@@ -4,7 +4,9 @@
   "description": "web application de centre commercial partie backend, developper avec Express js par 1890 et 1786 ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -17,9 +19,16 @@
   },
   "homepage": "https://github.com/Onimirenty/m1p13mean-Mirenty-Mirado-back-Express#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",
+    "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "mongodb": "^7.0.0",
-    "mongoose": "^9.1.5"
+    "mongoose": "^9.1.6",
+    "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
   }
 }
