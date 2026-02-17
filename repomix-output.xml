@@ -1,0 +1,691 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+src/
+  config/
+    DataBase.js
+    seedAdmin.js
+  middlewares/
+    auth.middleware.js
+    error.middleware.js
+    role.middleware.js
+  modules/
+    auth/
+      auth.controller.js
+      auth.routes.js
+      auth.service.js
+    shops/
+      shop.controller.js
+      shop.model.js
+      shop.routes.js
+      shop.service.js
+    users/
+      User.controller.js
+      User.model.js
+      User.routes.js
+      User.service.js
+  utils/
+    ApiError.js
+    ApiResponse.js
+    AppError.js
+  app.js
+  routes.js
+  server.js
+.gitignore
+package.json
+README.md
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="src/utils/AppError.js">
+class AppError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.status = statusCode;
+    this.isOperational = true;
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+module.exports = AppError;
+</file>
+
+<file path="src/config/DataBase.js">
+const mongoose = require('mongoose');
+
+const connectDB = async () => {
+    try {
+        const { MONGODB_URL } = process.env;
+
+        if (!MONGODB_URL) {
+            throw new Error("MONGODB_URL is not defined in environment variables");
+        }
+
+        await mongoose.connect(MONGODB_URL, {
+            autoIndex: false,
+            maxPoolSize: 10,
+        });
+        console.log("MongoDB connected successfully");
+
+        // Connection events
+        mongoose.connection.on("error", (err) => {
+            console.error("MongoDB connection error:", err);
+        });
+
+        mongoose.connection.on("disconnected", () => {
+            console.warn("MongoDB disconnected");
+        });
+
+        // Optional: Graceful shutdown
+        process.on("SIGINT", async () => {
+            await mongoose.connection.close();
+            console.log("MongoDB connection closed due to app termination");
+            process.exit(0);
+        });
+
+    } catch (error) {
+        console.error("MongoDB initial connection failed:", error.message);
+        process.exit(1);
+    }
+};
+
+module.exports = connectDB;
+</file>
+
+<file path="src/config/seedAdmin.js">
+const bcrypt = require('bcrypt');
+const User = require('../modules/users/User.model');
+
+const seedAdmin = async () => {
+  try {
+    const adminExists = await User.findOne({ role: 'admin' });
+
+    if (adminExists) {
+      console.log("Admin already exists");
+      return;
+    }
+
+    // const hashedPassword = await bcrypt.hash("Admin123", 10);
+    // console.log("Hashed password for seeding:", hashedPassword);
+
+    await User.create({
+      contact: "admin@local.com",
+      password: "Admin123",
+      role: "admin",
+      status: "actif"
+    });
+
+    console.log("Default admin created:");
+    console.log("Contact: admin@local.com");
+    console.log("Password: Admin123");
+  } catch (error) {
+    console.error("Error seeding admin:", error.message);
+    throw error; // IMPORTANT pour que ton try/catch principal fonctionne
+  }
+};
+
+module.exports = seedAdmin;
+</file>
+
+<file path="src/modules/shops/shop.controller.js">
+
+</file>
+
+<file path="src/modules/shops/shop.model.js">
+
+</file>
+
+<file path="src/modules/shops/shop.routes.js">
+
+</file>
+
+<file path="src/modules/shops/shop.service.js">
+
+</file>
+
+<file path="src/modules/users/User.controller.js">
+const service = require('./User.service');
+
+exports.createUser = async (req, res, next) => {
+  try {
+    const user = await service.createUser(req.body);
+    res.status(201).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await service.getUsers();
+    res.json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateUser = async (req, res, next) => {
+  try {
+    const user = await service.updateUser(req.params.id, req.body);
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.disableUser = async (req, res, next) => {
+  try {
+    const user = await service.disableUser(req.params.id);
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+</file>
+
+<file path="src/modules/users/User.model.js">
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+
+const userSchema = new mongoose.Schema(
+  {
+    contact: {
+      type: String,
+      required: [true, 'Contact is required'],
+      unique: true,
+      trim: true,
+      lowercase: true,
+      minlength: 3
+    },
+
+    password: {
+      type: String,
+      required: [true, 'Password is required'],
+      minlength: 6,
+      select: false
+    },
+
+    role: {
+      type: String,
+      enum: ['admin', 'proprietaire', 'acheteur'],
+      default: 'acheteur'
+    },
+
+    status: {
+      type: String,
+      enum: ['actif', 'desactive'],
+      default: 'actif'
+    }
+  },
+  {
+    timestamps: true
+  }
+);
+
+//  Hash password before save
+userSchema.pre('save', async function () {
+  try {
+    if (!this.isModified('password')) return;
+
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  } catch (error) {
+    throw new Error('Password hashing failed');
+  }
+});
+
+
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  if (!this.password) {
+    throw new Error('Password not loaded for comparison');
+  }
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+
+
+module.exports = mongoose.model('User', userSchema);
+</file>
+
+<file path="src/modules/users/User.routes.js">
+const express = require('express');
+const router = express.Router();
+
+const controller = require('./User.controller');
+const { checkToken } = require('../../middlewares/auth.middleware');
+const { checkRole } = require('../../middlewares/role.middleware');
+
+router.post('/', checkToken, checkRole('admin'), controller.createUser);
+router.get('/', checkToken, checkRole('admin'), controller.getUsers);
+router.put('/:id', checkToken, checkRole('admin'), controller.updateUser);
+router.patch('/:id/disable', checkToken, checkRole('admin'), controller.disableUser);
+
+module.exports = router;
+</file>
+
+<file path="src/modules/users/User.service.js">
+const User = require('./User.model');
+const AppError = require('../utils/AppError');
+
+const createUser = async (data) => {
+  try {
+    const user = await User.create(data);
+    const obj = user.toObject();
+    delete obj.password;
+    return obj;
+  } catch (error) {
+    if (error.code === 11000) {
+      const e = new Error('Contact already exists');
+      e.status = 400;
+      throw e;
+    }
+
+    if (error.name === 'ValidationError') {
+      const e = new Error(Object.values(error.errors).map(err => err.message).join(', '));
+      e.status = 400;
+      throw e;
+    }
+
+    throw error;
+  }
+};
+
+
+const getUsers = async () => {
+  try {
+    return await User.find().select('-password');
+  } catch (error) {
+    const e = new Error('Failed to fetch users');
+    e.status = 500;
+    throw e;
+  }
+};
+
+
+
+
+const updateUser = async (id, data) => {
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new AppError('Invalid user ID', 400);
+  }
+
+  if (data.password) {
+    throw new AppError('Use dedicated route to update password', 400);
+  }
+
+  const user = await User.findByIdAndUpdate(id, data, {
+    new: true,
+    runValidators: true
+  }).select('-password');
+
+  if (!user) {
+    throw new AppError('User not found', 404);
+  }
+
+  return user;
+};
+
+
+const disableUser = async (id) => {
+  return User.findByIdAndUpdate(id,
+    { status: 'desactive' },
+    { new: true }
+  ).select('-password');
+};
+
+module.exports = {
+  createUser,
+  getUsers,
+  updateUser,
+  disableUser
+};
+</file>
+
+<file path="src/utils/ApiResponse.js">
+
+</file>
+
+<file path="README.md">
+# m1p13mean-mirenty-mirado-back-express
+web application de centre commercial partie backend developper avec Express js par 1890 et 1786
+</file>
+
+<file path="src/middlewares/auth.middleware.js">
+const jwt = require("jsonwebtoken");
+const ApiError = require("../utils/ApiError");
+const checkToken = (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      throw new ApiError(401, "Token not provided");
+    }
+
+    const token = authHeader.substring(7);
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET, {
+      algorithms: ["HS256"], // Sécurité explicite
+    });
+
+    // Normalisation des données attachées à la requête
+    req.user = {
+      id: decoded.userId,
+      role: decoded.role,
+    };
+    
+    next();
+
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return next(new ApiError(401, "Token expired"));
+    }
+
+    return next(new ApiError(401, "Invalid token"));
+  }
+};
+
+module.exports = { checkToken };
+</file>
+
+<file path="src/middlewares/error.middleware.js">
+const errorMiddleware = (err, req, res, next) => {
+
+  if (err.name === 'CastError') {
+    err = new AppError('Invalid ID format', 400);
+  }
+
+  if (err.code === 11000) {
+    err = new AppError('Duplicate field value', 400);
+  }
+
+  if (err.name === 'ValidationError') {
+    const message = Object.values(err.errors)
+      .map(el => el.message)
+      .join(', ');
+    err = new AppError(message, 400);
+  }
+
+  if (!err.isOperational) {
+    console.error('UNEXPECTED ERROR:', err);
+    return res.status(500).json({
+      message: 'Internal server error'
+    });
+  }
+
+  res.status(err.status || 500).json({
+    message: err.message
+  });
+};
+
+module.exports = errorMiddleware;
+</file>
+
+<file path="src/middlewares/role.middleware.js">
+const ApiError = require("../utils/ApiError");
+
+/**
+ * Middleware d'autorisation par rôle
+ * Usage : role("admin") ou role("admin","proprietaire")
+ */
+const checkRole = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return next(new ApiError(401, "Unauthorized"));
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      return next(new ApiError(403, "Forbidden"));
+    }
+
+    next();
+  };
+};
+
+module.exports = { checkRole };
+</file>
+
+<file path="src/modules/auth/auth.controller.js">
+const { loginUser } = require('./auth.service');
+
+exports.login = async (req, res, next) => {
+  try {
+    const { contact, password } = req.body;
+    console.log("BODY RECEIVED:", req.body);
+
+    if (!contact || !password) {
+      return res.status(400).json({ message: "Missing credentials" });
+    }
+
+    const result = await loginUser(contact, password);
+
+    res.json({
+      message: "Login successful",
+      ...result
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+</file>
+
+<file path="src/modules/auth/auth.routes.js">
+const express = require('express');
+const router = express.Router();
+const { login } = require('./auth.controller');
+
+// Route login
+router.post('/login', login);
+
+module.exports = router;
+</file>
+
+<file path="src/modules/auth/auth.service.js">
+const User = require('../users/User.model');
+const jwt = require('jsonwebtoken');
+
+const loginUser = async (contact, password) => {
+
+  const user = await User.findOne({ contact })
+    .select('+password');
+  console.log("Password in DB:", user.password);
+  console.log("Password received:", password);
+  if (!user) {
+    const error = new Error("Invalid credentials");
+    error.status = 401;
+    throw error;
+  }
+
+  if (user.status === 'desactive') {
+    const error = new Error("Account disabled");
+    error.status = 403;
+    throw error;
+  }
+
+  const isMatch = await user.comparePassword(password);
+  console.log("Password match:", isMatch); // Debug log
+
+  if (!isMatch) {
+    const error = new Error("Invalid credentials");
+    error.status = 401;
+    throw error;
+  }
+
+  const token = jwt.sign(
+    { userId: user._id, role: user.role },
+    process.env.JWT_SECRET,
+    { expiresIn: '24h' }
+  );
+
+  return {
+    token,
+    user: {
+      id: user._id,
+      role: user.role
+    }
+  }
+
+};
+
+module.exports = { loginUser };
+</file>
+
+<file path="src/utils/ApiError.js">
+class ApiError extends Error {
+  constructor(statusCode, message) {
+    super(message);
+    this.status = statusCode;
+    this.statusCode = statusCode;
+
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+module.exports = ApiError;
+</file>
+
+<file path="src/app.js">
+const express = require("express");
+const app = express();
+const routes = require('./routes'); // Importation de vos routes centralisées
+
+// Middlewares globaux (ex: pour lire le JSON)
+app.use(express.json());
+const errorHandler = require('./middlewares/error.middleware');
+
+// Intégration de vos routes
+app.use('/api/v1', routes); // Préfixe global pour l'API
+
+// Route de test simple (peut aussi aller dans routes.js)
+app.get("/", (req, res) => {
+    res.json("Hello world - API Centre Commercial");
+});
+app.use(errorHandler);
+
+module.exports = app; // On exporte l'app pour server.js
+</file>
+
+<file path="src/routes.js">
+const express = require('express');
+const router = express.Router();
+
+// Import des routes modules
+const authRoutes = require('./modules/auth/auth.routes');
+const userRoutes = require('./modules/users/User.routes');
+
+// Montage des sous-routes
+router.use('/auth', authRoutes);
+router.use('/users', userRoutes);
+
+module.exports = router;
+</file>
+
+<file path="src/server.js">
+require('dotenv').config();
+
+if (!process.env.JWT_SECRET) {
+  console.error("CRITICAL ERROR: JWT_SECRET is not defined in .env file");
+  process.exit(1);
+}
+const seedAdmin = require('./config/seedAdmin');
+const app = require('./app');
+const connectDB = require('./config/DataBase');
+
+const port = process.env.PORT || 5000;
+
+(async () => {
+  try {
+    await connectDB(); //Attend la connexion
+    await seedAdmin();
+    
+
+    app.listen(port, "0.0.0.0", () => {
+      console.log(`Server running on port ${port}`);
+    });
+
+  } catch (error) {
+    console.error("Failed to start server:", error.message);
+    process.exit(1); // Arrêt immédiat
+  }
+})();
+</file>
+
+<file path=".gitignore">
+node_modules/
+.env
+.history/
+</file>
+
+<file path="package.json">
+{
+  "name": "m1p13mean-mirenty-mirado-back-express",
+  "version": "1.0.0",
+  "description": "web application de centre commercial partie backend, developper avec Express js par 1890 et 1786 ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Onimirenty/m1p13mean-Mirenty-Mirado-back-Express.git"
+  },
+  "author": "Mirenty 1890 , Mirado 1786",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Onimirenty/m1p13mean-Mirenty-Mirado-back-Express/issues"
+  },
+  "homepage": "https://github.com/Onimirenty/m1p13mean-Mirenty-Mirado-back-Express#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cloudinary": "^2.9.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.0.0",
+    "mongoose": "^9.1.6",
+    "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
+</file>
+
+</files>

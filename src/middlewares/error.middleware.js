@@ -1,20 +1,30 @@
+const errorMiddleware = (err, req, res, next) => {
 
-const errorHandler = (err, req, res, next) => {
-  console.error(err);
-  if (err.name === "CastError") {
-    return res.status(400).json({
-      success: false,
-      message: "Invalid ID format"
+  if (err.name === 'CastError') {
+    err = new AppError('Invalid ID format', 400);
+  }
+
+  if (err.code === 11000) {
+    err = new AppError('Duplicate field value', 400);
+  }
+
+  if (err.name === 'ValidationError') {
+    const message = Object.values(err.errors)
+      .map(el => el.message)
+      .join(', ');
+    err = new AppError(message, 400);
+  }
+
+  if (!err.isOperational) {
+    console.error('UNEXPECTED ERROR:', err);
+    return res.status(500).json({
+      message: 'Internal server error'
     });
   }
-  const status = err.status || err.statusCode || 500;
 
-  res.status(status).json({
-    success: false,
-    message: err.message || "Internal Server Error"
+  res.status(err.status || 500).json({
+    message: err.message
   });
 };
 
-
-module.exports = errorHandler;
-
+module.exports = errorMiddleware;
