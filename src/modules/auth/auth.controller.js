@@ -20,3 +20,25 @@ exports.login = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.signup = async (req, res, next) => {
+  try {
+    const hash = await bcrypt.hash(req.body.password, 10);
+
+    const user = new User({
+      email: req.body.email,
+      password: hash,
+    });
+
+    await user.save();
+
+    return res.status(201).json({
+      message: "utilisateur cree",
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message || error,
+    });
+  }
+};

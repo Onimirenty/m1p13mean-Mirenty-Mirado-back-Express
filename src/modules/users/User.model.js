@@ -3,13 +3,28 @@ const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema(
   {
-    contact: {
+    name: {
       type: String,
-      required: [true, 'Contact is required'],
+      required: [true, 'Name is required'],
       unique: true,
       trim: true,
       lowercase: true,
-      minlength: 3
+      minlength: 2
+    },
+    email: {
+      type: String,
+      required: [true, 'Email is required'],
+      unique: true,
+      trim: true,
+      lowercase: true,
+      minlength: 2
+    },
+    contact: {
+      type: Number,
+      required: [true, 'Contact is required'],
+      unique: true,
+      trim: true,
+      minlength: 10
     },
 
     password: {
@@ -21,14 +36,19 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ['admin', 'proprietaire', 'acheteur'],
-      default: 'acheteur'
+      enum: ['admin', 'owner', 'customer'],
+      default: 'customer'
     },
 
     status: {
       type: String,
-      enum: ['actif', 'desactive'],
-      default: 'actif'
+      enum: ['active', 'inactive'],
+      default: 'active'
+    },
+    deactivation_reason: {
+      type: String,
+      minlength: 10
+
     }
   },
   {

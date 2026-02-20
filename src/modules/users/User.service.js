@@ -1,5 +1,5 @@
 const User = require('./User.model');
-const AppError = require('../utils/AppError');
+const AppError = require('../../utils/AppError');
 
 const createUser = async (data) => {
   try {

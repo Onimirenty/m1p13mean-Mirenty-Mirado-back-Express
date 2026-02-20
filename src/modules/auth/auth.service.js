@@ -5,8 +5,8 @@ const loginUser = async (contact, password) => {
 
   const user = await User.findOne({ contact })
     .select('+password');
-  console.log("Password in DB:", user.password);
-  console.log("Password received:", password);
+  // console.log("Password in DB:", user.password);
+  // console.log("Password received:", password);
   if (!user) {
     const error = new Error("Invalid credentials");
     error.status = 401;
@@ -29,7 +29,7 @@ const loginUser = async (contact, password) => {
   }
 
   const token = jwt.sign(
-    { userId: user._id, role: user.role },
+    { userId: user._id, role: user.role ,email: user.email},
     process.env.JWT_SECRET,
     { expiresIn: '24h' }
   );
@@ -38,7 +38,8 @@ const loginUser = async (contact, password) => {
     token,
     user: {
       id: user._id,
-      role: user.role
+      role: user.role,
+      email: user.email
     }
   }
 

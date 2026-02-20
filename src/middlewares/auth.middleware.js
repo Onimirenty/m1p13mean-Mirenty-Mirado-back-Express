@@ -11,15 +11,16 @@ const checkToken = (req, res, next) => {
     const token = authHeader.substring(7);
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET, {
-      algorithms: ["HS256"], // Sécurité explicite
+      algorithms: ["HS256"],
     });
 
     // Normalisation des données attachées à la requête
     req.user = {
       id: decoded.userId,
       role: decoded.role,
+      email: decoded.email,
     };
-    
+
     next();
 
   } catch (error) {
