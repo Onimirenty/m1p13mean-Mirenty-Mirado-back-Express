@@ -1,34 +1,32 @@
 const jwt = require("jsonwebtoken");
-const ApiError = require("../utils/ApiError");
+const AppError = require("../utils/AppError");
 const checkToken = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      throw new ApiError(401, "Token not provided");
+      throw new AppError("Token not provided", 401);
     }
 
     const token = authHeader.substring(7);
 
+    //throw une erreur si la fonction jwt.verify() detecte un token invalide ou expiré
     const decoded = jwt.verify(token, process.env.JWT_SECRET, {
       algorithms: ["HS256"],
     });
 
     // Normalisation des données attachées à la requête
-    req.user = {
-      id: decoded.userId,
-      role: decoded.role,
-      email: decoded.email,
-    };
+    if (process.env.NODE_ENV === 'development') {
+      req.user = {
+        role: decoded.role,
+        email: decoded.email,
+      };
 
-    next();
-
-  } catch (error) {
-    if (error.name === "TokenExpiredError") {
-      return next(new ApiError(401, "Token expired"));
     }
 
-    return next(new ApiError(401, "Invalid token"));
+    next();
+  } catch (error) {
+    next(error);
   }
 };
 

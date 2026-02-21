@@ -1,32 +1,85 @@
-
+const AppError = require('../utils/AppError');
 
 const errorMiddleware = (err, req, res, next) => {
 
-  if (err.name === 'CastError') {
-    err = new AppError('Invalid ID format', 400);
+  let error = err;
+
+  /*
+  =========================================================
+   Transformation des erreurs techniques connues
+  =========================================================
+  */
+
+  // Mongoose : ID invalide
+  if (error.name === 'CastError') {
+    error = new AppError(`Invalid ${error.path}: ${error.value}`, 400);
   }
 
-  if (err.code === 11000) {
-    err = new AppError('Duplicate field value', 400);
+  // MongoDB duplicate key
+  if (error.code === 11000) {
+    const field = Object.keys(error.keyValue || {})[0];
+    error = new AppError(`${field} already exists`, 400);
   }
 
-  if (err.name === 'ValidationError') {
-    const message = Object.values(err.errors)
+  // Mongoose validation
+  if (error.name === 'ValidationError') {
+    const messages = Object.values(error.errors)
       .map(el => el.message)
       .join(', ');
-    err = new AppError(message, 400);
+    error = new AppError(messages, 400);
   }
 
-  if (!err.isOperational) {
-    console.error('UNEXPECTED ERROR:', err);
+  // JWT invalid
+  if (error.name === 'JsonWebTokenError') {
+    error = new AppError('Invalid token', 401);
+  }
+
+  // JWT expired
+  if (error.name === 'TokenExpiredError') {
+    error = new AppError('Token expired', 401);
+  }
+
+  /*
+  =========================================================
+  Erreur inattendue (bug)
+  =========================================================
+  */
+
+  if (!(error instanceof AppError)) {
+    console.error('UNEXPECTED ERROR:', {
+      message: error.message,
+      stack: error.stack,
+      url: req.originalUrl,
+      method: req.method,
+    });
+
     return res.status(500).json({
+      status: 'error',
       message: 'Internal server error'
     });
   }
 
-  res.status(err.status || 500).json({
-    message: err.message
-  });
+
+
+  /*
+  =========================================================
+  Erreur opérationnelle
+  =========================================================
+  */
+//fail :erreur cote client
+//error :erreur cote serveur
+
+  const response = {
+    status: 'fail',
+    message: `error middleware : ${err.message} `,
+  };
+
+  // En dev on expose plus d'infos
+  // if (process.env.NODE_ENV === 'development') {
+  //   response.stack = error.stack;
+  // }
+
+  return res.status(error.status || 500).json(response);
 };
 
 module.exports = errorMiddleware;

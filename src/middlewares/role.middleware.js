@@ -1,19 +1,20 @@
-const ApiError = require("../utils/ApiError");
+const AppError = require("../utils/AppError");
 
 /**
  * Middleware d'autorisation par rôle
  * Usage : role("admin") ou role("admin","proprietaire")
+ * 
  */
+
 const checkRole = (...allowedRoles) => {
   return (req, res, next) => {
     if (!req.user) {
-      return next(new ApiError(401, "Unauthorized"));
+      return next(new AppError(401, "Unauthorized"));
     }
 
     if (!allowedRoles.includes(req.user.role)) {
-      return next(new ApiError(403, "Forbidden"));
+      return next(new AppError(403, "Forbidden"));
     }
-
     next();
   };
 };

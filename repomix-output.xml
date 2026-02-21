@@ -20,7 +20,14 @@ The content is organized as follows:
   - Full contents of the file
 </file_format>
 
-
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
 
 <notes>
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
@@ -33,6 +40,8 @@ The content is organized as follows:
 </file_summary>
 
 <directory_structure>
+httpTest/
+  auth.json
 src/
   config/
     DataBase.js
@@ -60,6 +69,7 @@ src/
     ApiError.js
     ApiResponse.js
     AppError.js
+    Utils.js
   app.js
   routes.js
   server.js
@@ -71,17 +81,11 @@ README.md
 <files>
 This section contains the contents of the repository's files.
 
-<file path="src/utils/AppError.js">
-class AppError extends Error {
-  constructor(message, statusCode) {
-    super(message);
-    this.status = statusCode;
-    this.isOperational = true;
-    Error.captureStackTrace(this, this.constructor);
-  }
+<file path="httpTest/auth.json">
+{
+    "email": "user@example.com",
+    "password": "0000"
 }
-
-module.exports = AppError;
 </file>
 
 <file path="src/config/DataBase.js">
@@ -217,70 +221,6 @@ exports.disableUser = async (req, res, next) => {
 };
 </file>
 
-<file path="src/modules/users/User.model.js">
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-
-const userSchema = new mongoose.Schema(
-  {
-    contact: {
-      type: String,
-      required: [true, 'Contact is required'],
-      unique: true,
-      trim: true,
-      lowercase: true,
-      minlength: 3
-    },
-
-    password: {
-      type: String,
-      required: [true, 'Password is required'],
-      minlength: 6,
-      select: false
-    },
-
-    role: {
-      type: String,
-      enum: ['admin', 'proprietaire', 'acheteur'],
-      default: 'acheteur'
-    },
-
-    status: {
-      type: String,
-      enum: ['actif', 'desactive'],
-      default: 'actif'
-    }
-  },
-  {
-    timestamps: true
-  }
-);
-
-//  Hash password before save
-userSchema.pre('save', async function () {
-  try {
-    if (!this.isModified('password')) return;
-
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-  } catch (error) {
-    throw new Error('Password hashing failed');
-  }
-});
-
-
-userSchema.methods.comparePassword = async function (candidatePassword) {
-  if (!this.password) {
-    throw new Error('Password not loaded for comparison');
-  }
-  return bcrypt.compare(candidatePassword, this.password);
-};
-
-
-
-module.exports = mongoose.model('User', userSchema);
-</file>
-
 <file path="src/modules/users/User.routes.js">
 const express = require('express');
 const router = express.Router();
@@ -297,9 +237,360 @@ router.patch('/:id/disable', checkToken, checkRole('admin'), controller.disableU
 module.exports = router;
 </file>
 
+<file path="src/utils/ApiResponse.js">
+
+</file>
+
+<file path="src/utils/AppError.js">
+class AppError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.status = statusCode;
+    this.isOperational = true;
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+module.exports = AppError;
+</file>
+
+<file path="src/utils/Utils.js">
+const normalizePort = (val) => {
+  const port = parseInt(val, 10);
+
+  if (isNaN(port)) return val;
+  if (port >= 0) return port;
+  return false;
+};
+
+const errorHandler = (server, port) => (error) => {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  const address = server.address();
+  const bind =
+    typeof address === 'string'
+      ? 'pipe ' + address
+      : 'port ' + port;
+
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges.');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use.');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+};
+
+module.exports = {
+  normalizePort,
+  errorHandler,
+};
+</file>
+
+<file path="README.md">
+# m1p13mean-mirenty-mirado-back-express
+web application de centre commercial partie backend developper avec Express js par 1890 et 1786
+</file>
+
+<file path="src/middlewares/role.middleware.js">
+const ApiError = require("../utils/ApiError");
+
+/**
+ * Middleware d'autorisation par rôle
+ * Usage : role("admin") ou role("admin","proprietaire")
+ */
+const checkRole = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return next(new ApiError(401, "Unauthorized"));
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      return next(new ApiError(403, "Forbidden"));
+    }
+
+    next();
+  };
+};
+
+module.exports = { checkRole };
+</file>
+
+<file path="src/utils/ApiError.js">
+class ApiError extends Error {
+  constructor(statusCode, message) {
+    super(message);
+    this.status = statusCode;
+    this.statusCode = statusCode;
+
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+module.exports = ApiError;
+</file>
+
+<file path=".gitignore">
+node_modules/
+.env
+.history/
+</file>
+
+<file path="src/middlewares/auth.middleware.js">
+const jwt = require("jsonwebtoken");
+const ApiError = require("../utils/ApiError");
+const checkToken = (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      throw new ApiError(401, "Token not provided");
+    }
+
+    const token = authHeader.substring(7);
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET, {
+      algorithms: ["HS256"],
+    });
+
+    // Normalisation des données attachées à la requête
+    req.user = {
+      id: decoded.userId,
+      role: decoded.role,
+      email: decoded.email,
+    };
+
+    next();
+
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return next(new ApiError(401, "Token expired"));
+    }
+
+    return next(new ApiError(401, "Invalid token"));
+  }
+};
+
+module.exports = { checkToken };
+</file>
+
+<file path="src/modules/auth/auth.controller.js">
+const { loginUser } = require('./auth.service');
+const bcrypt = require('bcrypt');
+const User = require('../users/User.model');
+
+exports.login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    console.log("BODY RECEIVED:", req.body);
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Missing credentials" });
+      // next(error);
+    }
+
+    const result = await loginUser(email, password);
+
+    res.json({
+      message: "Login successful",
+      ...result
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.signup = async (req, res, next) => {
+  try {
+    const hash = await bcrypt.hash(req.body.password, 10);
+
+    const user = new User({
+      email: req.body.email,
+      password: hash,
+    });
+
+    await user.save();
+
+    return res.status(201).json({
+      message: "utilisateur cree",
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+</file>
+
+<file path="src/modules/auth/auth.routes.js">
+const express = require('express');
+const router = express.Router();
+const { login,signup } = require('./auth.controller');
+
+// Route login
+router.post('/login', login);
+router.post('/signup', signup);
+
+module.exports = router;
+</file>
+
+<file path="src/modules/auth/auth.service.js">
+const User = require('../users/User.model');
+const jwt = require('jsonwebtoken');
+
+const loginUser = async (email, password) => {
+
+  const user = await User.findOne({ email })
+    .select('+password');
+
+  // console.log("\n");
+  // console.log("Password in DB:", user.password);
+  // console.log("Password received:", password);
+  // console.log("\n");
+  
+  if (!user) {
+    const error = new Error("Invalid credentials");
+    error.status = 401;
+    throw error;
+  }
+
+  if (user.status === 'desactive') {
+    const error = new Error("Account disabled");
+    error.status = 403;
+    throw error;
+  }
+
+  const isMatch = await user.comparePassword(password);
+  console.log("Password match:", isMatch); // Debug log
+
+  if (!isMatch) {
+    const error = new Error("Invalid credentials");
+    error.status = 401;
+    throw error;
+  }
+
+  const token = jwt.sign(
+    { userId: user._id, role: user.role, email: user.email },
+    process.env.JWT_SECRET,
+    { expiresIn: '24h' }
+  );
+
+  return {
+    token,
+    user: {
+      id: user._id,
+      role: user.role,
+      email: user.email
+    }
+  }
+
+};
+
+module.exports = { loginUser };
+</file>
+
+<file path="src/modules/users/User.model.js">
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      // required: [true, 'Name is required'],
+      unique: true,
+      trim: true,
+      lowercase: true,
+      minlength: 2
+    },
+    email: {
+      type: String,
+      required: [true, 'Email is required'],
+      unique: true,
+      trim: true,
+      lowercase: true,
+      minlength: 2
+    },
+    phone_number: {
+      type: Number,
+      // required: [true, 'Contact is required'],
+      unique: true,
+      trim: true,
+      minlength: 10
+    },
+
+    password: {
+      type: String,
+      required: [true, 'Password is required'],
+      minlength: 6,
+      select: false
+    },
+
+    role: {
+      type: String,
+      enum: ['admin', 'owner', 'customer'],
+      default: 'customer'
+    },
+
+    status: {
+      type: String,
+      enum: ['active', 'inactive'],
+      default: 'active'
+    },
+    deactivation_reason: {
+      type: String,
+      minlength: 10
+
+    }
+  },
+  {
+    timestamps: true
+  }
+);
+
+//  Hash password before save
+userSchema.pre('save', async function () {
+  try {
+    if (!this.isModified('password')) return;
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  } catch (error) {
+    throw new Error('Password hashing failed');
+  }
+});
+
+
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  if (!this.password) {
+    throw new Error('Password not loaded for comparison');
+  }
+  console.log("\n");
+  console.log("Comparing passwords...");
+  console.log("Candidate Password:", candidatePassword);
+  console.log("Stored Hashed Password:", this.password);
+  console.log("comparaison : ", await bcrypt.compare(candidatePassword, this.password));
+  console.log("\n");
+
+  console.log("\n");
+
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+
+
+module.exports = mongoose.model('User', userSchema);
+</file>
+
 <file path="src/modules/users/User.service.js">
 const User = require('./User.model');
-const AppError = require('../utils/AppError');
+const AppError = require('../../utils/AppError');
 
 const createUser = async (data) => {
   try {
@@ -376,225 +667,15 @@ module.exports = {
 };
 </file>
 
-<file path="src/utils/ApiResponse.js">
-
-</file>
-
-<file path="README.md">
-# m1p13mean-mirenty-mirado-back-express
-web application de centre commercial partie backend developper avec Express js par 1890 et 1786
-</file>
-
-<file path="src/middlewares/auth.middleware.js">
-const jwt = require("jsonwebtoken");
-const ApiError = require("../utils/ApiError");
-const checkToken = (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      throw new ApiError(401, "Token not provided");
-    }
-
-    const token = authHeader.substring(7);
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET, {
-      algorithms: ["HS256"], // Sécurité explicite
-    });
-
-    // Normalisation des données attachées à la requête
-    req.user = {
-      id: decoded.userId,
-      role: decoded.role,
-    };
-    
-    next();
-
-  } catch (error) {
-    if (error.name === "TokenExpiredError") {
-      return next(new ApiError(401, "Token expired"));
-    }
-
-    return next(new ApiError(401, "Invalid token"));
-  }
-};
-
-module.exports = { checkToken };
-</file>
-
-<file path="src/middlewares/error.middleware.js">
-const errorMiddleware = (err, req, res, next) => {
-
-  if (err.name === 'CastError') {
-    err = new AppError('Invalid ID format', 400);
-  }
-
-  if (err.code === 11000) {
-    err = new AppError('Duplicate field value', 400);
-  }
-
-  if (err.name === 'ValidationError') {
-    const message = Object.values(err.errors)
-      .map(el => el.message)
-      .join(', ');
-    err = new AppError(message, 400);
-  }
-
-  if (!err.isOperational) {
-    console.error('UNEXPECTED ERROR:', err);
-    return res.status(500).json({
-      message: 'Internal server error'
-    });
-  }
-
-  res.status(err.status || 500).json({
-    message: err.message
-  });
-};
-
-module.exports = errorMiddleware;
-</file>
-
-<file path="src/middlewares/role.middleware.js">
-const ApiError = require("../utils/ApiError");
-
-/**
- * Middleware d'autorisation par rôle
- * Usage : role("admin") ou role("admin","proprietaire")
- */
-const checkRole = (...allowedRoles) => {
-  return (req, res, next) => {
-    if (!req.user) {
-      return next(new ApiError(401, "Unauthorized"));
-    }
-
-    if (!allowedRoles.includes(req.user.role)) {
-      return next(new ApiError(403, "Forbidden"));
-    }
-
-    next();
-  };
-};
-
-module.exports = { checkRole };
-</file>
-
-<file path="src/modules/auth/auth.controller.js">
-const { loginUser } = require('./auth.service');
-
-exports.login = async (req, res, next) => {
-  try {
-    const { contact, password } = req.body;
-    console.log("BODY RECEIVED:", req.body);
-
-    if (!contact || !password) {
-      return res.status(400).json({ message: "Missing credentials" });
-    }
-
-    const result = await loginUser(contact, password);
-
-    res.json({
-      message: "Login successful",
-      ...result
-    });
-
-  } catch (error) {
-    next(error);
-  }
-};
-</file>
-
-<file path="src/modules/auth/auth.routes.js">
-const express = require('express');
-const router = express.Router();
-const { login } = require('./auth.controller');
-
-// Route login
-router.post('/login', login);
-
-module.exports = router;
-</file>
-
-<file path="src/modules/auth/auth.service.js">
-const User = require('../users/User.model');
-const jwt = require('jsonwebtoken');
-
-const loginUser = async (contact, password) => {
-
-  const user = await User.findOne({ contact })
-    .select('+password');
-  console.log("Password in DB:", user.password);
-  console.log("Password received:", password);
-  if (!user) {
-    const error = new Error("Invalid credentials");
-    error.status = 401;
-    throw error;
-  }
-
-  if (user.status === 'desactive') {
-    const error = new Error("Account disabled");
-    error.status = 403;
-    throw error;
-  }
-
-  const isMatch = await user.comparePassword(password);
-  console.log("Password match:", isMatch); // Debug log
-
-  if (!isMatch) {
-    const error = new Error("Invalid credentials");
-    error.status = 401;
-    throw error;
-  }
-
-  const token = jwt.sign(
-    { userId: user._id, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: '24h' }
-  );
-
-  return {
-    token,
-    user: {
-      id: user._id,
-      role: user.role
-    }
-  }
-
-};
-
-module.exports = { loginUser };
-</file>
-
-<file path="src/utils/ApiError.js">
-class ApiError extends Error {
-  constructor(statusCode, message) {
-    super(message);
-    this.status = statusCode;
-    this.statusCode = statusCode;
-
-    Error.captureStackTrace(this, this.constructor);
-  }
-}
-
-module.exports = ApiError;
-</file>
-
 <file path="src/app.js">
 const express = require("express");
 const app = express();
-const routes = require('./routes'); // Importation de vos routes centralisées
-
-// Middlewares globaux (ex: pour lire le JSON)
-app.use(express.json());
+const routes = require('./routes');
 const errorHandler = require('./middlewares/error.middleware');
 
-// Intégration de vos routes
-app.use('/api/v1', routes); // Préfixe global pour l'API
 
-// Route de test simple (peut aussi aller dans routes.js)
-app.get("/", (req, res) => {
-    res.json("Hello world - API Centre Commercial");
-});
+app.use(express.json());
+app.use('/palamyre/', routes); // Préfixe global pour l'API
 app.use(errorHandler);
 
 module.exports = app; // On exporte l'app pour server.js
@@ -605,10 +686,13 @@ const express = require('express');
 const router = express.Router();
 
 // Import des routes modules
+// const authMiddleware = require('./middlewares/auth.middleware');
+
 const authRoutes = require('./modules/auth/auth.routes');
 const userRoutes = require('./modules/users/User.routes');
 
 // Montage des sous-routes
+// router.use(authMiddleware.checkToken); 
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 
@@ -617,38 +701,39 @@ module.exports = router;
 
 <file path="src/server.js">
 require('dotenv').config();
+const http = require('http');
+const app = require('./app');
+const Utils = require('./utils/Utils');
+const connectDB = require('./config/DataBase');
+
+const port = Utils.normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
 if (!process.env.JWT_SECRET) {
   console.error("CRITICAL ERROR: JWT_SECRET is not defined in .env file");
   process.exit(1);
 }
-const seedAdmin = require('./config/seedAdmin');
-const app = require('./app');
-const connectDB = require('./config/DataBase');
-
-const port = process.env.PORT || 5000;
 
 (async () => {
   try {
-    await connectDB(); //Attend la connexion
-    await seedAdmin();
-    
-
-    app.listen(port, "0.0.0.0", () => {
-      console.log(`Server running on port ${port}`);
+    await connectDB();
+    const server = http.createServer(app);
+    server.on('error', Utils.errorHandler(server, port));
+    server.on('listening', () => {
+      const address = server.address();
+      const bind =
+        typeof address === 'string'
+          ? 'pipe ' + address
+          : 'port ' + port;
+      console.log('Listening on ' + bind);
     });
+    server.listen(port);
 
   } catch (error) {
     console.error("Failed to start server:", error.message);
-    process.exit(1); // Arrêt immédiat
+    process.exit(1);
   }
 })();
-</file>
-
-<file path=".gitignore">
-node_modules/
-.env
-.history/
 </file>
 
 <file path="package.json">
@@ -686,6 +771,94 @@ node_modules/
     "nodemon": "^3.1.11"
   }
 }
+</file>
+
+<file path="src/middlewares/error.middleware.js">
+const AppError = require('../utils/AppError');
+
+const errorMiddleware = (err, req, res, next) => {
+
+  let error = err;
+
+  /*
+  =========================================================
+   Transformation des erreurs techniques connues
+  =========================================================
+  */
+
+  // Mongoose : ID invalide
+  if (error.name === 'CastError') {
+    error = new AppError(`Invalid ${error.path}: ${error.value}`, 400);
+  }
+
+  // MongoDB duplicate key
+  if (error.code === 11000) {
+    const field = Object.keys(error.keyValue || {})[0];
+    error = new AppError(`${field} already exists`, 400);
+  }
+
+  // Mongoose validation
+  if (error.name === 'ValidationError') {
+    const messages = Object.values(error.errors)
+      .map(el => el.message)
+      .join(', ');
+    error = new AppError(messages, 400);
+  }
+
+  // JWT invalid
+  if (error.name === 'JsonWebTokenError') {
+    error = new AppError('Invalid token', 401);
+  }
+
+  // JWT expired
+  if (error.name === 'TokenExpiredError') {
+    error = new AppError('Token expired', 401);
+  }
+
+  /*
+  =========================================================
+  Erreur inattendue (bug)
+  =========================================================
+  */
+
+  if (!(error instanceof AppError)) {
+    console.error('UNEXPECTED ERROR:', {
+      message: error.message,
+      stack: error.stack,
+      url: req.originalUrl,
+      method: req.method,
+    });
+
+    return res.status(500).json({
+      status: 'error',
+      message: 'Internal server error'
+    });
+  }
+
+
+
+  /*
+  =========================================================
+  Erreur opérationnelle
+  =========================================================
+  */
+//fail :erreur cote client
+//error :erreur cote serveur
+
+  const response = {
+    status: 'fail',
+    message: `error middleware : ${err.message} `,
+  };
+
+  // En dev on expose plus d'infos
+  // if (process.env.NODE_ENV === 'development') {
+  //   response.stack = error.stack;
+  // }
+
+  return res.status(error.status || 500).json(response);
+};
+
+module.exports = errorMiddleware;
 </file>
 
 </files>

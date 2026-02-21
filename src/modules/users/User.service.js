@@ -1,5 +1,6 @@
 const User = require('./User.model');
 const AppError = require('../../utils/AppError');
+const mongoose = require('mongoose');
 
 const createUser = async (data) => {
   try {
@@ -8,19 +9,7 @@ const createUser = async (data) => {
     delete obj.password;
     return obj;
   } catch (error) {
-    if (error.code === 11000) {
-      const e = new Error('Contact already exists');
-      e.status = 400;
-      throw e;
-    }
-
-    if (error.name === 'ValidationError') {
-      const e = new Error(Object.values(error.errors).map(err => err.message).join(', '));
-      e.status = 400;
-      throw e;
-    }
-
-    throw error;
+    next(error);
   }
 };
 
@@ -29,7 +18,7 @@ const getUsers = async () => {
   try {
     return await User.find().select('-password');
   } catch (error) {
-    const e = new Error('Failed to fetch users');
+    const e = new AppError('Failed to fetch users');
     e.status = 500;
     throw e;
   }
@@ -63,7 +52,7 @@ const updateUser = async (id, data) => {
 
 const disableUser = async (id) => {
   return User.findByIdAndUpdate(id,
-    { status: 'desactive' },
+    { status: 'Inactive' },
     { new: true }
   ).select('-password');
 };
