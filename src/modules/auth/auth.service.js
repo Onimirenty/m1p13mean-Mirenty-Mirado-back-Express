@@ -1,8 +1,9 @@
-const User = require('../users/User.model');
 const jwt = require('jsonwebtoken');
+const RefreshToken = require('../refreshToken/RefreshToken.model');
+
+const User = require('../users/User.model');
 const AppError = require('../../utils/AppError');
-const RefreshToken = require('../refreshToken/RefreshToken.model')
-  ;
+const logger = require('../../utils/logger')
 
 const createToken = (user, durationnString, secretKey) => {
   return jwt.sign(
@@ -34,7 +35,7 @@ const loginUser = async (email, password) => {
 
   if (!user) {
     const error = new AppError("Email or password incorrect", 401);
-    console.log("User not found for email:", email); // email essayer
+    logger.info("User not found for email:", email); // email essayer
     throw error;
   }
 
@@ -44,7 +45,7 @@ const loginUser = async (email, password) => {
   }
 
   const isMatch = await user.comparePassword(password);
-  console.log("Password match:", isMatch); // Debug log
+  logger.info("Password match:", isMatch); // Debug log
 
   if (!isMatch) {
     const error = new AppError('Email or password incorrect', 401);
@@ -63,8 +64,35 @@ const loginUser = async (email, password) => {
 
 };
 
+const whoAmI = async (token) => {
+  logger.info("processing token validation for identity check inside the function whoAmI");
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const email = decoded.email;
+    const role = decoded.role;
+    return { email, role };
+
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      try {
+        const decodedRefresh = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+        const email = decodedRefresh.email;
+        const role = decodedRefresh.role;
+        return { email, role };
+      } catch (error) {
+        logger.error("Token verification failed:", error);
+        throw new AppError("Invalid token", 401);
+      }
+    }
+    logger.error("Token verification failed:", error);
+    throw new AppError("Invalid token", 401);
+  }
+};
+
+
 module.exports = {
   loginUser,
   generateTokens,
-  createToken
+  createToken,
+  whoAmI
 };

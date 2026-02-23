@@ -1,4 +1,5 @@
 const service = require('./User.service');
+const logger = require('../../utils/logger')
 
 exports.createUser = async (req, res, next) => {
   try {

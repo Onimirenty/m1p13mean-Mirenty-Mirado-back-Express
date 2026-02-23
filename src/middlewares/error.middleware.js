@@ -1,4 +1,5 @@
 const AppError = require('../utils/AppError');
+const logger = require('../utils/logger')
 
 const errorMiddleware = (err, req, res, next) => {
 
@@ -71,7 +72,7 @@ const errorMiddleware = (err, req, res, next) => {
 
   const response = {
     status: 'fail',
-    message: `error middleware : ${err.message} `,
+    message: `error middleware : ${error.message} `,
   };
 
   // En dev on expose plus d'infos

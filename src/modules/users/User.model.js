@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const logger = require('../../utils/logger')
 
 const userSchema = new mongoose.Schema(
   {
@@ -23,6 +24,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       // required: [true, 'Contact is required'],
       unique: true,
+      sparse: true,
       trim: true,
       minlength: 10
     },
@@ -32,6 +34,9 @@ const userSchema = new mongoose.Schema(
       required: [true, 'Password is required'],
       minlength: 6,
       select: false
+    },
+    passwordChangedAt: {
+      type: Date
     },
 
     role: {
@@ -72,14 +77,14 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
   if (!this.password) {
     throw new Error('Password not loaded for comparison');
   }
-  console.log("\n");
-  console.log("Comparing passwords...");
-  console.log("Candidate Password:", candidatePassword);
-  console.log("Stored Hashed Password:", this.password);
-  console.log("comparaison : ", await bcrypt.compare(candidatePassword, this.password));
-  console.log("\n");
+  logger.info("\n");
+  logger.info("Comparing passwords...");
+  logger.info("Candidate Password:", candidatePassword);
+  logger.info("Stored Hashed Password:", this.password);
+  logger.info("comparaison : ", await bcrypt.compare(candidatePassword, this.password));
+  logger.info("\n");
 
-  console.log("\n");
+  logger.info("\n");
 
   return bcrypt.compare(candidatePassword, this.password);
 };

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const logger = require('../utils/logger')
 const connectDB = async () => {
     try {
         const { MONGODB_URL } = process.env;
@@ -9,10 +9,13 @@ const connectDB = async () => {
         }
 
         await mongoose.connect(MONGODB_URL, {
-            autoIndex: false,
+            autoIndex: true,
             maxPoolSize: 10,
         });
-        console.log("MongoDB connected successfully");
+        
+        logger.info("MongoDB connected successfully");
+        // console.log("host :",mongoose.connection.host);
+        // console.log("name :",mongoose.connection.name);
 
         // Connection events
         mongoose.connection.on("error", (err) => {
@@ -26,7 +29,7 @@ const connectDB = async () => {
         // Optional: Graceful shutdown
         process.on("SIGINT", async () => {
             await mongoose.connection.close();
-            console.log("MongoDB connection closed due to app termination");
+            logger.info("MongoDB connection closed due to app termination");
             process.exit(0);
         });
 

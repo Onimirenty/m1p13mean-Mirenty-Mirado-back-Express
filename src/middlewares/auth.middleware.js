@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/AppError");
+const logger = require('../utils/logger')
+
 const checkToken = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;

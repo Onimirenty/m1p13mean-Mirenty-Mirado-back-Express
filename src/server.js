@@ -3,6 +3,8 @@ const http = require('http');
 const app = require('./app');
 const Utils = require('./utils/Utils');
 const connectDB = require('./config/DataBase');
+const logger = require('./utils/logger')
+
 
 const port = Utils.normalizePort(process.env.PORT || '3000');
 app.set('port', port);
@@ -23,7 +25,7 @@ if (!process.env.JWT_SECRET) {
         typeof address === 'string'
           ? 'pipe ' + address
           : 'port ' + port;
-      console.log('Listening on ' + bind);
+      logger.info('Listening on ' + bind);
     });
     server.listen(port);
 

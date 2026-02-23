@@ -1,0 +1,224 @@
+[2026-02-23 20:17:43] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 20:18:07] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 20:18:22] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 20:20:18] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 20:20:26] ERROR : Category.service.createCategorie : Error creating categorie:
+[2026-02-23 20:22:25] INFO : MongoDB connected successfully
+[2026-02-23 20:22:25] INFO : Listening on port 3000
+[2026-02-23 20:22:29] ERROR : Category.service.createCategorie : Error creating categorie:
+[2026-02-23 20:22:45] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 20:23:48] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:24:40] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:25:22] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:26:27] INFO : MongoDB connected successfully
+[2026-02-23 20:26:27] INFO : Listening on port 3000
+[2026-02-23 20:26:34] INFO : MongoDB connected successfully
+[2026-02-23 20:26:34] INFO : Listening on port 3000
+[2026-02-23 20:29:50] INFO : MongoDB connected successfully
+[2026-02-23 20:29:50] INFO : Listening on port 3000
+[2026-02-23 20:30:35] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:31:26] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:32:32] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:33:47] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 20:34:39] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:35:26] INFO : MongoDB connected successfully
+[2026-02-23 20:35:26] INFO : Listening on port 3000
+[2026-02-23 20:35:33] INFO : Category.service.updateCategorieByName : Categorie updated:
+[2026-02-23 20:35:33] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:36:02] INFO : MongoDB connected successfully
+[2026-02-23 20:36:02] INFO : Listening on port 3000
+[2026-02-23 20:36:12] INFO : MongoDB connected successfully
+[2026-02-23 20:36:12] INFO : Listening on port 3000
+[2026-02-23 20:36:17] INFO : MongoDB connected successfully
+[2026-02-23 20:36:17] INFO : Listening on port 3000
+[2026-02-23 20:36:31] INFO : MongoDB connected successfully
+[2026-02-23 20:36:31] INFO : Listening on port 3000
+[2026-02-23 20:36:36] INFO : MongoDB connected successfully
+[2026-02-23 20:36:36] INFO : Listening on port 3000
+[2026-02-23 20:36:40] INFO : MongoDB connected successfully
+[2026-02-23 20:36:40] INFO : Listening on port 3000
+[2026-02-23 20:36:42] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:37:07] INFO : MongoDB connected successfully
+[2026-02-23 20:37:07] INFO : Listening on port 3000
+[2026-02-23 20:37:10] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:37:58] INFO : MongoDB connected successfully
+[2026-02-23 20:37:58] INFO : Listening on port 3000
+[2026-02-23 20:38:03] INFO : MongoDB connected successfully
+[2026-02-23 20:38:03] INFO : Listening on port 3000
+[2026-02-23 20:38:07] INFO : MongoDB connected successfully
+[2026-02-23 20:38:07] INFO : Listening on port 3000
+[2026-02-23 20:38:09] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:39:26] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:39:34] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:39:46] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:40:56] INFO : MongoDB connected successfully
+[2026-02-23 20:40:56] INFO : Listening on port 3000
+[2026-02-23 20:40:58] INFO : MongoDB connected successfully
+[2026-02-23 20:40:58] INFO : Listening on port 3000
+[2026-02-23 20:41:00] INFO : MongoDB connected successfully
+[2026-02-23 20:41:00] INFO : Listening on port 3000
+[2026-02-23 20:41:28] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:42:06] INFO : MongoDB connected successfully
+[2026-02-23 20:42:06] INFO : Listening on port 3000
+[2026-02-23 20:42:18] INFO : MongoDB connected successfully
+[2026-02-23 20:42:18] INFO : Listening on port 3000
+[2026-02-23 20:42:35] INFO : MongoDB connected successfully
+[2026-02-23 20:42:35] INFO : Listening on port 3000
+[2026-02-23 20:42:39] INFO : MongoDB connected successfully
+[2026-02-23 20:42:39] INFO : Listening on port 3000
+[2026-02-23 20:42:48] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:43:11] INFO : MongoDB connected successfully
+[2026-02-23 20:43:11] INFO : Listening on port 3000
+[2026-02-23 20:43:32] INFO : MongoDB connected successfully
+[2026-02-23 20:43:32] INFO : Listening on port 3000
+[2026-02-23 20:43:35] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:43:56] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:47:13] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:51:38] ERROR : Category.service.getCategorieByName : 
+[2026-02-23 20:52:16] ERROR : Category.service.getCategorieByName : 
+[2026-02-23 20:53:16] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 20:53:53] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:54:28] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 20:56:42] INFO : MongoDB connected successfully
+[2026-02-23 20:56:42] INFO : Listening on port 3000
+[2026-02-23 20:56:50] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 21:00:23] INFO : MongoDB connected successfully
+[2026-02-23 21:00:23] INFO : Listening on port 3000
+[2026-02-23 21:00:34] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 21:03:17] INFO : MongoDB connected successfully
+[2026-02-23 21:03:17] INFO : Listening on port 3000
+[2026-02-23 21:03:51] INFO : MongoDB connected successfully
+[2026-02-23 21:03:51] INFO : Listening on port 3000
+[2026-02-23 21:03:53] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 21:06:05] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 21:06:58] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 21:07:24] ERROR : Category.service.createCategorie : Error creating categorie:
+[2026-02-23 21:07:30] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 21:09:01] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 21:10:06] ERROR : Category.service.createCategorie : Error creating categorie:
+[2026-02-23 21:10:25] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 21:18:20] INFO : MongoDB connected successfully
+[2026-02-23 21:18:20] INFO : Listening on port 3000
+[2026-02-23 21:18:26] INFO : MongoDB connected successfully
+[2026-02-23 21:18:26] INFO : Listening on port 3000
+[2026-02-23 21:18:42] INFO : MongoDB connected successfully
+[2026-02-23 21:18:42] INFO : Listening on port 3000
+[2026-02-23 21:19:05] INFO : MongoDB connected successfully
+[2026-02-23 21:19:05] INFO : Listening on port 3000
+[2026-02-23 21:19:14] INFO : MongoDB connected successfully
+[2026-02-23 21:19:14] INFO : Listening on port 3000
+[2026-02-23 21:26:31] INFO : 
+
+[2026-02-23 21:26:31] INFO : Comparing passwords...
+[2026-02-23 21:26:31] INFO : Candidate Password:
+[2026-02-23 21:26:31] INFO : Stored Hashed Password:
+[2026-02-23 21:26:31] INFO : comparaison : 
+[2026-02-23 21:26:31] INFO : 
+
+[2026-02-23 21:26:31] INFO : 
+
+[2026-02-23 21:26:31] INFO : Password match:
+[2026-02-23 21:26:31] INFO : Fichier écrit avec succès
+[2026-02-23 21:26:34] INFO : MongoDB connected successfully
+[2026-02-23 21:26:34] INFO : Listening on port 3000
+[2026-02-23 21:28:31] INFO : MongoDB connected successfully
+[2026-02-23 21:28:31] INFO : Listening on port 3000
+[2026-02-23 21:28:48] INFO : MongoDB connected successfully
+[2026-02-23 21:28:48] INFO : Listening on port 3000
+[2026-02-23 21:28:58] INFO : MongoDB connected successfully
+[2026-02-23 21:28:58] INFO : Listening on port 3000
+[2026-02-23 21:29:27] INFO : MongoDB connected successfully
+[2026-02-23 21:29:27] INFO : Listening on port 3000
+[2026-02-23 21:29:57] INFO : MongoDB connected successfully
+[2026-02-23 21:29:57] INFO : Listening on port 3000
+[2026-02-23 21:33:59] INFO : MongoDB connected successfully
+[2026-02-23 21:33:59] INFO : Listening on port 3000
+[2026-02-23 21:34:20] INFO : MongoDB connected successfully
+[2026-02-23 21:34:21] INFO : Listening on port 3000
+[2026-02-23 21:36:08] INFO : MongoDB connected successfully
+[2026-02-23 21:36:08] INFO : Listening on port 3000
+[2026-02-23 21:36:16] INFO : 
+
+[2026-02-23 21:36:16] INFO : Comparing passwords...
+[2026-02-23 21:36:16] INFO : Candidate Password:
+[2026-02-23 21:36:16] INFO : Stored Hashed Password:
+[2026-02-23 21:36:16] INFO : comparaison : 
+[2026-02-23 21:36:16] INFO : 
+
+[2026-02-23 21:36:16] INFO : 
+
+[2026-02-23 21:36:16] INFO : Password match:
+[2026-02-23 21:36:17] INFO : Fichier écrit avec succès
+[2026-02-23 21:36:35] INFO : MongoDB connected successfully
+[2026-02-23 21:36:35] INFO : Listening on port 3000
+[2026-02-23 21:37:51] INFO : MongoDB connected successfully
+[2026-02-23 21:37:51] INFO : Listening on port 3000
+[2026-02-23 21:44:32] INFO : MongoDB connected successfully
+[2026-02-23 21:44:32] INFO : Listening on port 3000
+[2026-02-23 21:46:51] INFO : 
+
+[2026-02-23 21:46:51] INFO : Comparing passwords...
+[2026-02-23 21:46:51] INFO : Candidate Password:
+[2026-02-23 21:46:51] INFO : Stored Hashed Password:
+[2026-02-23 21:46:51] INFO : comparaison : 
+[2026-02-23 21:46:51] INFO : 
+
+[2026-02-23 21:46:51] INFO : 
+
+[2026-02-23 21:46:51] INFO : Password match:
+[2026-02-23 21:46:55] INFO : Fichier écrit avec succès
+[2026-02-23 21:47:08] INFO : MongoDB connected successfully
+[2026-02-23 21:47:08] INFO : Listening on port 3000
+[2026-02-23 21:49:08] INFO : 
+
+[2026-02-23 21:49:08] INFO : Comparing passwords...
+[2026-02-23 21:49:08] INFO : Candidate Password:
+[2026-02-23 21:49:08] INFO : Stored Hashed Password:
+[2026-02-23 21:49:08] INFO : comparaison : 
+[2026-02-23 21:49:08] INFO : 
+
+[2026-02-23 21:49:08] INFO : 
+
+[2026-02-23 21:49:08] INFO : Password match:
+[2026-02-23 21:49:12] INFO : Fichier écrit avec succès
+[2026-02-23 21:49:35] INFO : MongoDB connected successfully
+[2026-02-23 21:49:35] INFO : Listening on port 3000
+[2026-02-23 21:49:45] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 21:49:55] ERROR : Category.service.createCategorie : Error creating categorie:
+[2026-02-23 21:50:50] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 21:54:47] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 21:55:02] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 22:01:53] INFO : MongoDB connected successfully
+[2026-02-23 22:01:53] INFO : Listening on port 3000
+[2026-02-23 22:04:21] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 22:06:17] INFO : MongoDB connected successfully
+[2026-02-23 22:06:17] INFO : Listening on port 3000
+[2026-02-23 22:06:22] INFO : MongoDB connected successfully
+[2026-02-23 22:06:22] INFO : Listening on port 3000
+[2026-02-23 22:07:06] ERROR : Category.service.createCategorie : Error creating categorie:
+[2026-02-23 22:07:20] INFO : Category.service.createCategorie : Categorie created:
+[2026-02-23 22:07:30] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 22:08:01] INFO : MongoDB connected successfully
+[2026-02-23 22:08:01] INFO : Listening on port 3000
+[2026-02-23 22:08:04] INFO : MongoDB connected successfully
+[2026-02-23 22:08:04] INFO : Listening on port 3000
+[2026-02-23 22:08:05] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 22:08:53] INFO : MongoDB connected successfully
+[2026-02-23 22:08:53] INFO : Listening on port 3000
+[2026-02-23 22:08:56] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 22:09:21] INFO : MongoDB connected successfully
+[2026-02-23 22:09:21] INFO : Listening on port 3000
+[2026-02-23 22:09:22] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 22:10:14] INFO : MongoDB connected successfully
+[2026-02-23 22:10:14] INFO : Listening on port 3000
+[2026-02-23 22:10:17] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 22:17:46] ERROR : Category.service.createCategorie : Error creating categorie:
+[2026-02-23 22:19:01] INFO : MongoDB connected successfully
+[2026-02-23 22:19:01] INFO : Listening on port 3000
+[2026-02-23 22:19:09] INFO : MongoDB connected successfully
+[2026-02-23 22:19:09] INFO : Listening on port 3000
+[2026-02-23 22:19:14] ERROR : Category.service.updateCategorieByName : 
+[2026-02-23 22:20:06] INFO : MongoDB connected successfully
+[2026-02-23 22:20:06] INFO : Listening on port 3000
+[2026-02-23 22:20:13] INFO : MongoDB connected successfully
+[2026-02-23 22:20:13] INFO : Listening on port 3000

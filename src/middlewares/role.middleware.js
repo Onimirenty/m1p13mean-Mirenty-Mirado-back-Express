@@ -1,5 +1,5 @@
 const AppError = require("../utils/AppError");
-
+const logger = require('../utils/logger')
 /**
  * Middleware d'autorisation par rôle
  * Usage : role("admin") ou role("admin","proprietaire")
@@ -9,11 +9,11 @@ const AppError = require("../utils/AppError");
 const checkRole = (...allowedRoles) => {
   return (req, res, next) => {
     if (!req.user) {
-      return next(new AppError(401, "Unauthorized"));
+      return next(new AppError("Unauthorized",401));
     }
 
     if (!allowedRoles.includes(req.user.role)) {
-      return next(new AppError(403, "Forbidden"));
+      return next(new AppError(`Forbidden : your role ${req.user.role} doesn't permit this operation`,403));
     }
     next();
   };

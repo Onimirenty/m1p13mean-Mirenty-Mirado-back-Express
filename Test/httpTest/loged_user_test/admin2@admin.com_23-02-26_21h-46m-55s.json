@@ -1,0 +1,6 @@
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTljYTA3M2MzODk1OWRmZDRlMzgxMDIiLCJyb2xlIjoiY3VzdG9tZXIiLCJlbWFpbCI6ImFkbWluMkBhZG1pbi5jb20iLCJpYXQiOjE3NzE4NzI0MTEsImV4cCI6MTc3MjQ3NzIxMX0._teUMQHHL7Pqp2elTI0n_G96J4Uz7BkD3o8_ZSbciqk",
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTljYTA3M2MzODk1OWRmZDRlMzgxMDIiLCJyb2xlIjoiY3VzdG9tZXIiLCJlbWFpbCI6ImFkbWluMkBhZG1pbi5jb20iLCJpYXQiOjE3NzE4NzI0MTEsImV4cCI6MTc3MTk1ODgxMX0.8Xl3oxDSrpENujmZiC3FADd_zqAooaa0OdZnUkSec74",
+  "role": "customer",
+  "email": "admin2@admin.com"
+}
