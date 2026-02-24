@@ -53,7 +53,7 @@ const updateUser = async (id, data) => {
 
 const disableUser = async (id) => {
   return User.findByIdAndUpdate(id,
-    { status: 'Inactive' },
+    { status: 'INACTIVE' },
     { new: true }
   ).select('-password');
 };

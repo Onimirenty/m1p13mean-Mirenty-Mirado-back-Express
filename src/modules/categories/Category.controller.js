@@ -47,11 +47,11 @@ exports.deleteCategory= async (req, res,next ) => {
         const categorie = await CategorieService.deleteCategorieByName(req.params.nom);
 
         if (!categorie) {
-            return res.status(404).json({ message: "Categorie not found" });
+            throw new AppError("Categorie not found", 404);
         }
 
         res.status(200).json({ message: "Categorie deleted successfully" });
     } catch (error) {
-        res.status(400).json({ message: "Invalid ID" });
+        next(error);
     }
 };

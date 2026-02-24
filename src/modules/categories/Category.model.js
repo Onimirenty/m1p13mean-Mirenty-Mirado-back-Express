@@ -6,7 +6,6 @@ const categorieSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      unique: true
     },
     iconClass: {
       type: String,
@@ -18,6 +17,6 @@ const categorieSchema = new mongoose.Schema(
     timestamps: { createdAt: true, updatedAt: false }
   }
 );
-categorieSchema.index({ nom: 1 }, { unique: true });
 
+categorieSchema.index({ nom: 1 }, { unique: true });
 module.exports = mongoose.model("Categorie", categorieSchema);

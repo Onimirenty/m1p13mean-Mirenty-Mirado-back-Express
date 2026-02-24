@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const logger = require('../../utils/logger')
+const AppError = require('../../utils/AppError')
 
 const boxSchema = new mongoose.Schema(
   {
@@ -37,7 +39,15 @@ const boxSchema = new mongoose.Schema(
       ref: "CentreCommercial",
       required: true,
       index: true
-    }
+    },
+    dimension: {
+      length: { type: Number, required: false },
+      width: { type: Number, required: false },
+      height: { type: Number, required: false }
+    },
+    vanillaImageUrl: {
+      type: String, required: false
+    },
   },
   { timestamps: true }
 );
@@ -47,16 +57,18 @@ boxSchema.index(
   { unique: true }
 );
 
-boxSchema.pre("save", function (next) {
+boxSchema.pre("save", function () {
+
   if (this.status === "OCCUPIED" && !this.boutiqueId) {
-    return next(new Error("OCCUPIED box must have boutiqueId"));
+    throw new AppError("OCCUPIED box must have boutiqueId", 400);
   }
 
   if (this.status === "AVAILABLE") {
     this.boutiqueId = null;
   }
 
-  next();
 });
+
+
 
 module.exports = mongoose.model("Box", boxSchema);

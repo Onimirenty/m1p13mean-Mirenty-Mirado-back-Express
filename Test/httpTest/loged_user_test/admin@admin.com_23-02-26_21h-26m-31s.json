@@ -1,6 +1,0 @@
-{
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTljOWI4Njc0ZjRjMTU0N2I3MWRlMDYiLCJyb2xlIjoiY3VzdG9tZXIiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImlhdCI6MTc3MTg3MTE5MSwiZXhwIjoxNzcyNDc1OTkxfQ.TQwH0QfBRWxSnNHNQVYbwONJeeeCinIZVLx5e2EbU60",
-  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTljOWI4Njc0ZjRjMTU0N2I3MWRlMDYiLCJyb2xlIjoiY3VzdG9tZXIiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImlhdCI6MTc3MTg3MTE5MSwiZXhwIjoxNzcxOTU3NTkxfQ.Qq9xdnO3vNDBsMcT16JxOOTfG-qHnI73qZejEbfGlBA",
-  "role": "customer",
-  "email": "admin@admin.com"
-}

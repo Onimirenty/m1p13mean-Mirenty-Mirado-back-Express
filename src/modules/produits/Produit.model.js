@@ -15,7 +15,7 @@ const produitSchema = new mongoose.Schema(
       trim: true
     },
 
-    ProductSlug: {
+    productSlug: {
       type: String,
       required: true,
       lowercase: true,
@@ -41,6 +41,6 @@ const produitSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-produitSchema.index({ boutiqueId: 1, ProductSlug: 1 }, { unique: true });
+produitSchema.index({ boutiqueId: 1, productSlug: 1 }, { unique: true });
 
 module.exports = mongoose.model("Produit", produitSchema);

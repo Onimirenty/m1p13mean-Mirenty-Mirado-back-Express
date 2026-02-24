@@ -9,8 +9,7 @@ const createToken = (user, durationnString, secretKey) => {
   return jwt.sign(
     { userId: user._id, role: user.role, email: user.email },
     secretKey,
-    { algorithm: "HS256", expiresIn: durationnString },
-    { expiresIn: durationnString }
+    { algorithm: "HS256", expiresIn: durationnString }
   );
 }
 
@@ -39,13 +38,13 @@ const loginUser = async (email, password) => {
     throw error;
   }
 
-  if (user.status !== 'active') {
+  if (user.status !== 'ACTIVE') {
     const error = new AppError("Account disabled", 403);
     throw error;
   }
 
   const isMatch = await user.comparePassword(password);
-  logger.info("Password match:", isMatch); // Debug log
+  logger.info(`Password match :, ${isMatch} `); // Debug log
 
   if (!isMatch) {
     const error = new AppError('Email or password incorrect', 401);

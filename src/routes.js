@@ -4,16 +4,21 @@ const logger = require('./utils/logger')
 
 
 // Import des routes modules
-// const authMiddleware = require('./middlewares/auth.middleware');
+;
 
 const authRoutes = require('./modules/auth/auth.routes');
 const userRoutes = require('./modules/users/User.routes');
 const categoryRoutes = require('./modules/categories/Category.routes');
+const centreCommercialRoutes = require('./modules/centre_commercial/CentreCommercial.routes');
+const boxRoutes = require('./modules/spatial/Box.routes');
+const BoutiqueRoutes = require('./modules/boutiques/Boutique.routes');
 
 // Montage des sous-routes
-// router.use(authMiddleware.checkToken); 
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/categories', categoryRoutes);
+router.use('/centres', centreCommercialRoutes);
+router.use('/boxes', boxRoutes);
+router.use('/boutiques', BoutiqueRoutes);
 
 module.exports = router;

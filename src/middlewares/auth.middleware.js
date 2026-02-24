@@ -19,6 +19,7 @@ const checkToken = (req, res, next) => {
 
     // Normalisation des données attachées à la requête
     if (process.env.NODE_ENV === 'development') {
+      //ressource garder dans le frontend en production 
       req.user = {
         role: decoded.role,
         email: decoded.email,

@@ -1,7 +1,10 @@
 const bcrypt = require('bcrypt');
 const User = require('../users/User.model');
+const RefreshToken = require('../refreshToken/RefreshToken.model');
 const { loginUser, createToken, generateTokens } = require('./auth.service');
+const AppError = require('../../utils/AppError');
 const logger = require('../../utils/logger');
+const jwt = require('jsonwebtoken');
 
 exports.signup = async (req, res, next) => {
   try {
@@ -25,13 +28,13 @@ exports.refresh = async (req, res, next) => {
   try {
     const { refreshToken } = req.body;
     if (!refreshToken) {
-      return res.status(400).json({ message: "Missing refresh token" });
+      throw new AppError("Missing refresh token", 400);
     }
 
     const stored = await RefreshToken.findOne({ token: refreshToken });
 
     if (!stored) {
-      return res.status(401).json({ message: "Invalid refresh token" });
+      throw new AppError("Invalid refresh token", 401);
     }
     const decoded = jwt.verify(
       refreshToken,
@@ -55,17 +58,16 @@ exports.login = async (req, res, next) => {
     // logger.info("BODY RECEIVED:", req.body);
 
     if (!email || !password) {
-      return res.status(400).json({ message: "Missing credentials" });
-      // next(error);
+      throw new AppError("Missing credentials", 400);
     }
 
     const result = await loginUser(email, password);
 
     if (process.env.NODE_ENV === 'development') {
-      const { writeJsonFile,formatTimestamp } = require('../../utils/Utils');
+      const { writeJsonFile, formatTimestamp } = require('../../utils/Utils');
       let DirPath = '/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/Test/httpTest/loged_user_test/';
       let filename = `${result.email}_${formatTimestamp(Date.now())}`;
-      await writeJsonFile(DirPath,filename,'.json',result);
+      await writeJsonFile(DirPath, filename, '.json', result);
     }
 
     res.json({
@@ -100,17 +102,16 @@ exports.my_indentity = async (req, res, next) => {
     }
     const token = authHeader.split(' ')[1];
     if (!token) {
-      return res.status(401).json({ message: "Missing token" });
+      throw new AppError("Missing token", 401);
     }
     logger.info(`Token received for identity check: ${token}`);
-    
+
     const whoAmI = require('./auth.service').whoAmI;
     const result = await whoAmI(token);
     res.status(200).json(result);
-    
-    
+
+
   } catch (error) {
-    logger.error(`Token received for identity check: ${token}`);
     next(error);
   }
 };

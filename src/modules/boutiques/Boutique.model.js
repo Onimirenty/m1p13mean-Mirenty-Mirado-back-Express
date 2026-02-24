@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const { generateSlug } = require("../../utils/Utils");
+
 
 const boutiqueSchema = new mongoose.Schema(
   {
@@ -8,7 +10,7 @@ const boutiqueSchema = new mongoose.Schema(
       trim: true
     },
 
-    slug: {
+    boutiqueSlug: {
       type: String,
       required: true,
       unique: true,
@@ -75,5 +77,13 @@ const boutiqueSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+//quand async throw ,quand pas async next 
+boutiqueSchema.pre("save", function () {
+  if (this.isModified("name")) {
+    this.boutiqueSlug = generateSlug(this.name);
+  }
+  // next();
+});
 
 module.exports = mongoose.model("Boutique", boutiqueSchema);

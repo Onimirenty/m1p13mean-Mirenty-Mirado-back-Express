@@ -9,7 +9,7 @@ const centreCommercialSchema = new mongoose.Schema(
             trim: true
         },
 
-        CmSlug: {
+        cmSlug: {
             type: String,
             unique: true,
             lowercase: true,

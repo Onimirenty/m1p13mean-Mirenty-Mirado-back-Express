@@ -63,10 +63,18 @@ async function writeJsonFile(dirPath, filename, fileExtension, ObjectData) {
     logger.error('Erreur :', error);
   }
 }
+const generateSlug = (text) => {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-");
+};
 
 module.exports = {
   normalizePort,
   errorHandler,
   writeJsonFile,
-  formatTimestamp
+  formatTimestamp,
+  generateSlug
 };

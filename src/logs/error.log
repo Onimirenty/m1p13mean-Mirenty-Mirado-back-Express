@@ -1,41 +1,31 @@
-[2026-02-23 20:20:26] ERROR : Category.service.createCategorie : Error creating categorie:
-[2026-02-23 20:22:29] ERROR : Category.service.createCategorie : Error creating categorie:
-[2026-02-23 20:23:48] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:24:40] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:25:22] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:30:35] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:31:26] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:32:32] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:34:39] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:35:33] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:36:42] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:37:10] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:38:09] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:39:26] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:39:34] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:39:46] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:41:28] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:42:48] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:43:35] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:43:56] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:47:13] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:51:38] ERROR : Category.service.getCategorieByName : 
-[2026-02-23 20:52:16] ERROR : Category.service.getCategorieByName : 
-[2026-02-23 20:53:53] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:54:28] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 20:56:50] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 21:00:34] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 21:03:53] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 21:06:05] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 21:07:24] ERROR : Category.service.createCategorie : Error creating categorie:
-[2026-02-23 21:10:06] ERROR : Category.service.createCategorie : Error creating categorie:
-[2026-02-23 21:49:55] ERROR : Category.service.createCategorie : Error creating categorie:
-[2026-02-23 21:55:02] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 22:07:06] ERROR : Category.service.createCategorie : Error creating categorie:
-[2026-02-23 22:07:30] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 22:08:05] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 22:08:56] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 22:09:22] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 22:10:17] ERROR : Category.service.updateCategorieByName : 
-[2026-02-23 22:17:46] ERROR : Category.service.createCategorie : Error creating categorie:
-[2026-02-23 22:19:14] ERROR : Category.service.updateCategorieByName : 
+[2026-02-24 16:12:00] ERROR : Operational error: Failed to create Box: next is not a function
+[2026-02-24 16:12:52] ERROR : Operational error: Failed to create Box: next is not a function
+[2026-02-24 16:12:52] ERROR : error stackTrace: Error: Failed to create Box: next is not a function
+    at Object.createBox (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.service.js:13:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.createBox (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.controller.js:5:17)
+[2026-02-24 16:23:23] ERROR : Operational error: Email or password incorrect
+[2026-02-24 16:23:23] ERROR : error stackTrace: Error: Email or password incorrect
+    at loginUser (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/auth/auth.service.js:37:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.login (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/auth/auth.controller.js:62:20)
+[2026-02-24 16:24:05] ERROR : Operational error: Failed to create Box: next is not a function
+[2026-02-24 16:24:05] ERROR : error stackTrace: Error: Failed to create Box: next is not a function
+    at Object.createBox (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.service.js:13:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.createBox (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.controller.js:5:17)
+[2026-02-24 16:33:55] ERROR : Operational error: Failed to create Box: next is not a function
+[2026-02-24 16:33:55] ERROR : error stackTrace: Error: Failed to create Box: next is not a function
+    at Object.createBox (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.service.js:13:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.createBox (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.controller.js:5:17)
+[2026-02-24 16:50:09] ERROR : Operational error: Invalid token
+[2026-02-24 16:50:09] ERROR : error stackTrace: Error: Invalid token
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:35:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
+    at process.processImmediate (node:internal/timers:485:21)

@@ -53,6 +53,12 @@ const errorMiddleware = (err, req, res, next) => {
       url: req.originalUrl,
       method: req.method,
     });
+    logger.error('UNEXPECTED ERROR:', {
+      message: error.message,
+      stack: error.stack,
+      url: req.originalUrl,
+      method: req.method,
+    });
 
     return res.status(500).json({
       status: 'error',
@@ -74,7 +80,8 @@ const errorMiddleware = (err, req, res, next) => {
     status: 'fail',
     message: `error middleware : ${error.message} `,
   };
-
+  logger.error(`Operational error: ${error.message}`)
+  logger.error(`error stackTrace: ${error.stack}`)
   // En dev on expose plus d'infos
   // if (process.env.NODE_ENV === 'development') {
   //   response.stack = error.stack;

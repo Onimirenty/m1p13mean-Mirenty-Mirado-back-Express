@@ -1,10 +1,10 @@
-This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+This file is a merged representation of a subset of the codebase, containing files not matching ignore patterns, combined into a single document by Repomix.
 
 <file_summary>
 This section contains a summary of this file.
 
 <purpose>
-This file contains a packed representation of the entire repository's contents.
+This file contains a packed representation of a subset of the repository's contents that is considered the most important context.
 It is designed to be easily consumable by AI systems for analysis, code review,
 or other automated processes.
 </purpose>
@@ -32,6 +32,7 @@ The content is organized as follows:
 <notes>
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
 - Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching these patterns are excluded: src/loga
 - Files matching patterns in .gitignore are excluded
 - Files matching default ignore patterns are excluded
 - Files are sorted by Git change count (files with more changes are at the bottom)
@@ -40,12 +41,9 @@ The content is organized as follows:
 </file_summary>
 
 <directory_structure>
-httpTest/
-  auth.json
 src/
   config/
     DataBase.js
-    seedAdmin.js
   middlewares/
     auth.middleware.js
     error.middleware.js
@@ -55,20 +53,45 @@ src/
       auth.controller.js
       auth.routes.js
       auth.service.js
-    shops/
-      shop.controller.js
-      shop.model.js
-      shop.routes.js
-      shop.service.js
+    boutiques/
+      demande_boutiques/
+        DemandeBoutique.model.js
+        DemandeBoutique.service.js
+      stats_boutique/
+        StatBoutique.model.js
+      Boutique.controller.js
+      Boutique.model.js
+      Boutique.routes.js
+      Boutique.service.js
+    categories/
+      Category.controller.js
+      Category.model.js
+      Category.routes.js
+      Category.service.js
+    centre_commercial/
+      CentreCommercial.controller.js
+      CentreCommercial.model.js
+      CentreCommercial.routes.js
+      CentreCommercial.service.js
+    produits/
+      Produit.model.js
+    refreshToken/
+      RefreshToken.model.js
+    spatial/
+      historiques_Box/
+        HistoriqueBox.model.js
+      Box.controller.js
+      Box.model.js
+      Box.routes.js
+      Box.service.js
     users/
       User.controller.js
       User.model.js
       User.routes.js
       User.service.js
   utils/
-    ApiError.js
-    ApiResponse.js
     AppError.js
+    logger.js
     Utils.js
   app.js
   routes.js
@@ -81,164 +104,1167 @@ README.md
 <files>
 This section contains the contents of the repository's files.
 
-<file path="httpTest/auth.json">
-{
-    "email": "user@example.com",
-    "password": "0000"
-}
-</file>
+<file path="src/modules/centre_commercial/CentreCommercial.controller.js">
+const { createCentreCommercial } = require ("./CentreCommercial.service");
 
-<file path="src/config/DataBase.js">
-const mongoose = require('mongoose');
-
-const connectDB = async () => {
-    try {
-        const { MONGODB_URL } = process.env;
-
-        if (!MONGODB_URL) {
-            throw new Error("MONGODB_URL is not defined in environment variables");
-        }
-
-        await mongoose.connect(MONGODB_URL, {
-            autoIndex: false,
-            maxPoolSize: 10,
-        });
-        console.log("MongoDB connected successfully");
-
-        // Connection events
-        mongoose.connection.on("error", (err) => {
-            console.error("MongoDB connection error:", err);
-        });
-
-        mongoose.connection.on("disconnected", () => {
-            console.warn("MongoDB disconnected");
-        });
-
-        // Optional: Graceful shutdown
-        process.on("SIGINT", async () => {
-            await mongoose.connection.close();
-            console.log("MongoDB connection closed due to app termination");
-            process.exit(0);
-        });
-
-    } catch (error) {
-        console.error("MongoDB initial connection failed:", error.message);
-        process.exit(1);
-    }
-};
-
-module.exports = connectDB;
-</file>
-
-<file path="src/config/seedAdmin.js">
-const bcrypt = require('bcrypt');
-const User = require('../modules/users/User.model');
-
-const seedAdmin = async () => {
+exports.createCentreController = async (req, res, next) => {
   try {
-    const adminExists = await User.findOne({ role: 'admin' });
+    const centre = await createCentreCommercial(req.body);
 
-    if (adminExists) {
-      console.log("Admin already exists");
-      return;
-    }
-
-    // const hashedPassword = await bcrypt.hash("Admin123", 10);
-    // console.log("Hashed password for seeding:", hashedPassword);
-
-    await User.create({
-      contact: "admin@local.com",
-      password: "Admin123",
-      role: "admin",
-      status: "actif"
+    res.status(201).json({
+      success: true,
+      data: centre
     });
-
-    console.log("Default admin created:");
-    console.log("Contact: admin@local.com");
-    console.log("Password: Admin123");
-  } catch (error) {
-    console.error("Error seeding admin:", error.message);
-    throw error; // IMPORTANT pour que ton try/catch principal fonctionne
-  }
-};
-
-module.exports = seedAdmin;
-</file>
-
-<file path="src/modules/shops/shop.controller.js">
-
-</file>
-
-<file path="src/modules/shops/shop.model.js">
-
-</file>
-
-<file path="src/modules/shops/shop.routes.js">
-
-</file>
-
-<file path="src/modules/shops/shop.service.js">
-
-</file>
-
-<file path="src/modules/users/User.controller.js">
-const service = require('./User.service');
-
-exports.createUser = async (req, res, next) => {
-  try {
-    const user = await service.createUser(req.body);
-    res.status(201).json(user);
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.getUsers = async (req, res, next) => {
-  try {
-    const users = await service.getUsers();
-    res.json(users);
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.updateUser = async (req, res, next) => {
-  try {
-    const user = await service.updateUser(req.params.id, req.body);
-    res.json(user);
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.disableUser = async (req, res, next) => {
-  try {
-    const user = await service.disableUser(req.params.id);
-    res.json(user);
   } catch (error) {
     next(error);
   }
 };
 </file>
 
-<file path="src/modules/users/User.routes.js">
-const express = require('express');
+<file path="src/modules/centre_commercial/CentreCommercial.routes.js">
+const express = require("express");
 const router = express.Router();
-
-const controller = require('./User.controller');
 const { checkToken } = require('../../middlewares/auth.middleware');
 const { checkRole } = require('../../middlewares/role.middleware');
 
-router.post('/', checkToken, checkRole('admin'), controller.createUser);
-router.get('/', checkToken, checkRole('admin'), controller.getUsers);
-router.put('/:id', checkToken, checkRole('admin'), controller.updateUser);
-router.patch('/:id/disable', checkToken, checkRole('admin'), controller.disableUser);
+const createCentreController  =  require("./CentreCommercial.controller.js");
+
+
+router.post("/centre", checkToken, checkRole('admin'), createCentreController.createCentreController);
 
 module.exports = router;
 </file>
 
-<file path="src/utils/ApiResponse.js">
+<file path="src/modules/centre_commercial/CentreCommercial.service.js">
+const CentreCommercial = require("./CentreCommercial.model");
+const logger = require("../../utils/logger");
+const AppError = require("../../utils/AppError");
 
+// util simple pour slug
+const generateSlug = (text) => {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-");
+};
+
+const createCentreCommercial = async (data) => {
+  try {
+    // 1. Vérification minimale
+    if (!data.name || !data.name.trim()) {
+      throw new AppError("Le nom du centre est obligatoire", 400);
+    }
+
+    // 2. Génération slug
+    const cmSlug = generateSlug(data.name);
+
+    // 3. Vérifier unicité
+    const existing = await CentreCommercial.findOne({
+      $or: [{ name: data.name }, { cmSlug: cmSlug }]
+    });
+
+    if (existing) {
+      throw new AppError("Ce centre commercial existe déjà", 409);
+    }
+
+    // 4. Création
+    const centre = new CentreCommercial({
+      ...data,
+      cmSlug: cmSlug
+    });
+
+    await centre.save();
+
+    return centre;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = {
+  createCentreCommercial
+};
+</file>
+
+<file path="src/modules/spatial/Box.controller.js">
+const BoxService = require("./Box.service");
+
+exports.createBox = async (req, res, next) => {
+  try {
+    const box = await BoxService.createBox(req.body);
+    res.status(201).json({ message: "Box created", box });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getAllBoxes = async (req, res, next) => {
+  try {
+    const boxes = await BoxService.getAllBoxes(req.query);
+    res.status(200).json({ message: "Boxes fetched", boxes });
+  } catch (error) {
+    next(error);
+  }
+};
+exports.getBoxByCompositeKey = async (req, res, next) => {
+  try {
+    const box = await BoxService.getBoxByCompositeKey({
+      cmSlug: req.params.cmSlug,
+      etage: Number(req.params.etage),
+      bloc: req.params.bloc,
+      numero: Number(req.params.numero)
+    });
+
+    res.status(200).json({ box });
+  } catch (error) {
+    next(error);
+  }
+};
+exports.getBoxById = async (req, res, next) => {
+  try {
+    const box = await BoxService.getBoxById(req.params.id);
+    res.status(200).json({ box });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateBox = async (req, res, next) => {
+  try {
+    const box = await BoxService.updateBox(req.params.id, req.body);
+    res.status(200).json({ message: "Box updated", box });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteBox = async (req, res, next) => {
+  try {
+    await BoxService.deleteBox(req.params.id);
+    res.status(200).json({ message: "Box deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+</file>
+
+<file path="src/modules/spatial/Box.routes.js">
+const express = require("express");
+const router = express.Router();
+
+const { checkToken } = require("../../middlewares/auth.middleware");
+const { checkRole } = require("../../middlewares/role.middleware");
+
+const BoxController = require("./Box.controller");
+
+// ADMIN ONLY
+router.post("/", checkToken, checkRole("admin"), BoxController.createBox);
+router.get("/", checkToken, checkRole("admin"), BoxController.getAllBoxes);
+router.get("/:id", checkToken, checkRole("admin"), BoxController.getBoxById);
+router.put("/:id", checkToken, checkRole("admin"), BoxController.updateBox);
+router.delete("/:id", checkToken, checkRole("admin"), BoxController.deleteBox);
+router.get(
+    "/centre/:centreId/etage/:etage/bloc/:bloc/numero/:numero",
+    checkToken,
+    checkRole("admin"),
+    BoxController.getBoxByCompositeKey
+);
+
+module.exports = router;
+</file>
+
+<file path="src/modules/spatial/Box.service.js">
+const Box = require("./Box.model");
+const AppError = require("../../utils/AppError");
+const mongoose = require("mongoose");
+const CentreCommercial = require("../centre_commercial/CentreCommercial.model");
+
+/**
+ * CREATE
+ */
+const createBox = async (data) => {
+    try {
+        const box = await Box.create(data);
+        return box;
+    } catch (error) {
+        throw new AppError(`Failed to create Box: ${error.message}`, 500);
+    }
+};
+
+/**
+ * GET ALL
+ */
+const getAllBoxes = async (filters = {}) => {
+    return await Box.find(filters)
+        .populate("boutiqueId", "name") 
+        .populate("centreCommercialId", "name")
+        .sort({ createdAt: -1 });
+};
+
+/**
+ * GET ONE
+ */
+const getBoxById = async (id) => {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new AppError("Invalid Box ID", 400);
+    }
+
+    const box = await Box.findById(id)
+        .populate("boutiqueId", "name")
+        .populate("centreCommercialId", "name");
+
+    if (!box) {
+        throw new AppError("Box not found", 404);
+    }
+
+    return box;
+};
+
+const getBoxByCompositeKey = async ({ cmSlug, etage, bloc, numero }) => {
+
+    // Validation primitive
+    if (!cmSlug || etage === undefined || numero === undefined || !bloc) {
+        throw new AppError("cmSlug, etage, bloc and numero are required", 400);
+    }
+
+    // Trouver le centre via son slug
+    const centre = await CentreCommercial.findOne({ cmSlug: cmSlug });
+    if (!centre) {
+        throw new AppError("CentreCommercial not found", 404);
+    }
+    // Requête via index composite
+    const box = await Box.findOne({
+        centreCommercialId: centre._id,
+        etage: Number(etage),
+        bloc: bloc.trim().toUpperCase(),
+        numero: Number(numero)
+    })
+        .populate("boutiqueId", "name")
+        .populate("centreCommercialId", "cmSlug");
+
+    if (!box) {
+        throw new AppError("Box not found", 404);
+    }
+
+    return box;
+};
+
+/**
+ * UPDATE
+ */
+const updateBox = async (id, data) => {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new AppError("Invalid Box ID", 400);
+    }
+
+    const box = await Box.findByIdAndUpdate(id, data, {
+        new: true,
+        runValidators: true
+    });
+
+    if (!box) {
+        throw new AppError("Box not found", 404);
+    }
+
+    return box;
+};
+
+/**
+ * DELETE
+ */
+const deleteBox = async (id) => {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new AppError("Invalid Box ID", 400);
+    }
+
+    const box = await Box.findByIdAndDelete(id);
+
+    if (!box) {
+        throw new AppError("Box not found", 404);
+    }
+
+    return box;
+};
+
+module.exports = {
+    createBox,
+    getAllBoxes,
+    getBoxById,
+    getBoxByCompositeKey,
+    updateBox,
+    deleteBox
+};
+</file>
+
+<file path="src/modules/boutiques/demande_boutiques/DemandeBoutique.model.js">
+const mongoose = require("mongoose");
+
+const demandeBoutiqueSchema = new mongoose.Schema(
+  {
+    nomBoutique: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    description: {
+      type: String
+    },
+
+    categorieId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Categorie",
+      required: true,
+      index: true
+    },
+
+    ownerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      index: true
+    },
+    
+
+    contact: {
+      telephone: String,
+      emailBoutique: String
+    },
+
+    documents: {
+      rcsNumber: String,
+      nifNumber: String,
+      statNumber: String,
+      rcsFileUrl: String,
+      nifFileUrl: String,
+      statFileUrl: String
+    },
+
+    statut: {
+      type: String,
+      enum: ["PENDING", "ACCEPTED", "REJECTED"],
+      default: "PENDING",
+      index: true
+    },
+
+    commentaireAdmin: String
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("DemandeBoutique", demandeBoutiqueSchema);
+</file>
+
+<file path="src/modules/boutiques/demande_boutiques/DemandeBoutique.service.js">
+const User = require('../users/User.model');
+const AppError = require('../../utils/AppError');
+const logger = require('../../utils/logger')
+
+const createDemandeBoutique = async (userId, boutiqueData) => {
+
+};
+</file>
+
+<file path="src/modules/boutiques/stats_boutique/StatBoutique.model.js">
+const mongoose = require("mongoose");
+
+const statsBoutiqueSchema = new mongoose.Schema(
+  {
+    boutiqueId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Boutique",
+      required: true,
+      index: true
+    },
+
+    periodType: {
+      type: String,
+      enum: ["DAILY", "WEEKLY", "MONTHLY"],
+      required: true
+    },
+
+    periodStart: {
+      type: Date,
+      required: true
+    },
+
+    periodEnd: {
+      type: Date,
+      required: true
+    },
+
+    metrics: {
+      views: { type: Number, default: 0 },
+      clicks: { type: Number, default: 0 },
+      sales: { type: Number, default: 0 },
+      revenue: { type: Number, default: 0 }
+    }
+  },
+  { timestamps: true }
+);
+
+statsBoutiqueSchema.index(
+  { boutiqueId: 1, periodStart: 1 },
+  { unique: true }
+);
+
+module.exports = mongoose.model("StatsBoutique", statsBoutiqueSchema);
+</file>
+
+<file path="src/modules/boutiques/Boutique.controller.js">
+const BoutiqueService = require("./Boutique.service");
+
+exports.createBoutique = async (req, res, next) => {
+  try {
+    const boutique = await BoutiqueService.createBoutique(req.body);
+    res.status(201).json({ message: "Boutique created", boutique });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getAllBoutiques = async (req, res, next) => {
+  try {
+    const boutiques = await BoutiqueService.getAllBoutiques(req.query);
+    res.status(200).json({ message: "Boutiques fetched", boutiques });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getBoutiqueById = async (req, res, next) => {
+  try {
+    const boutique = await BoutiqueService.getBoutiqueById(req.params.id);
+    res.status(200).json({ boutique });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateBoutique = async (req, res, next) => {
+  try {
+    const boutique = await BoutiqueService.updateBoutique(req.params.id, req.body);
+    res.status(200).json({ message: "Boutique updated", boutique });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteBoutique = async (req, res, next) => {
+  try {
+    await BoutiqueService.deleteBoutique(req.params.id);
+    res.status(200).json({ message: "Boutique deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+</file>
+
+<file path="src/modules/boutiques/Boutique.model.js">
+const mongoose = require("mongoose");
+const { generateSlug } = require("../../utils/Utils");
+
+
+const boutiqueSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    boutiqueSlug: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      index: true
+    },
+
+    description: String,
+
+    categorieId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Categorie",
+      required: true,
+      index: true
+    },
+
+    ownerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true
+    },
+
+    boxIds: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Box"
+      }
+    ],
+
+    statut: {
+      type: String,
+      enum: ["ACTIVE", "INACTIVE", "SUSPENDED"],
+      default: "ACTIVE",
+      index: true
+    },
+
+    contact: {
+      phone: String,
+      email: String
+    },
+
+    images: [
+      {
+        type: {
+          type: String
+        },
+        url: String
+      }
+    ],
+    opening: {
+      days: [String], // e.g. ["Monday", "Tuesday"]
+      hours: {
+        openingTime: String, // e.g. "09:00"
+        closingTime: String  // e.g. "18:00"
+      }
+    },
+    statsSnapshot: {
+      totalViews: { type: Number, default: 0 },
+      totalClicks: { type: Number, default: 0 },
+      totalSales: { type: Number, default: 0 },
+      totalRevenue: { type: Number, default: 0 }
+    }
+  },
+  { timestamps: true }
+);
+
+//quand async throw ,quand pas async next 
+boutiqueSchema.pre("save", function () {
+  if (this.isModified("name")) {
+    this.boutiqueSlug = generateSlug(this.name);
+  }
+  // next();
+});
+
+module.exports = mongoose.model("Boutique", boutiqueSchema);
+</file>
+
+<file path="src/modules/boutiques/Boutique.routes.js">
+const express = require("express");
+const router = express.Router();
+
+const { checkToken } = require("../../middlewares/auth.middleware");
+const { checkRole } = require("../../middlewares/role.middleware");
+
+const BoutiqueController = require("./Boutique.controller");
+
+// ADMIN ONLY
+router.post("/", checkToken, checkRole("admin"), BoutiqueController.createBoutique);
+router.get("/", checkToken, checkRole("admin"), BoutiqueController.getAllBoutiques);
+router.get("/:id", checkToken, checkRole("admin"), BoutiqueController.getBoutiqueById);
+router.put("/:id", checkToken, checkRole("admin"), BoutiqueController.updateBoutique);
+router.delete("/:id", checkToken, checkRole("admin"), BoutiqueController.deleteBoutique);
+
+module.exports = router;
+</file>
+
+<file path="src/modules/boutiques/Boutique.service.js">
+const Boutique = require("./Boutique.model");
+const AppError = require("../../utils/AppError");
+const Utils = require("../../utils/Utils");
+const mongoose = require("mongoose");
+
+
+
+const createBoutique = async (data) => {
+  if (!data.name || !data.categorieId || !data.ownerId) {
+    throw new AppError("name, categorieId and ownerId are required", 400);
+  }
+
+  const existing = await Boutique.findOne({ name: data.name });
+  if (existing) {
+    throw new AppError("Boutique with same name already exists", 409);
+  }
+  const boutique = await Boutique.create({ data });
+
+  return boutique;
+};
+
+const getAllBoutiques = async (filters = {}) => {
+  return await Boutique.find(filters)
+    .populate("categorieId", "nom")
+    .populate("ownerId", "email")
+    .populate("boxIds")
+    .sort({ createdAt: -1 });
+};
+
+
+const getBoutiqueById = async (id) => {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new AppError("Invalid Boutique ID", 400);
+  }
+
+  const boutique = await Boutique.findById(id)
+    .populate("categorieId", "nom")
+    .populate("ownerId", "email")
+    .populate("boxIds");
+
+  if (!boutique) {
+    throw new AppError("Boutique not found", 404);
+  }
+
+  return boutique;
+};
+
+
+const updateBoutique = async (id, data) => {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new AppError("Invalid Boutique ID", 400);
+  }
+
+  if (data.name) {
+    data.boutiqueSlug = Utils.generateSlug(data.name);
+  }
+
+  const boutique = await Boutique.findByIdAndUpdate(id, data, {
+    new: true,
+    runValidators: true
+  });
+
+  if (!boutique) {
+    throw new AppError("Boutique not found", 404);
+  }
+
+  return boutique;
+};
+
+
+const deleteBoutique = async (id) => {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new AppError("Invalid Boutique ID", 400);
+  }
+
+  const boutique = await Boutique.findByIdAndDelete(id);
+
+  if (!boutique) {
+    throw new AppError("Boutique not found", 404);
+  }
+
+  return boutique;
+};
+
+module.exports = {
+  createBoutique,
+  getAllBoutiques,
+  getBoutiqueById,
+  updateBoutique,
+  deleteBoutique
+};
+</file>
+
+<file path="src/modules/categories/Category.controller.js">
+const Categorie = require("./Category.model");
+const CategorieService = require("./Category.service");
+const AppError = require('../../utils/AppError');
+
+exports.createCategorie = async (req, res,next ) => {
+    try {
+        const { nom, iconClass } = req.body;
+        const categorie = await CategorieService.createCategorie(nom, iconClass);
+        res.status(201).json(categorie);
+    } catch (error) {
+        next(error);
+    };
+};
+
+exports.getAllCategories = async (req, res,next ) => {
+    try {
+        const categories = await CategorieService.getAllCategories();
+        res.status(200).json(categories);
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getCategory = async (req, res,next ) => {
+    try {
+        const categorie = await CategorieService.getCategorieByName(req.params.nom);
+        res.status(200).json(categorie);
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.updateCategory= async (req, res,next ) => {
+    try {
+        const { nom, iconClass } = req.body;
+        console.log("Category.controller.updateCategory : nom body = ", nom,"new nom(param) =",req.params.nom,"  icon : " ,iconClass);
+        const categorie = await CategorieService.updateCategorieByName(req.params.nom, nom ,iconClass);
+        res.status(200).json(categorie);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// DELETE
+exports.deleteCategory= async (req, res,next ) => {
+    try {
+        const categorie = await CategorieService.deleteCategorieByName(req.params.nom);
+
+        if (!categorie) {
+            throw new AppError("Categorie not found", 404);
+        }
+
+        res.status(200).json({ message: "Categorie deleted successfully" });
+    } catch (error) {
+        next(error);
+    }
+};
+</file>
+
+<file path="src/modules/categories/Category.model.js">
+const mongoose = require("mongoose");
+
+const categorieSchema = new mongoose.Schema(
+  {
+    nom: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    iconClass: {
+      type: String,
+      required: true,
+      unique: true
+    }
+  },
+  {
+    timestamps: { createdAt: true, updatedAt: false }
+  }
+);
+
+categorieSchema.index({ nom: 1 }, { unique: true });
+module.exports = mongoose.model("Categorie", categorieSchema);
+</file>
+
+<file path="src/modules/categories/Category.routes.js">
+const express = require("express");
+const router = express.Router();
+const { checkToken } = require('../../middlewares/auth.middleware');
+const { checkRole } = require('../../middlewares/role.middleware');
+
+const categorieController = require("./Category.controller");
+
+router.post("/",checkToken,checkRole('admin'), categorieController.createCategorie);
+router.get("/",checkToken,checkRole('admin'), categorieController.getAllCategories);
+router.get("/:nom",checkToken,checkRole('admin'), categorieController.getCategory);
+router.put("/:nom",checkToken,checkRole('admin'), categorieController.updateCategory);
+router.delete("/:nom",checkToken,checkRole('admin'), categorieController.deleteCategory);
+
+module.exports = router;
+</file>
+
+<file path="src/modules/categories/Category.service.js">
+const Categorie = require("./Category.model");
+const AppError = require('../../utils/AppError');
+const logger = require('../../utils/logger')
+
+
+exports.createCategorie = async (nom, iconClass) => {
+    try {
+        if (!nom || !iconClass) {
+            throw new AppError("Category.service.createCategorie : nom and iconClass are required", 400);
+        }
+        const existing = await Categorie.findOne({ nom });
+        if (existing) {
+            throw new AppError("Category.service.createCategorie : Categorie already exists", 409);
+        }
+        const categorie = await Categorie.create({ nom, iconClass });
+        logger.info("Category.service.createCategorie : Categorie created:", categorie);
+        return categorie;
+    } catch (error) {
+        logger.error("Category.service.createCategorie : Error creating categorie:", error.message);
+        throw error;
+    }
+};
+
+exports.getAllCategories = async () => {
+    try {
+        const categories = await Categorie.find().sort({ nom: 1 });
+        return categories;
+
+    } catch (error) {
+        logger.error("Category.service.getAllCategories : Error getting all categories:", error.message);
+        throw error;
+    }
+};
+
+exports.getCategorieByName = async (name) => {
+    try {
+        const categorie = await Categorie.findOne({ nom: name });
+        if (!categorie) {
+            throw new AppError("Category.service.getCategorieByName : Categorie not found", 404);
+        }
+        return categorie;
+    } catch (error) {
+        logger.error("Category.service.getCategorieByName : ", error.message)
+        throw error;
+    }
+};
+
+exports.updateCategorieById = async (nom, iconClass, id) => {
+    try {
+
+        const categorie = await Categorie.findByIdAndUpdate(
+            id,
+            { nom, iconClass },
+            { new: true, runValidators: true }
+        );
+
+        if (!categorie) {
+            throw new AppError("Category.service.updateCategorieById : Categorie not found", 404);
+        }
+
+        return categorie;
+    } catch (error) {
+        logger.error("Category.service.updateCategorie : ", error.message);
+        throw error;
+    }
+};
+exports.updateCategorieByName = async (nom, newNom, iconClass) => {
+    try {
+        const categorie = await Categorie.findOneAndUpdate(
+            { nom },
+            { nom: newNom, iconClass },
+            { new: true, runValidators: true }
+        );
+
+        if (!categorie) {
+            throw new AppError("Category.service.updateCategorieByName : Categorie name or icon not found", 404);
+        }
+
+        return categorie;
+
+    } catch (error) {
+        logger.error("Category.service.updateCategorieByName : ", error.message);
+        throw error;
+    }
+};
+
+exports.deleteCategorieById = async (id) => {
+    try {
+        const categorie = await Categorie.findByIdAndDelete(id);
+
+        if (!categorie) {
+            throw new AppError("Category.service.deleteCategorieById : Categorie not found", 404);
+        }
+
+        logger.info("Category.service.deleteCategorieById :  Categorie deleted successfully");
+    } catch (error) {
+        logger.error("Category.service.deleteCategorieById : Invalid ID", error.message);
+        throw error;
+    }
+};
+exports.deleteCategorieByName = async (nom) => {
+    try {
+        const categorie = await Categorie.findOneAndDelete({ nom });
+
+        if (!categorie) {
+            throw new AppError(
+                "Category.service.deleteCategorieByName : Categorie not found", 404);
+        }
+        logger.info("Category.service.deleteCategorieByName : Categorie deleted successfully");
+    } catch (error) {
+        logger.error("Category.service.deleteCategorieByName : ", error.message);
+        throw error;
+    }
+};
+</file>
+
+<file path="src/modules/centre_commercial/CentreCommercial.model.js">
+const mongoose = require("mongoose");
+
+const centreCommercialSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+            unique: true,
+            trim: true
+        },
+
+        cmSlug: {
+            type: String,
+            unique: true,
+            lowercase: true,
+            index: true
+        },
+
+        description: {
+            type: String
+        },
+
+        address: {
+            country: {
+                type: String,
+                default: "Madagascar"
+            },
+            city: String,
+            lot: String,
+        },
+
+        contact: {
+            phone: String,
+            email: String,
+            website: String
+        },
+
+        socialLinks: {
+            facebook: String,
+            instagram: String,
+            tiktok: String
+        },
+
+        configuration: {
+            max_promo_per_boutique: {
+                type: Number,
+                default: 3
+            },
+
+            min_promo_duration_in_days: {
+                type: Number,
+                default: 2
+            },
+
+            max_promo_duration_in_days: {
+                type: Number,
+                default: 30
+            }
+        },
+
+        status: {
+            type: String,
+            enum: ["ACTIVE", "INACTIVE"],
+            default: "ACTIVE"
+        }
+    },
+    { timestamps: true }
+);
+
+module.exports = mongoose.model("CentreCommercial", centreCommercialSchema);
+</file>
+
+<file path="src/modules/produits/Produit.model.js">
+const mongoose = require("mongoose");
+
+const produitSchema = new mongoose.Schema(
+  {
+    boutiqueId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Boutique",
+      required: true,
+      index: true
+    },
+
+    name: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    productSlug: {
+      type: String,
+      required: true,
+      lowercase: true,
+      index: true
+    },
+
+    description: String,
+
+    prix: {
+      type: Number,
+      required: true
+    },
+
+    images: [String],
+
+    statut: {
+      type: String,
+      enum: ["AVAILABLE", "SOLD_OUT", "INACTIVE"],
+      default: "AVAILABLE",
+      index: true
+    }
+  },
+  { timestamps: true }
+);
+
+produitSchema.index({ boutiqueId: 1, productSlug: 1 }, { unique: true });
+
+module.exports = mongoose.model("Produit", produitSchema);
+</file>
+
+<file path="src/modules/refreshToken/RefreshToken.model.js">
+const mongoose = require('mongoose');
+
+const refreshTokenSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  token: {
+    type: String,
+    required: true
+  },
+  expiresAt: {
+    type: Date,
+    required: true
+  }
+}, {
+  timestamps: true
+});
+
+// Time To Live index sur le champs expiresAt → suppression auto
+refreshTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+
+module.exports = mongoose.model('RefreshToken', refreshTokenSchema);
+</file>
+
+<file path="src/modules/spatial/historiques_Box/HistoriqueBox.model.js">
+const mongoose = require("mongoose");
+
+const historiqueBoxSchema = new mongoose.Schema({
+    boxId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Box",
+        required: true,
+        index: true
+    },
+
+    ancienStatut: {
+        type: String,
+        enum: ["AVAILABLE", "PENDING", "OCCUPIED"],
+        default: "AVAILABLE",
+        index: true
+    },
+
+    nouveauStatut: {
+        type: String,
+        enum: ["AVAILABLE", "PENDING", "OCCUPIED"],
+        default: "AVAILABLE",
+        index: true 
+    },
+
+    boutiqueId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Boutique"
+    },
+
+    changedAt: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+module.exports = mongoose.model("HistoriqueBox", historiqueBoxSchema);
+</file>
+
+<file path="src/modules/spatial/Box.model.js">
+const mongoose = require("mongoose");
+const logger = require('../../utils/logger')
+const AppError = require('../../utils/AppError')
+
+const boxSchema = new mongoose.Schema(
+  {
+    etage: {
+      type: Number,
+      required: true,
+    },
+
+    bloc: {
+      type: String,
+      required: [true, "Bloc(theme) is required"],
+      trim: true,
+      uppercase: true
+    },
+
+    numero: {
+      type: Number,
+      required: true
+    },
+
+    status: {
+      type: String,
+      enum: ["AVAILABLE", "PENDING", "OCCUPIED"],
+      default: "AVAILABLE",
+      index: true
+    },
+
+    boutiqueId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Boutique",
+      default: null
+    },
+
+    centreCommercialId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CentreCommercial",
+      required: true,
+      index: true
+    },
+    dimension: {
+      length: { type: Number, required: false },
+      width: { type: Number, required: false },
+      height: { type: Number, required: false }
+    },
+    vanillaImageUrl: {
+      type: String, required: false
+    },
+  },
+  { timestamps: true }
+);
+
+boxSchema.index(
+  { centreCommercialId: 1, etage: 1, bloc: 1, numero: 1 },
+  { unique: true }
+);
+
+boxSchema.pre("save", function () {
+
+  if (this.status === "OCCUPIED" && !this.boutiqueId) {
+    throw new AppError("OCCUPIED box must have boutiqueId", 400);
+  }
+
+  if (this.status === "AVAILABLE") {
+    this.boutiqueId = null;
+  }
+
+});
+
+// boxSchema.pre("save", async function (next) {
+//   try{
+
+//     if (this.status === "OCCUPIED" && !this.boutiqueId) {
+//       throw new AppError("OCCUPIED box must have boutiqueId");
+//     }
+
+//     if (this.status === "AVAILABLE") {
+//       this.boutiqueId = null;
+//     }
+//   } catch (error) {
+//     logger.error("Error in Box pre-save hook:", {
+//       message: error.message,
+//       stack: error.stack,
+//       boxData: this.toObject()
+//     });
+//     throw error;
+//   }
+// });
+
+module.exports = mongoose.model("Box", boxSchema);
 </file>
 
 <file path="src/utils/AppError.js">
@@ -254,7 +1280,127 @@ class AppError extends Error {
 module.exports = AppError;
 </file>
 
+<file path="src/utils/logger.js">
+const fs = require('fs');
+const path = require('path');
+const winston = require('winston');
+
+// Création dossier logs si absent
+const logDir = path.join(__dirname, '../logs');
+if (!fs.existsSync(logDir)) {
+  fs.mkdirSync(logDir);
+}
+
+const logger = winston.createLogger({
+  level: 'info',
+
+  format: winston.format.combine(
+    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    winston.format.errors({ stack: true }),
+    winston.format.printf(({ timestamp, level, message, stack }) => {
+      return stack
+        ? `[${timestamp}] ${level.toUpperCase()} : ${message}\n${stack}`
+        : `[${timestamp}] ${level.toUpperCase()} : ${message}`;
+    })
+  ),
+
+  transports: [
+    // Log général
+    new winston.transports.File({
+      filename: path.join(logDir, 'logger.log'),
+      level: 'info'
+    }),
+
+    // Log erreurs uniquement
+    new winston.transports.File({
+      filename: path.join(logDir, 'error.log'),
+      level: 'error'
+    })
+  ]
+});
+
+// Console en dev
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(
+    new winston.transports.Console({
+      format: winston.format.simple()
+    })
+  );
+}
+
+module.exports = logger;
+</file>
+
+<file path="README.md">
+# m1p13mean-mirenty-mirado-back-express
+web application de centre commercial partie backend developper avec Express js par 1890 et 1786
+</file>
+
+<file path="src/config/DataBase.js">
+const mongoose = require('mongoose');
+const logger = require('../utils/logger')
+const connectDB = async () => {
+    try {
+        const { MONGODB_URL } = process.env;
+
+        if (!MONGODB_URL) {
+            throw new Error("MONGODB_URL is not defined in environment variables");
+        }
+
+        await mongoose.connect(MONGODB_URL, {
+            autoIndex: true,
+            maxPoolSize: 10,
+        });
+        
+        logger.info("MongoDB connected successfully");
+        // console.log("host :",mongoose.connection.host);
+        // console.log("name :",mongoose.connection.name);
+
+        // Connection events
+        mongoose.connection.on("error", (err) => {
+            console.error("MongoDB connection error:", err);
+        });
+
+        mongoose.connection.on("disconnected", () => {
+            console.warn("MongoDB disconnected");
+        });
+
+        // Optional: Graceful shutdown
+        process.on("SIGINT", async () => {
+            await mongoose.connection.close();
+            logger.info("MongoDB connection closed due to app termination");
+            process.exit(0);
+        });
+
+    } catch (error) {
+        console.error("MongoDB initial connection failed:", error.message);
+        process.exit(1);
+    }
+};
+
+module.exports = connectDB;
+</file>
+
+<file path="src/modules/users/User.routes.js">
+const express = require('express');
+const router = express.Router();
+const logger = require('../../utils/logger')
+
+const controller = require('./User.controller');
+const { checkToken } = require('../../middlewares/auth.middleware');
+const { checkRole } = require('../../middlewares/role.middleware');
+
+router.post('/', checkToken, checkRole('admin'), controller.createUser);
+router.get('/', checkToken, checkRole('admin'), controller.getUsers);
+router.put('/:id', checkToken, checkRole('admin'), controller.updateUser);
+router.patch('/:id/disable', checkToken, checkRole('admin'), controller.disableUser);
+
+module.exports = router;
+</file>
+
 <file path="src/utils/Utils.js">
+const logger = require('./logger')
+
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
 
@@ -287,54 +1433,52 @@ const errorHandler = (server, port) => (error) => {
       throw error;
   }
 };
+const fs = require('fs/promises');
+const path = require("path");
+
+function formatTimestamp(timestamp) {
+  const date = new Date(timestamp);
+
+  const ss = String(date.getSeconds()).padStart(2, '0');
+  const mm = String(date.getMinutes()).padStart(2, '0');
+  const hh = String(date.getHours()).padStart(2, '0');
+  const jj = String(date.getDate()).padStart(2, '0');
+  const MM = String(date.getMonth() + 1).padStart(2, '0'); // +1 car 0-11
+  const YY = String(date.getFullYear()).slice(-2);
+
+  return `${jj}-${MM}-${YY}_${hh}h-${mm}m-${ss}s`;
+}
+
+
+async function writeJsonFile(dirPath, filename, fileExtension, ObjectData) {
+  try {
+    let fileExtensionWithDot = fileExtension.startsWith('.') ? fileExtension : `.${fileExtension}`;
+    const fullPath = path.join(dirPath, filename + fileExtensionWithDot);
+    await fs.writeFile(
+      fullPath,
+      JSON.stringify(ObjectData, null, 2),
+      'utf8'
+    );
+    logger.info('Fichier écrit avec succès');
+  } catch (error) {
+    logger.error('Erreur :', error);
+  }
+}
+const generateSlug = (text) => {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-");
+};
 
 module.exports = {
   normalizePort,
   errorHandler,
+  writeJsonFile,
+  formatTimestamp,
+  generateSlug
 };
-</file>
-
-<file path="README.md">
-# m1p13mean-mirenty-mirado-back-express
-web application de centre commercial partie backend developper avec Express js par 1890 et 1786
-</file>
-
-<file path="src/middlewares/role.middleware.js">
-const ApiError = require("../utils/ApiError");
-
-/**
- * Middleware d'autorisation par rôle
- * Usage : role("admin") ou role("admin","proprietaire")
- */
-const checkRole = (...allowedRoles) => {
-  return (req, res, next) => {
-    if (!req.user) {
-      return next(new ApiError(401, "Unauthorized"));
-    }
-
-    if (!allowedRoles.includes(req.user.role)) {
-      return next(new ApiError(403, "Forbidden"));
-    }
-
-    next();
-  };
-};
-
-module.exports = { checkRole };
-</file>
-
-<file path="src/utils/ApiError.js">
-class ApiError extends Error {
-  constructor(statusCode, message) {
-    super(message);
-    this.status = statusCode;
-    this.statusCode = statusCode;
-
-    Error.captureStackTrace(this, this.constructor);
-  }
-}
-
-module.exports = ApiError;
 </file>
 
 <file path=".gitignore">
@@ -343,360 +1487,70 @@ node_modules/
 .history/
 </file>
 
-<file path="src/middlewares/auth.middleware.js">
-const jwt = require("jsonwebtoken");
-const ApiError = require("../utils/ApiError");
-const checkToken = (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
+<file path="src/modules/users/User.controller.js">
+const service = require('./User.service');
+const logger = require('../../utils/logger')
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      throw new ApiError(401, "Token not provided");
+exports.createUser = async (req, res, next) => {
+  try {
+    const user = await service.createUser(req.body);
+    res.status(201).json({ message: "User created", user });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await service.getUsers();
+    res.json({message: "Users fetched", users});
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateUser = async (req, res, next) => {
+  try {
+    const user = await service.updateUser(req.params.id, req.body);
+    res.json({message: "User updated", user});
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.disableUser = async (req, res, next) => {
+  try {
+    const user = await service.disableUser(req.params.id);
+    res.json({message: "User disabled", user});
+  } catch (error) {
+    next(error);
+  }
+};
+</file>
+
+<file path="src/middlewares/role.middleware.js">
+const AppError = require("../utils/AppError");
+const logger = require('../utils/logger')
+/**
+ * Middleware d'autorisation par rôle
+ * Usage : role("admin") ou role("admin","proprietaire")
+ * 
+ */
+
+const checkRole = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return next(new AppError("Unauthorized",401));
     }
 
-    const token = authHeader.substring(7);
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET, {
-      algorithms: ["HS256"],
-    });
-
-    // Normalisation des données attachées à la requête
-    req.user = {
-      id: decoded.userId,
-      role: decoded.role,
-      email: decoded.email,
-    };
-
+    if (!allowedRoles.includes(req.user.role)) {
+      return next(new AppError(`Forbidden : your role ${req.user.role} doesn't permit this operation`,403));
+    }
     next();
-
-  } catch (error) {
-    if (error.name === "TokenExpiredError") {
-      return next(new ApiError(401, "Token expired"));
-    }
-
-    return next(new ApiError(401, "Invalid token"));
-  }
+  };
 };
 
-module.exports = { checkToken };
-</file>
-
-<file path="src/modules/auth/auth.controller.js">
-const { loginUser } = require('./auth.service');
-const bcrypt = require('bcrypt');
-const User = require('../users/User.model');
-
-exports.login = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-    console.log("BODY RECEIVED:", req.body);
-
-    if (!email || !password) {
-      return res.status(400).json({ message: "Missing credentials" });
-      // next(error);
-    }
-
-    const result = await loginUser(email, password);
-
-    res.json({
-      message: "Login successful",
-      ...result
-    });
-
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.signup = async (req, res, next) => {
-  try {
-    const hash = await bcrypt.hash(req.body.password, 10);
-
-    const user = new User({
-      email: req.body.email,
-      password: hash,
-    });
-
-    await user.save();
-
-    return res.status(201).json({
-      message: "utilisateur cree",
-    });
-
-  } catch (error) {
-    next(error);
-  }
-};
-</file>
-
-<file path="src/modules/auth/auth.routes.js">
-const express = require('express');
-const router = express.Router();
-const { login,signup } = require('./auth.controller');
-
-// Route login
-router.post('/login', login);
-router.post('/signup', signup);
-
-module.exports = router;
-</file>
-
-<file path="src/modules/auth/auth.service.js">
-const User = require('../users/User.model');
-const jwt = require('jsonwebtoken');
-
-const loginUser = async (email, password) => {
-
-  const user = await User.findOne({ email })
-    .select('+password');
-
-  // console.log("\n");
-  // console.log("Password in DB:", user.password);
-  // console.log("Password received:", password);
-  // console.log("\n");
-  
-  if (!user) {
-    const error = new Error("Invalid credentials");
-    error.status = 401;
-    throw error;
-  }
-
-  if (user.status === 'desactive') {
-    const error = new Error("Account disabled");
-    error.status = 403;
-    throw error;
-  }
-
-  const isMatch = await user.comparePassword(password);
-  console.log("Password match:", isMatch); // Debug log
-
-  if (!isMatch) {
-    const error = new Error("Invalid credentials");
-    error.status = 401;
-    throw error;
-  }
-
-  const token = jwt.sign(
-    { userId: user._id, role: user.role, email: user.email },
-    process.env.JWT_SECRET,
-    { expiresIn: '24h' }
-  );
-
-  return {
-    token,
-    user: {
-      id: user._id,
-      role: user.role,
-      email: user.email
-    }
-  }
-
-};
-
-module.exports = { loginUser };
-</file>
-
-<file path="src/modules/users/User.model.js">
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-
-const userSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      // required: [true, 'Name is required'],
-      unique: true,
-      trim: true,
-      lowercase: true,
-      minlength: 2
-    },
-    email: {
-      type: String,
-      required: [true, 'Email is required'],
-      unique: true,
-      trim: true,
-      lowercase: true,
-      minlength: 2
-    },
-    phone_number: {
-      type: Number,
-      // required: [true, 'Contact is required'],
-      unique: true,
-      trim: true,
-      minlength: 10
-    },
-
-    password: {
-      type: String,
-      required: [true, 'Password is required'],
-      minlength: 6,
-      select: false
-    },
-
-    role: {
-      type: String,
-      enum: ['admin', 'owner', 'customer'],
-      default: 'customer'
-    },
-
-    status: {
-      type: String,
-      enum: ['active', 'inactive'],
-      default: 'active'
-    },
-    deactivation_reason: {
-      type: String,
-      minlength: 10
-
-    }
-  },
-  {
-    timestamps: true
-  }
-);
-
-//  Hash password before save
-userSchema.pre('save', async function () {
-  try {
-    if (!this.isModified('password')) return;
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-  } catch (error) {
-    throw new Error('Password hashing failed');
-  }
-});
-
-
-userSchema.methods.comparePassword = async function (candidatePassword) {
-  if (!this.password) {
-    throw new Error('Password not loaded for comparison');
-  }
-  console.log("\n");
-  console.log("Comparing passwords...");
-  console.log("Candidate Password:", candidatePassword);
-  console.log("Stored Hashed Password:", this.password);
-  console.log("comparaison : ", await bcrypt.compare(candidatePassword, this.password));
-  console.log("\n");
-
-  console.log("\n");
-
-  return bcrypt.compare(candidatePassword, this.password);
-};
-
-
-
-module.exports = mongoose.model('User', userSchema);
-</file>
-
-<file path="src/modules/users/User.service.js">
-const User = require('./User.model');
-const AppError = require('../../utils/AppError');
-
-const createUser = async (data) => {
-  try {
-    const user = await User.create(data);
-    const obj = user.toObject();
-    delete obj.password;
-    return obj;
-  } catch (error) {
-    if (error.code === 11000) {
-      const e = new Error('Contact already exists');
-      e.status = 400;
-      throw e;
-    }
-
-    if (error.name === 'ValidationError') {
-      const e = new Error(Object.values(error.errors).map(err => err.message).join(', '));
-      e.status = 400;
-      throw e;
-    }
-
-    throw error;
-  }
-};
-
-
-const getUsers = async () => {
-  try {
-    return await User.find().select('-password');
-  } catch (error) {
-    const e = new Error('Failed to fetch users');
-    e.status = 500;
-    throw e;
-  }
-};
-
-
-
-
-const updateUser = async (id, data) => {
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new AppError('Invalid user ID', 400);
-  }
-
-  if (data.password) {
-    throw new AppError('Use dedicated route to update password', 400);
-  }
-
-  const user = await User.findByIdAndUpdate(id, data, {
-    new: true,
-    runValidators: true
-  }).select('-password');
-
-  if (!user) {
-    throw new AppError('User not found', 404);
-  }
-
-  return user;
-};
-
-
-const disableUser = async (id) => {
-  return User.findByIdAndUpdate(id,
-    { status: 'desactive' },
-    { new: true }
-  ).select('-password');
-};
-
-module.exports = {
-  createUser,
-  getUsers,
-  updateUser,
-  disableUser
-};
-</file>
-
-<file path="src/app.js">
-const express = require("express");
-const app = express();
-const routes = require('./routes');
-const errorHandler = require('./middlewares/error.middleware');
-
-
-app.use(express.json());
-app.use('/palamyre/', routes); // Préfixe global pour l'API
-app.use(errorHandler);
-
-module.exports = app; // On exporte l'app pour server.js
-</file>
-
-<file path="src/routes.js">
-const express = require('express');
-const router = express.Router();
-
-// Import des routes modules
-// const authMiddleware = require('./middlewares/auth.middleware');
-
-const authRoutes = require('./modules/auth/auth.routes');
-const userRoutes = require('./modules/users/User.routes');
-
-// Montage des sous-routes
-// router.use(authMiddleware.checkToken); 
-router.use('/auth', authRoutes);
-router.use('/users', userRoutes);
-
-module.exports = router;
+module.exports = { checkRole };
 </file>
 
 <file path="src/server.js">
@@ -705,6 +1559,8 @@ const http = require('http');
 const app = require('./app');
 const Utils = require('./utils/Utils');
 const connectDB = require('./config/DataBase');
+const logger = require('./utils/logger')
+
 
 const port = Utils.normalizePort(process.env.PORT || '3000');
 app.set('port', port);
@@ -725,7 +1581,7 @@ if (!process.env.JWT_SECRET) {
         typeof address === 'string'
           ? 'pipe ' + address
           : 'port ' + port;
-      console.log('Listening on ' + bind);
+      logger.info('Listening on ' + bind);
     });
     server.listen(port);
 
@@ -765,7 +1621,8 @@ if (!process.env.JWT_SECRET) {
     "jsonwebtoken": "^9.0.3",
     "mongodb": "^7.0.0",
     "mongoose": "^9.1.6",
-    "multer": "^2.0.2"
+    "multer": "^2.0.2",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
@@ -773,8 +1630,507 @@ if (!process.env.JWT_SECRET) {
 }
 </file>
 
+<file path="src/middlewares/auth.middleware.js">
+const jwt = require("jsonwebtoken");
+const AppError = require("../utils/AppError");
+const logger = require('../utils/logger')
+
+const checkToken = (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      throw new AppError("Token not provided", 401);
+    }
+
+    const token = authHeader.substring(7);
+
+    //throw une erreur si la fonction jwt.verify() detecte un token invalide ou expiré
+    const decoded = jwt.verify(token, process.env.JWT_SECRET, {
+      algorithms: ["HS256"],
+    });
+
+    // Normalisation des données attachées à la requête
+    if (process.env.NODE_ENV === 'development') {
+      //ressource garder dans le frontend en production 
+      req.user = {
+        role: decoded.role,
+        email: decoded.email,
+      };
+
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { checkToken };
+</file>
+
+<file path="src/modules/auth/auth.controller.js">
+const bcrypt = require('bcrypt');
+const User = require('../users/User.model');
+const { loginUser, createToken, generateTokens } = require('./auth.service');
+const AppError = require('../../utils/AppError');
+const logger = require('../../utils/logger');
+
+exports.signup = async (req, res, next) => {
+  try {
+    const user = new User({
+      email: req.body.email,
+      password: req.body.password,
+    });
+
+    await user.save();
+
+    return res.status(201).json({
+      message: "utilisateur cree",
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.refresh = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+      throw new AppError("Missing refresh token", 400);
+    }
+
+    const stored = await RefreshToken.findOne({ token: refreshToken });
+
+    if (!stored) {
+      throw new AppError("Invalid refresh token", 401);
+    }
+    const decoded = jwt.verify(
+      refreshToken,
+      process.env.JWT_REFRESH_SECRET
+    );
+
+    const newAccessToken = createToken(
+      { _id: decoded.userId, role: decoded.role, email: decoded.email },
+      `${process.env.ACCES_TOKEN_DURATION_IN_MINUTES}m`,
+      process.env.JWT_SECRET
+    );
+    res.status(200).json({ message: "New access token generated", accessToken: newAccessToken });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    // logger.info("BODY RECEIVED:", req.body);
+
+    if (!email || !password) {
+      throw new AppError("Missing credentials", 400);
+    }
+
+    const result = await loginUser(email, password);
+
+    if (process.env.NODE_ENV === 'development') {
+      const { writeJsonFile,formatTimestamp } = require('../../utils/Utils');
+      let DirPath = '/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/Test/httpTest/loged_user_test/';
+      let filename = `${result.email}_${formatTimestamp(Date.now())}`;
+      await writeJsonFile(DirPath,filename,'.json',result);
+    }
+
+    res.json({
+      message: "Login successful",
+      ...result
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.logout = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.body;
+
+    await RefreshToken.deleteOne({ token: refreshToken });
+
+    res.json({ message: "Logout successful" });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.my_indentity = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      throw new AppError("wrong authorization type, token not provided", 401);
+    }
+    const token = authHeader.split(' ')[1];
+    if (!token) {
+      throw new AppError("Missing token", 401);
+    }
+    logger.info(`Token received for identity check: ${token}`);
+    
+    const whoAmI = require('./auth.service').whoAmI;
+    const result = await whoAmI(token);
+    res.status(200).json(result);
+    
+    
+  } catch (error) {
+    logger.error(`Token received for identity check: ${token}`);
+    next(error);
+  }
+};
+</file>
+
+<file path="src/modules/auth/auth.routes.js">
+const express = require('express');
+const router = express.Router();
+const logger = require('../../utils/logger')
+
+const { login,signup,refresh,logout,my_indentity } = require('./auth.controller');
+
+// Route login
+router.post('/login', login);
+router.post('/signup', signup);
+router.post('/refresh', refresh);
+router.post('/logout', logout);
+router.post('/me', my_indentity);
+
+module.exports = router;
+</file>
+
+<file path="src/modules/auth/auth.service.js">
+const jwt = require('jsonwebtoken');
+const RefreshToken = require('../refreshToken/RefreshToken.model');
+
+const User = require('../users/User.model');
+const AppError = require('../../utils/AppError');
+const logger = require('../../utils/logger')
+
+const createToken = (user, durationnString, secretKey) => {
+  return jwt.sign(
+    { userId: user._id, role: user.role, email: user.email },
+    secretKey,
+    { algorithm: "HS256", expiresIn: durationnString },
+    { expiresIn: durationnString }
+  );
+}
+
+
+const generateTokens = async (user, refreshTokenDurationInDays) => {
+
+  const accessToken = createToken(user, `${process.env.ACCES_TOKEN_DURATION_IN_MINUTES}m`, process.env.JWT_SECRET);
+  const refreshToken = createToken(user, `${refreshTokenDurationInDays}d`, process.env.JWT_REFRESH_SECRET);
+
+  await RefreshToken.create({
+    user: user._id,
+    token: refreshToken,
+    expiresAt: new Date(Date.now() + refreshTokenDurationInDays * 24 * 60 * 60 * 1000)
+  });
+  return { accessToken, refreshToken };
+};
+
+const loginUser = async (email, password) => {
+
+  const user = await User.findOne({ email })
+    .select('+password');
+
+  if (!user) {
+    const error = new AppError("Email or password incorrect", 401);
+    logger.info("User not found for email:", email); // email essayer
+    throw error;
+  }
+
+  if (user.status !== 'active') {
+    const error = new AppError("Account disabled", 403);
+    throw error;
+  }
+
+  const isMatch = await user.comparePassword(password);
+  logger.info("Password match:", isMatch); // Debug log
+
+  if (!isMatch) {
+    const error = new AppError('Email or password incorrect', 401);
+    throw error;
+  }
+
+  const { accessToken, refreshToken } = await generateTokens(user, process.env.REFRESH_TOKEN_DURATION_IN_DAYS);
+
+
+  return {
+    refreshToken: refreshToken,
+    accessToken: accessToken,
+    role: user.role,
+    email: user.email
+  }
+
+};
+
+const whoAmI = async (token) => {
+  logger.info("processing token validation for identity check inside the function whoAmI");
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const email = decoded.email;
+    const role = decoded.role;
+    return { email, role };
+
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      try {
+        const decodedRefresh = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+        const email = decodedRefresh.email;
+        const role = decodedRefresh.role;
+        return { email, role };
+      } catch (error) {
+        logger.error("Token verification failed:", error);
+        throw new AppError("Invalid token", 401);
+      }
+    }
+    logger.error("Token verification failed:", error);
+    throw new AppError("Invalid token", 401);
+  }
+};
+
+
+module.exports = {
+  loginUser,
+  generateTokens,
+  createToken,
+  whoAmI
+};
+</file>
+
+<file path="src/modules/users/User.model.js">
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const logger = require('../../utils/logger')
+const AppError = require('../../utils/AppError')
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      // required: [true, 'Name is required'],
+      unique: true,
+      trim: true,
+      lowercase: true,
+      minlength: 2
+    },
+    email: {
+      type: String,
+      required: [true, 'Email is required'],
+      unique: true,
+      trim: true,
+      lowercase: true,
+      minlength: 2
+    },
+    phone_number: {
+      type: String,
+      // required: [true, 'Contact is required'],
+      unique: true,
+      sparse: true,
+      trim: true,
+      minlength: 10
+    },
+
+    password: {
+      type: String,
+      required: [true, 'Password is required'],
+      minlength: 6,
+      select: false
+    },
+    passwordChangedAt: {
+      type: Date
+    },
+
+    role: {
+      type: String,
+      enum: ['admin', 'owner', 'customer'],
+      default: 'customer'
+    },
+
+    status: {
+      type: String,
+      enum: ['active', 'inactive'],
+      default: 'active'
+    },
+    deactivation_reason: {
+      type: String,
+      minlength: 10
+
+    }
+  },
+  {
+    timestamps: true
+  }
+);
+
+//  Hash password before save
+userSchema.pre('save', async function () {
+  try {
+    if (!this.isModified('password')) return;
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  } catch (error) {
+    logger.error('Password hashing failed', { error });
+    throw error
+  }
+});
+
+
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  try {
+
+    if (!this.password) {
+      throw new AppError('Password not loaded for comparison', 404);
+    }
+    // logger.info("\n");
+    // logger.info("Comparing passwords...");
+    // logger.info("Candidate Password:", candidatePassword);
+    // logger.info("Stored Hashed Password:", this.password);
+    // logger.info("comparaison : ", await bcrypt.compare(candidatePassword, this.password));
+    // logger.info("\n");
+    // logger.info("\n");
+
+    return bcrypt.compare(candidatePassword, this.password);
+  }
+  catch (error) {
+    logger.error('Error in comparePassword method', { error });
+    throw error;
+  }
+};
+
+
+
+module.exports = mongoose.model('User', userSchema);
+</file>
+
+<file path="src/modules/users/User.service.js">
+const User = require('./User.model');
+const AppError = require('../../utils/AppError');
+const mongoose = require('mongoose');
+const logger = require('../../utils/logger')
+
+const createUser = async (data) => {
+  try {
+    const user = await User.create(data);
+    const obj = user.toObject();
+    delete obj.password;
+    return obj;
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+const getUsers = async () => {
+  try {
+    return await User.find().select('-password');
+  } catch (error) {
+    const e = new AppError('Failed to fetch users');
+    e.status = 500;
+    throw e;
+  }
+};
+
+
+
+
+const updateUser = async (id, data) => {
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new AppError('Invalid user ID', 400);
+  }
+
+  if (data.password) {
+    throw new AppError('Use dedicated route to update password', 400);
+  }
+
+  const user = await User.findByIdAndUpdate(id, data, {
+    new: true,
+    runValidators: true
+  }).select('-password');
+
+  if (!user) {
+    throw new AppError('User not found', 404);
+  }
+
+  return user;
+};
+
+
+const disableUser = async (id) => {
+  return User.findByIdAndUpdate(id,
+    { status: 'Inactive' },
+    { new: true }
+  ).select('-password');
+};
+
+module.exports = {
+  createUser,
+  getUsers,
+  updateUser,
+  disableUser
+};
+</file>
+
+<file path="src/app.js">
+const express = require("express");
+const app = express();
+const routes = require('./routes');
+const errorHandler = require('./middlewares/error.middleware');
+const logger = require('./utils/logger')
+
+app.use(express.json());
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
+});
+
+app.use(`/${process.env.NOM_DU_CENTRE_COMMERCIAL}/`, routes); // Préfixe global pour l'API
+app.use(errorHandler);
+
+module.exports = app; // On exporte l'app pour server.js
+</file>
+
+<file path="src/routes.js">
+const express = require('express');
+const router = express.Router();
+const logger = require('./utils/logger')
+
+
+// Import des routes modules
+;
+
+const authRoutes = require('./modules/auth/auth.routes');
+const userRoutes = require('./modules/users/User.routes');
+const categoryRoutes = require('./modules/categories/Category.routes');
+const centreCommercialRoutes = require('./modules/centre_commercial/CentreCommercial.routes');
+const boxRoutes = require('./modules/spatial/Box.routes');
+const BoutiqueRoutes = require('./modules/boutiques/Boutique.routes');
+
+// Montage des sous-routes
+router.use('/auth', authRoutes);
+router.use('/users', userRoutes);
+router.use('/categories', categoryRoutes);
+router.use('/centres', centreCommercialRoutes);
+router.use('/boxes', boxRoutes);
+router.use('/boutiques', BoutiqueRoutes);
+
+module.exports = router;
+</file>
+
 <file path="src/middlewares/error.middleware.js">
 const AppError = require('../utils/AppError');
+const logger = require('../utils/logger')
 
 const errorMiddleware = (err, req, res, next) => {
 
@@ -828,6 +2184,12 @@ const errorMiddleware = (err, req, res, next) => {
       url: req.originalUrl,
       method: req.method,
     });
+    logger.error('UNEXPECTED ERROR:', {
+      message: error.message,
+      stack: error.stack,
+      url: req.originalUrl,
+      method: req.method,
+    });
 
     return res.status(500).json({
       status: 'error',
@@ -847,9 +2209,10 @@ const errorMiddleware = (err, req, res, next) => {
 
   const response = {
     status: 'fail',
-    message: `error middleware : ${err.message} `,
+    message: `error middleware : ${error.message} `,
   };
-
+  logger.error(`Operational error: ${error.message}`)
+  logger.error(`error stackTrace: ${error.stack}`)
   // En dev on expose plus d'infos
   // if (process.env.NODE_ENV === 'development') {
   //   response.stack = error.stack;
