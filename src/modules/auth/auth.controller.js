@@ -63,12 +63,12 @@ exports.login = async (req, res, next) => {
 
     const result = await loginUser(email, password);
 
-    if (process.env.NODE_ENV === 'development') {
-      const { writeJsonFile, formatTimestamp } = require('../../utils/Utils');
-      let DirPath = '/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/Test/httpTest/loged_user_test/';
-      let filename = `${result.email}_${formatTimestamp(Date.now())}`;
-      await writeJsonFile(DirPath, filename, '.json', result);
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    //   const { writeJsonFile, formatTimestamp } = require('../../utils/Utils');
+    //   let DirPath = '/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/Test/httpTest/loged_user_test/';
+    //   let filename = `${result.email}_${formatTimestamp(Date.now())}`;
+    //   await writeJsonFile(DirPath, filename, '.json', result);
+    // }
 
     res.json({
       message: "Login successful",

@@ -21,6 +21,7 @@ const checkToken = (req, res, next) => {
     if (process.env.NODE_ENV === 'development') {
       //ressource garder dans le frontend en production 
       req.user = {
+        accessToken: token,
         role: decoded.role,
         email: decoded.email,
       };
