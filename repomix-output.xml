@@ -32,7 +32,7 @@ The content is organized as follows:
 <notes>
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
 - Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
-- Files matching these patterns are excluded: src/loga
+- Files matching these patterns are excluded: src/logs
 - Files matching patterns in .gitignore are excluded
 - Files matching default ignore patterns are excluded
 - Files are sorted by Git change count (files with more changes are at the bottom)
@@ -104,6 +104,237 @@ README.md
 <files>
 This section contains the contents of the repository's files.
 
+<file path="src/modules/boutiques/demande_boutiques/DemandeBoutique.model.js">
+const mongoose = require("mongoose");
+
+const demandeBoutiqueSchema = new mongoose.Schema(
+  {
+    nomBoutique: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    description: {
+      type: String
+    },
+
+    categorieId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Categorie",
+      required: true,
+      index: true
+    },
+
+    ownerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      index: true
+    },
+    
+
+    contact: {
+      telephone: String,
+      emailBoutique: String
+    },
+
+    documents: {
+      rcsNumber: String,
+      nifNumber: String,
+      statNumber: String,
+      rcsFileUrl: String,
+      nifFileUrl: String,
+      statFileUrl: String
+    },
+
+    statut: {
+      type: String,
+      enum: ["PENDING", "ACCEPTED", "REJECTED"],
+      default: "PENDING",
+      index: true
+    },
+
+    commentaireAdmin: String
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("DemandeBoutique", demandeBoutiqueSchema);
+</file>
+
+<file path="src/modules/boutiques/demande_boutiques/DemandeBoutique.service.js">
+const User = require('../users/User.model');
+const AppError = require('../../utils/AppError');
+const logger = require('../../utils/logger')
+
+const createDemandeBoutique = async (userId, boutiqueData) => {
+
+};
+</file>
+
+<file path="src/modules/boutiques/stats_boutique/StatBoutique.model.js">
+const mongoose = require("mongoose");
+
+const statsBoutiqueSchema = new mongoose.Schema(
+  {
+    boutiqueId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Boutique",
+      required: true,
+      index: true
+    },
+
+    periodType: {
+      type: String,
+      enum: ["DAILY", "WEEKLY", "MONTHLY"],
+      required: true
+    },
+
+    periodStart: {
+      type: Date,
+      required: true
+    },
+
+    periodEnd: {
+      type: Date,
+      required: true
+    },
+
+    metrics: {
+      views: { type: Number, default: 0 },
+      clicks: { type: Number, default: 0 },
+      sales: { type: Number, default: 0 },
+      revenue: { type: Number, default: 0 }
+    }
+  },
+  { timestamps: true }
+);
+
+statsBoutiqueSchema.index(
+  { boutiqueId: 1, periodStart: 1 },
+  { unique: true }
+);
+
+module.exports = mongoose.model("StatsBoutique", statsBoutiqueSchema);
+</file>
+
+<file path="src/modules/categories/Category.service.js">
+const Categorie = require("./Category.model");
+const AppError = require('../../utils/AppError');
+const logger = require('../../utils/logger')
+
+
+exports.createCategorie = async (nom, iconClass) => {
+    try {
+        if (!nom || !iconClass) {
+            throw new AppError("Category.service.createCategorie : nom and iconClass are required", 400);
+        }
+        const existing = await Categorie.findOne({ nom });
+        if (existing) {
+            throw new AppError("Category.service.createCategorie : Categorie already exists", 409);
+        }
+        const categorie = await Categorie.create({ nom, iconClass });
+        logger.info("Category.service.createCategorie : Categorie created:", categorie);
+        return categorie;
+    } catch (error) {
+        logger.error("Category.service.createCategorie : Error creating categorie:", error.message);
+        throw error;
+    }
+};
+
+exports.getAllCategories = async () => {
+    try {
+        const categories = await Categorie.find().sort({ nom: 1 });
+        return categories;
+
+    } catch (error) {
+        logger.error("Category.service.getAllCategories : Error getting all categories:", error.message);
+        throw error;
+    }
+};
+
+exports.getCategorieByName = async (name) => {
+    try {
+        const categorie = await Categorie.findOne({ nom: name });
+        if (!categorie) {
+            throw new AppError("Category.service.getCategorieByName : Categorie not found", 404);
+        }
+        return categorie;
+    } catch (error) {
+        logger.error("Category.service.getCategorieByName : ", error.message)
+        throw error;
+    }
+};
+
+exports.updateCategorieById = async (nom, iconClass, id) => {
+    try {
+
+        const categorie = await Categorie.findByIdAndUpdate(
+            id,
+            { nom, iconClass },
+            { new: true, runValidators: true }
+        );
+
+        if (!categorie) {
+            throw new AppError("Category.service.updateCategorieById : Categorie not found", 404);
+        }
+
+        return categorie;
+    } catch (error) {
+        logger.error("Category.service.updateCategorie : ", error.message);
+        throw error;
+    }
+};
+exports.updateCategorieByName = async (nom, newNom, iconClass) => {
+    try {
+        const categorie = await Categorie.findOneAndUpdate(
+            { nom },
+            { nom: newNom, iconClass },
+            { new: true, runValidators: true }
+        );
+
+        if (!categorie) {
+            throw new AppError("Category.service.updateCategorieByName : Categorie name or icon not found", 404);
+        }
+
+        return categorie;
+
+    } catch (error) {
+        logger.error("Category.service.updateCategorieByName : ", error.message);
+        throw error;
+    }
+};
+
+exports.deleteCategorieById = async (id) => {
+    try {
+        const categorie = await Categorie.findByIdAndDelete(id);
+
+        if (!categorie) {
+            throw new AppError("Category.service.deleteCategorieById : Categorie not found", 404);
+        }
+
+        logger.info("Category.service.deleteCategorieById :  Categorie deleted successfully");
+    } catch (error) {
+        logger.error("Category.service.deleteCategorieById : Invalid ID", error.message);
+        throw error;
+    }
+};
+exports.deleteCategorieByName = async (nom) => {
+    try {
+        const categorie = await Categorie.findOneAndDelete({ nom });
+
+        if (!categorie) {
+            throw new AppError(
+                "Category.service.deleteCategorieByName : Categorie not found", 404);
+        }
+        logger.info("Category.service.deleteCategorieByName : Categorie deleted successfully");
+    } catch (error) {
+        logger.error("Category.service.deleteCategorieByName : ", error.message);
+        throw error;
+    }
+};
+</file>
+
 <file path="src/modules/centre_commercial/CentreCommercial.controller.js">
 const { createCentreCommercial } = require ("./CentreCommercial.service");
 
@@ -139,15 +370,7 @@ module.exports = router;
 const CentreCommercial = require("./CentreCommercial.model");
 const logger = require("../../utils/logger");
 const AppError = require("../../utils/AppError");
-
-// util simple pour slug
-const generateSlug = (text) => {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-");
-};
+const Utils = require("../../utils/Utils");
 
 const createCentreCommercial = async (data) => {
   try {
@@ -157,7 +380,7 @@ const createCentreCommercial = async (data) => {
     }
 
     // 2. Génération slug
-    const cmSlug = generateSlug(data.name);
+    const cmSlug = Utils.generateSlug(data.name);
 
     // 3. Vérifier unicité
     const existing = await CentreCommercial.findOne({
@@ -185,6 +408,72 @@ const createCentreCommercial = async (data) => {
 module.exports = {
   createCentreCommercial
 };
+</file>
+
+<file path="src/modules/refreshToken/RefreshToken.model.js">
+const mongoose = require('mongoose');
+
+const refreshTokenSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  token: {
+    type: String,
+    required: true
+  },
+  expiresAt: {
+    type: Date,
+    required: true
+  }
+}, {
+  timestamps: true
+});
+
+// Time To Live index sur le champs expiresAt → suppression auto
+refreshTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+
+module.exports = mongoose.model('RefreshToken', refreshTokenSchema);
+</file>
+
+<file path="src/modules/spatial/historiques_Box/HistoriqueBox.model.js">
+const mongoose = require("mongoose");
+
+const historiqueBoxSchema = new mongoose.Schema({
+    boxId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Box",
+        required: true,
+        index: true
+    },
+
+    ancienStatut: {
+        type: String,
+        enum: ["AVAILABLE", "PENDING", "OCCUPIED"],
+        default: "AVAILABLE",
+        index: true
+    },
+
+    nouveauStatut: {
+        type: String,
+        enum: ["AVAILABLE", "PENDING", "OCCUPIED"],
+        default: "AVAILABLE",
+        index: true 
+    },
+
+    boutiqueId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Boutique"
+    },
+
+    changedAt: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+module.exports = mongoose.model("HistoriqueBox", historiqueBoxSchema);
 </file>
 
 <file path="src/modules/spatial/Box.controller.js">
@@ -397,118 +686,118 @@ module.exports = {
 };
 </file>
 
-<file path="src/modules/boutiques/demande_boutiques/DemandeBoutique.model.js">
-const mongoose = require("mongoose");
+<file path="src/utils/AppError.js">
+class AppError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.status = statusCode;
+    this.isOperational = true;
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
 
-const demandeBoutiqueSchema = new mongoose.Schema(
-  {
-    nomBoutique: {
-      type: String,
-      required: true,
-      trim: true
-    },
-
-    description: {
-      type: String
-    },
-
-    categorieId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Categorie",
-      required: true,
-      index: true
-    },
-
-    ownerId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      index: true
-    },
-    
-
-    contact: {
-      telephone: String,
-      emailBoutique: String
-    },
-
-    documents: {
-      rcsNumber: String,
-      nifNumber: String,
-      statNumber: String,
-      rcsFileUrl: String,
-      nifFileUrl: String,
-      statFileUrl: String
-    },
-
-    statut: {
-      type: String,
-      enum: ["PENDING", "ACCEPTED", "REJECTED"],
-      default: "PENDING",
-      index: true
-    },
-
-    commentaireAdmin: String
-  },
-  { timestamps: true }
-);
-
-module.exports = mongoose.model("DemandeBoutique", demandeBoutiqueSchema);
+module.exports = AppError;
 </file>
 
-<file path="src/modules/boutiques/demande_boutiques/DemandeBoutique.service.js">
-const User = require('../users/User.model');
-const AppError = require('../../utils/AppError');
-const logger = require('../../utils/logger')
+<file path="src/utils/logger.js">
+const fs = require('fs');
+const path = require('path');
+const winston = require('winston');
 
-const createDemandeBoutique = async (userId, boutiqueData) => {
+// Création dossier logs si absent
+const logDir = path.join(__dirname, '../logs');
+if (!fs.existsSync(logDir)) {
+  fs.mkdirSync(logDir);
+}
 
-};
+const logger = winston.createLogger({
+  level: 'info',
+
+  format: winston.format.combine(
+    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    winston.format.errors({ stack: true }),
+    winston.format.printf(({ timestamp, level, message, stack }) => {
+      return stack
+        ? `[${timestamp}] ${level.toUpperCase()} : ${message}\n${stack}`
+        : `[${timestamp}] ${level.toUpperCase()} : ${message}`;
+    })
+  ),
+
+  transports: [
+    // Log général
+    new winston.transports.File({
+      filename: path.join(logDir, 'logger.log'),
+      level: 'info'
+    }),
+
+    // Log erreurs uniquement
+    new winston.transports.File({
+      filename: path.join(logDir, 'error.log'),
+      level: 'error'
+    })
+  ]
+});
+
+// Console en dev
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(
+    new winston.transports.Console({
+      format: winston.format.simple()
+    })
+  );
+}
+
+module.exports = logger;
 </file>
 
-<file path="src/modules/boutiques/stats_boutique/StatBoutique.model.js">
-const mongoose = require("mongoose");
+<file path="README.md">
+# m1p13mean-mirenty-mirado-back-express
+web application de centre commercial partie backend developper avec Express js par 1890 et 1786
+</file>
 
-const statsBoutiqueSchema = new mongoose.Schema(
-  {
-    boutiqueId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Boutique",
-      required: true,
-      index: true
-    },
+<file path="src/config/DataBase.js">
+const mongoose = require('mongoose');
+const logger = require('../utils/logger')
+const connectDB = async () => {
+    try {
+        const { MONGODB_URL } = process.env;
 
-    periodType: {
-      type: String,
-      enum: ["DAILY", "WEEKLY", "MONTHLY"],
-      required: true
-    },
+        if (!MONGODB_URL) {
+            throw new Error("MONGODB_URL is not defined in environment variables");
+        }
 
-    periodStart: {
-      type: Date,
-      required: true
-    },
+        await mongoose.connect(MONGODB_URL, {
+            autoIndex: true,
+            maxPoolSize: 10,
+        });
+        
+        logger.info("MongoDB connected successfully");
+        // console.log("host :",mongoose.connection.host);
+        // console.log("name :",mongoose.connection.name);
 
-    periodEnd: {
-      type: Date,
-      required: true
-    },
+        // Connection events
+        mongoose.connection.on("error", (err) => {
+            console.error("MongoDB connection error:", err);
+        });
 
-    metrics: {
-      views: { type: Number, default: 0 },
-      clicks: { type: Number, default: 0 },
-      sales: { type: Number, default: 0 },
-      revenue: { type: Number, default: 0 }
+        mongoose.connection.on("disconnected", () => {
+            console.warn("MongoDB disconnected");
+        });
+
+        // Optional: Graceful shutdown
+        process.on("SIGINT", async () => {
+            await mongoose.connection.close();
+            logger.info("MongoDB connection closed due to app termination");
+            process.exit(0);
+        });
+
+    } catch (error) {
+        console.error("MongoDB initial connection failed:", error.message);
+        process.exit(1);
     }
-  },
-  { timestamps: true }
-);
+};
 
-statsBoutiqueSchema.index(
-  { boutiqueId: 1, periodStart: 1 },
-  { unique: true }
-);
-
-module.exports = mongoose.model("StatsBoutique", statsBoutiqueSchema);
+module.exports = connectDB;
 </file>
 
 <file path="src/modules/boutiques/Boutique.controller.js">
@@ -688,7 +977,7 @@ const createBoutique = async (data) => {
   if (existing) {
     throw new AppError("Boutique with same name already exists", 409);
   }
-  const boutique = await Boutique.create({ data });
+  const boutique = await Boutique.create(data);
 
   return boutique;
 };
@@ -867,123 +1156,6 @@ router.delete("/:nom",checkToken,checkRole('admin'), categorieController.deleteC
 module.exports = router;
 </file>
 
-<file path="src/modules/categories/Category.service.js">
-const Categorie = require("./Category.model");
-const AppError = require('../../utils/AppError');
-const logger = require('../../utils/logger')
-
-
-exports.createCategorie = async (nom, iconClass) => {
-    try {
-        if (!nom || !iconClass) {
-            throw new AppError("Category.service.createCategorie : nom and iconClass are required", 400);
-        }
-        const existing = await Categorie.findOne({ nom });
-        if (existing) {
-            throw new AppError("Category.service.createCategorie : Categorie already exists", 409);
-        }
-        const categorie = await Categorie.create({ nom, iconClass });
-        logger.info("Category.service.createCategorie : Categorie created:", categorie);
-        return categorie;
-    } catch (error) {
-        logger.error("Category.service.createCategorie : Error creating categorie:", error.message);
-        throw error;
-    }
-};
-
-exports.getAllCategories = async () => {
-    try {
-        const categories = await Categorie.find().sort({ nom: 1 });
-        return categories;
-
-    } catch (error) {
-        logger.error("Category.service.getAllCategories : Error getting all categories:", error.message);
-        throw error;
-    }
-};
-
-exports.getCategorieByName = async (name) => {
-    try {
-        const categorie = await Categorie.findOne({ nom: name });
-        if (!categorie) {
-            throw new AppError("Category.service.getCategorieByName : Categorie not found", 404);
-        }
-        return categorie;
-    } catch (error) {
-        logger.error("Category.service.getCategorieByName : ", error.message)
-        throw error;
-    }
-};
-
-exports.updateCategorieById = async (nom, iconClass, id) => {
-    try {
-
-        const categorie = await Categorie.findByIdAndUpdate(
-            id,
-            { nom, iconClass },
-            { new: true, runValidators: true }
-        );
-
-        if (!categorie) {
-            throw new AppError("Category.service.updateCategorieById : Categorie not found", 404);
-        }
-
-        return categorie;
-    } catch (error) {
-        logger.error("Category.service.updateCategorie : ", error.message);
-        throw error;
-    }
-};
-exports.updateCategorieByName = async (nom, newNom, iconClass) => {
-    try {
-        const categorie = await Categorie.findOneAndUpdate(
-            { nom },
-            { nom: newNom, iconClass },
-            { new: true, runValidators: true }
-        );
-
-        if (!categorie) {
-            throw new AppError("Category.service.updateCategorieByName : Categorie name or icon not found", 404);
-        }
-
-        return categorie;
-
-    } catch (error) {
-        logger.error("Category.service.updateCategorieByName : ", error.message);
-        throw error;
-    }
-};
-
-exports.deleteCategorieById = async (id) => {
-    try {
-        const categorie = await Categorie.findByIdAndDelete(id);
-
-        if (!categorie) {
-            throw new AppError("Category.service.deleteCategorieById : Categorie not found", 404);
-        }
-
-        logger.info("Category.service.deleteCategorieById :  Categorie deleted successfully");
-    } catch (error) {
-        logger.error("Category.service.deleteCategorieById : Invalid ID", error.message);
-        throw error;
-    }
-};
-exports.deleteCategorieByName = async (nom) => {
-    try {
-        const categorie = await Categorie.findOneAndDelete({ nom });
-
-        if (!categorie) {
-            throw new AppError(
-                "Category.service.deleteCategorieByName : Categorie not found", 404);
-        }
-        logger.info("Category.service.deleteCategorieByName : Categorie deleted successfully");
-    } catch (error) {
-        logger.error("Category.service.deleteCategorieByName : ", error.message);
-        throw error;
-    }
-};
-</file>
-
 <file path="src/modules/centre_commercial/CentreCommercial.model.js">
 const mongoose = require("mongoose");
 
@@ -1106,72 +1278,6 @@ produitSchema.index({ boutiqueId: 1, productSlug: 1 }, { unique: true });
 module.exports = mongoose.model("Produit", produitSchema);
 </file>
 
-<file path="src/modules/refreshToken/RefreshToken.model.js">
-const mongoose = require('mongoose');
-
-const refreshTokenSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  token: {
-    type: String,
-    required: true
-  },
-  expiresAt: {
-    type: Date,
-    required: true
-  }
-}, {
-  timestamps: true
-});
-
-// Time To Live index sur le champs expiresAt → suppression auto
-refreshTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
-
-module.exports = mongoose.model('RefreshToken', refreshTokenSchema);
-</file>
-
-<file path="src/modules/spatial/historiques_Box/HistoriqueBox.model.js">
-const mongoose = require("mongoose");
-
-const historiqueBoxSchema = new mongoose.Schema({
-    boxId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Box",
-        required: true,
-        index: true
-    },
-
-    ancienStatut: {
-        type: String,
-        enum: ["AVAILABLE", "PENDING", "OCCUPIED"],
-        default: "AVAILABLE",
-        index: true
-    },
-
-    nouveauStatut: {
-        type: String,
-        enum: ["AVAILABLE", "PENDING", "OCCUPIED"],
-        default: "AVAILABLE",
-        index: true 
-    },
-
-    boutiqueId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Boutique"
-    },
-
-    changedAt: {
-        type: Date,
-        default: Date.now
-    }
-});
-
-module.exports = mongoose.model("HistoriqueBox", historiqueBoxSchema);
-</file>
-
 <file path="src/modules/spatial/Box.model.js">
 const mongoose = require("mongoose");
 const logger = require('../../utils/logger')
@@ -1244,141 +1350,9 @@ boxSchema.pre("save", function () {
 
 });
 
-// boxSchema.pre("save", async function (next) {
-//   try{
 
-//     if (this.status === "OCCUPIED" && !this.boutiqueId) {
-//       throw new AppError("OCCUPIED box must have boutiqueId");
-//     }
-
-//     if (this.status === "AVAILABLE") {
-//       this.boutiqueId = null;
-//     }
-//   } catch (error) {
-//     logger.error("Error in Box pre-save hook:", {
-//       message: error.message,
-//       stack: error.stack,
-//       boxData: this.toObject()
-//     });
-//     throw error;
-//   }
-// });
 
 module.exports = mongoose.model("Box", boxSchema);
-</file>
-
-<file path="src/utils/AppError.js">
-class AppError extends Error {
-  constructor(message, statusCode) {
-    super(message);
-    this.status = statusCode;
-    this.isOperational = true;
-    Error.captureStackTrace(this, this.constructor);
-  }
-}
-
-module.exports = AppError;
-</file>
-
-<file path="src/utils/logger.js">
-const fs = require('fs');
-const path = require('path');
-const winston = require('winston');
-
-// Création dossier logs si absent
-const logDir = path.join(__dirname, '../logs');
-if (!fs.existsSync(logDir)) {
-  fs.mkdirSync(logDir);
-}
-
-const logger = winston.createLogger({
-  level: 'info',
-
-  format: winston.format.combine(
-    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    winston.format.errors({ stack: true }),
-    winston.format.printf(({ timestamp, level, message, stack }) => {
-      return stack
-        ? `[${timestamp}] ${level.toUpperCase()} : ${message}\n${stack}`
-        : `[${timestamp}] ${level.toUpperCase()} : ${message}`;
-    })
-  ),
-
-  transports: [
-    // Log général
-    new winston.transports.File({
-      filename: path.join(logDir, 'logger.log'),
-      level: 'info'
-    }),
-
-    // Log erreurs uniquement
-    new winston.transports.File({
-      filename: path.join(logDir, 'error.log'),
-      level: 'error'
-    })
-  ]
-});
-
-// Console en dev
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(
-    new winston.transports.Console({
-      format: winston.format.simple()
-    })
-  );
-}
-
-module.exports = logger;
-</file>
-
-<file path="README.md">
-# m1p13mean-mirenty-mirado-back-express
-web application de centre commercial partie backend developper avec Express js par 1890 et 1786
-</file>
-
-<file path="src/config/DataBase.js">
-const mongoose = require('mongoose');
-const logger = require('../utils/logger')
-const connectDB = async () => {
-    try {
-        const { MONGODB_URL } = process.env;
-
-        if (!MONGODB_URL) {
-            throw new Error("MONGODB_URL is not defined in environment variables");
-        }
-
-        await mongoose.connect(MONGODB_URL, {
-            autoIndex: true,
-            maxPoolSize: 10,
-        });
-        
-        logger.info("MongoDB connected successfully");
-        // console.log("host :",mongoose.connection.host);
-        // console.log("name :",mongoose.connection.name);
-
-        // Connection events
-        mongoose.connection.on("error", (err) => {
-            console.error("MongoDB connection error:", err);
-        });
-
-        mongoose.connection.on("disconnected", () => {
-            console.warn("MongoDB disconnected");
-        });
-
-        // Optional: Graceful shutdown
-        process.on("SIGINT", async () => {
-            await mongoose.connection.close();
-            logger.info("MongoDB connection closed due to app termination");
-            process.exit(0);
-        });
-
-    } catch (error) {
-        console.error("MongoDB initial connection failed:", error.message);
-        process.exit(1);
-    }
-};
-
-module.exports = connectDB;
 </file>
 
 <file path="src/modules/users/User.routes.js">
@@ -1396,6 +1370,53 @@ router.put('/:id', checkToken, checkRole('admin'), controller.updateUser);
 router.patch('/:id/disable', checkToken, checkRole('admin'), controller.disableUser);
 
 module.exports = router;
+</file>
+
+<file path=".gitignore">
+node_modules/
+.env
+.history/
+</file>
+
+<file path="src/modules/users/User.controller.js">
+const service = require('./User.service');
+const logger = require('../../utils/logger')
+
+exports.createUser = async (req, res, next) => {
+  try {
+    const user = await service.createUser(req.body);
+    res.status(201).json({ message: "User created", user });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await service.getUsers();
+    res.json({message: "Users fetched", users});
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateUser = async (req, res, next) => {
+  try {
+    const user = await service.updateUser(req.params.id, req.body);
+    res.json({message: "User updated", user});
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.disableUser = async (req, res, next) => {
+  try {
+    const user = await service.disableUser(req.params.id);
+    res.json({message: "User disabled", user});
+  } catch (error) {
+    next(error);
+  }
+};
 </file>
 
 <file path="src/utils/Utils.js">
@@ -1478,53 +1499,6 @@ module.exports = {
   writeJsonFile,
   formatTimestamp,
   generateSlug
-};
-</file>
-
-<file path=".gitignore">
-node_modules/
-.env
-.history/
-</file>
-
-<file path="src/modules/users/User.controller.js">
-const service = require('./User.service');
-const logger = require('../../utils/logger')
-
-exports.createUser = async (req, res, next) => {
-  try {
-    const user = await service.createUser(req.body);
-    res.status(201).json({ message: "User created", user });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.getUsers = async (req, res, next) => {
-  try {
-    const users = await service.getUsers();
-    res.json({message: "Users fetched", users});
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.updateUser = async (req, res, next) => {
-  try {
-    const user = await service.updateUser(req.params.id, req.body);
-    res.json({message: "User updated", user});
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.disableUser = async (req, res, next) => {
-  try {
-    const user = await service.disableUser(req.params.id);
-    res.json({message: "User disabled", user});
-  } catch (error) {
-    next(error);
-  }
 };
 </file>
 
@@ -1630,6 +1604,45 @@ if (!process.env.JWT_SECRET) {
 }
 </file>
 
+<file path="src/modules/auth/auth.routes.js">
+const express = require('express');
+const router = express.Router();
+const logger = require('../../utils/logger')
+
+const { login,signup,refresh,logout,my_indentity } = require('./auth.controller');
+
+// Route login
+router.post('/login', login);
+router.post('/signup', signup);
+router.post('/refresh', refresh);
+router.post('/logout', logout);
+router.post('/me', my_indentity);
+
+module.exports = router;
+</file>
+
+<file path="src/app.js">
+const express = require("express");
+const app = express();
+const routes = require('./routes');
+const errorHandler = require('./middlewares/error.middleware');
+const logger = require('./utils/logger')
+
+app.use(express.json());
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
+});
+
+app.use(`/${process.env.NOM_DU_CENTRE_COMMERCIAL}/`, routes); // Préfixe global pour l'API
+app.use(errorHandler);
+
+module.exports = app; // On exporte l'app pour server.js
+</file>
+
 <file path="src/middlewares/auth.middleware.js">
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/AppError");
@@ -1672,9 +1685,11 @@ module.exports = { checkToken };
 <file path="src/modules/auth/auth.controller.js">
 const bcrypt = require('bcrypt');
 const User = require('../users/User.model');
+const RefreshToken = require('../refreshToken/RefreshToken.model');
 const { loginUser, createToken, generateTokens } = require('./auth.service');
 const AppError = require('../../utils/AppError');
 const logger = require('../../utils/logger');
+const jwt = require('jsonwebtoken');
 
 exports.signup = async (req, res, next) => {
   try {
@@ -1734,10 +1749,10 @@ exports.login = async (req, res, next) => {
     const result = await loginUser(email, password);
 
     if (process.env.NODE_ENV === 'development') {
-      const { writeJsonFile,formatTimestamp } = require('../../utils/Utils');
+      const { writeJsonFile, formatTimestamp } = require('../../utils/Utils');
       let DirPath = '/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/Test/httpTest/loged_user_test/';
       let filename = `${result.email}_${formatTimestamp(Date.now())}`;
-      await writeJsonFile(DirPath,filename,'.json',result);
+      await writeJsonFile(DirPath, filename, '.json', result);
     }
 
     res.json({
@@ -1775,34 +1790,16 @@ exports.my_indentity = async (req, res, next) => {
       throw new AppError("Missing token", 401);
     }
     logger.info(`Token received for identity check: ${token}`);
-    
+
     const whoAmI = require('./auth.service').whoAmI;
     const result = await whoAmI(token);
     res.status(200).json(result);
-    
-    
+
+
   } catch (error) {
-    logger.error(`Token received for identity check: ${token}`);
     next(error);
   }
 };
-</file>
-
-<file path="src/modules/auth/auth.routes.js">
-const express = require('express');
-const router = express.Router();
-const logger = require('../../utils/logger')
-
-const { login,signup,refresh,logout,my_indentity } = require('./auth.controller');
-
-// Route login
-router.post('/login', login);
-router.post('/signup', signup);
-router.post('/refresh', refresh);
-router.post('/logout', logout);
-router.post('/me', my_indentity);
-
-module.exports = router;
 </file>
 
 <file path="src/modules/auth/auth.service.js">
@@ -1817,8 +1814,7 @@ const createToken = (user, durationnString, secretKey) => {
   return jwt.sign(
     { userId: user._id, role: user.role, email: user.email },
     secretKey,
-    { algorithm: "HS256", expiresIn: durationnString },
-    { expiresIn: durationnString }
+    { algorithm: "HS256", expiresIn: durationnString }
   );
 }
 
@@ -1847,13 +1843,13 @@ const loginUser = async (email, password) => {
     throw error;
   }
 
-  if (user.status !== 'active') {
+  if (user.status !== 'ACTIVE') {
     const error = new AppError("Account disabled", 403);
     throw error;
   }
 
   const isMatch = await user.comparePassword(password);
-  logger.info("Password match:", isMatch); // Debug log
+  logger.info(`Password match :, ${isMatch} `); // Debug log
 
   if (!isMatch) {
     const error = new AppError('Email or password incorrect', 401);
@@ -1956,8 +1952,8 @@ const userSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ['active', 'inactive'],
-      default: 'active'
+      enum: ['ACTIVE', 'INACTIVE'],
+      default: 'ACTIVE'
     },
     deactivation_reason: {
       type: String,
@@ -2066,7 +2062,7 @@ const updateUser = async (id, data) => {
 
 const disableUser = async (id) => {
   return User.findByIdAndUpdate(id,
-    { status: 'Inactive' },
+    { status: 'INACTIVE' },
     { new: true }
   ).select('-password');
 };
@@ -2077,28 +2073,6 @@ module.exports = {
   updateUser,
   disableUser
 };
-</file>
-
-<file path="src/app.js">
-const express = require("express");
-const app = express();
-const routes = require('./routes');
-const errorHandler = require('./middlewares/error.middleware');
-const logger = require('./utils/logger')
-
-app.use(express.json());
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  next();
-});
-
-app.use(`/${process.env.NOM_DU_CENTRE_COMMERCIAL}/`, routes); // Préfixe global pour l'API
-app.use(errorHandler);
-
-module.exports = app; // On exporte l'app pour server.js
 </file>
 
 <file path="src/routes.js">
