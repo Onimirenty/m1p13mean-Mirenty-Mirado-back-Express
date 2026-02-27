@@ -55,7 +55,10 @@ const boutiqueSchema = new mongoose.Schema(
       }
     ],
     opening: {
-      days: [String], // e.g. ["Monday", "Tuesday"]
+      days: {
+        firstDay: String,
+        lastDay: String
+      }, // e.g. ["Monday", "Tuesday"]
       hours: {
         openingTime: String, // e.g. "09:00"
         closingTime: String  // e.g. "18:00"
@@ -72,10 +75,17 @@ const boutiqueSchema = new mongoose.Schema(
 );
 
 //quand async throw ,quand pas async next 
+
 boutiqueSchema.pre("validate", function () {
-  if (!this.boutiqueSlug && this.name && this.isModified('name')) {
-    this.boutiqueSlug = generateSlug(this.name).toLowerCase();
+  // 1. Si un slug est fourni manuellement, on le nettoie (slugify + lowercase)
+  if (this.boutiqueSlug ) {
+    this.boutiqueSlug = generateSlug(this.boutiqueSlug);
   }
+  // 2. Si AUCUN slug n'est fourni MAIS que le nom est présent/modifié
+  else if (!this.boutiqueSlug && this.name && this.isModified('name')) {
+    this.boutiqueSlug = generateSlug(this.name);
+  }
+  // 3. Normalisation du status
   if (this.status) {
     this.status = this.status.toUpperCase();
   }

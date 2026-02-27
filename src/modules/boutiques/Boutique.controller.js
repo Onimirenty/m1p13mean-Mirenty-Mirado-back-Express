@@ -27,6 +27,15 @@ exports.getBoutiqueById = async (req, res, next) => {
   }
 };
 
+exports.getBoutiqueAndBoxesById = async (req, res, next) => {
+  try {
+    const boutique = await BoutiqueService.getBoutiqueWithBoxesById(req.params.id);
+    res.status(200).json({ boutique });
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.updateBoutique = async (req, res, next) => {
   try {
     const boutique = await BoutiqueService.updateBoutique(req.params.id, req.body);

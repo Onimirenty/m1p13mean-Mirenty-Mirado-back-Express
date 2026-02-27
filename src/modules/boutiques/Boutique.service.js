@@ -2,17 +2,28 @@ const Boutique = require("./Boutique.model");
 const AppError = require("../../utils/AppError");
 const Utils = require("../../utils/Utils");
 const mongoose = require("mongoose");
+const Box = require('../spatial/Box.model');
 
 
 
 const createBoutique = async (data) => {
+  // 1. On sépare boxIds du reste des données de la boutique
+  const { boxIds, ...boutiqueData } = data;
+  const { name, ownerId, categorieId } = boutiqueData;
+
+  if (!name || !ownerId || !categorieId) {
+    throw new AppError("Veuillez fournir le nom, le proprio et la categorie de la boutique", 400);
+  }
+
+  if (!boxIds || !Array.isArray(boxIds)) {
+    throw new AppError("Veuillez fournir un tableau valide de boxIds", 400);
+  }
+
   const session = await mongoose.startSession();
   session.startTransaction();
 
   try {
-    const { name, owner, categoryId, boxIds } = data;
-
-    // 1. Vérifier les box
+    // 2. Vérifier les box
     const boxes = await Box.find({
       _id: { $in: boxIds },
       status: "AVAILABLE",
@@ -22,17 +33,16 @@ const createBoutique = async (data) => {
       throw new AppError("Certaines box ne sont pas disponibles", 400);
     }
 
-    // 2. Créer la boutique
-    const boutiqueSlug = Utils.generateSlug(name);
-
+    // 3. Créer la boutique en utilisant TOUTES les données (boutiqueData)
+    // Cela inclura boutiqueSlug, description, contact, images, etc.
     const boutique = await Boutique.create(
-      [{ name, owner, categoryId, boutiqueSlug }],
+      [boutiqueData],
       { session }
     );
 
     const boutiqueId = boutique[0]._id;
 
-    // 3. Assigner les box
+    // 4. Assigner les box
     await Box.updateMany(
       { _id: { $in: boxIds } },
       {
@@ -54,13 +64,17 @@ const createBoutique = async (data) => {
     throw error;
   }
 };
-const getBoutiqueWithBoxes = async (id) => {
-  const boutique = await Boutique.findById(id);
+const getBoutiqueWithBoxesById = async (id) => {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new AppError("Invalid Boutique ID", 400);
+  }
+  const boutique = await Boutique.findById(id)
+    .populate("categorieId", "name")
+    .populate("ownerId", "email");
 
   if (!boutique) {
     throw new Error("Boutique non trouvée");
   }
-
   const boxes = await Box.find({ boutiqueId: id });
 
   return {
@@ -89,9 +103,8 @@ const getBoutiqueById = async (id) => {
   }
 
   const boutique = await Boutique.findById(id)
-    .populate("categorieId", "nom")
-    .populate("ownerId", "email")
-    .populate("boxIds");
+    .populate("categorieId", "name")
+    .populate("ownerId", "email");
 
   if (!boutique) {
     throw new AppError("Boutique not found", 404);
@@ -160,5 +173,5 @@ module.exports = {
   getBoutiqueById,
   updateBoutique,
   deleteBoutique,
-  getBoutiqueWithBoxes
+  getBoutiqueWithBoxesById
 };

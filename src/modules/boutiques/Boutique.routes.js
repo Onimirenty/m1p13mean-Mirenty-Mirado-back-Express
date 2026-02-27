@@ -10,6 +10,7 @@ const BoutiqueController = require("./Boutique.controller");
 router.post("/", checkToken, checkRole("ADMIN"), BoutiqueController.createBoutique);
 router.get("/", checkToken, checkRole("ADMIN"), BoutiqueController.getAllBoutiques);
 router.get("/:id", checkToken, checkRole("ADMIN"), BoutiqueController.getBoutiqueById);
+router.get("/plus-boxes/:id", checkToken, checkRole("ADMIN"), BoutiqueController.getBoutiqueAndBoxesById);
 router.put("/:id", checkToken, checkRole("ADMIN"), BoutiqueController.updateBoutique);
 router.delete("/:id", checkToken, checkRole("ADMIN"), BoutiqueController.deleteBoutique);
 

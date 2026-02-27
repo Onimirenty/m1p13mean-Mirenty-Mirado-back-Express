@@ -21,7 +21,7 @@ const errorMiddleware = (err, req, res, next) => {
   // MongoDB duplicate key
   if (error.code === 11000) {
     const field = Object.keys(error.keyValue || {})[0];
-    error = new AppError(`${field} already exists`, 400);
+    error = new AppError(`duplicate keys :${field} already exists`, 400);
   }
 
   // Mongoose validation
