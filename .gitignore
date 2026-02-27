@@ -1,8 +1,7 @@
 node_modules/
 .env
 .history/
-repomix-output.xml
-*.log
+src/logs/logger.log
 repomix_to_md.js
 repomix-output.md
 repomix-output.xml
