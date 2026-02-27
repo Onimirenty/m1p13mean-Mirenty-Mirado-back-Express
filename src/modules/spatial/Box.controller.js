@@ -19,11 +19,23 @@ exports.getAllBoxes = async (req, res, next) => {
 };
 exports.getBoxByCompositeKey = async (req, res, next) => {
   try {
+    // console.log("swwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwdfghjkl;");
+    // console.log(req.params.cmSlug);
+    // console.log(req.params.etage);
+    // console.log(req.params.bloc);
+    // console.log(req.params.numero);
+    // const box = await BoxService.getBoxByCompositeKey({
+    //   cmSlug: req.params.cmSlug,
+    //   etage: Number(req.params.etage),
+    //   bloc: req.params.bloc,
+    //   numero: Number(req.params.numero)
+    // });
+    // console.log(`cm : ${req.body.cmSlug}  ,etage ${req.body.etage} ,bloc ${req.body.bloc} , numero ${req.body.numero}`);
     const box = await BoxService.getBoxByCompositeKey({
-      cmSlug: req.params.cmSlug,
-      etage: Number(req.params.etage),
-      bloc: req.params.bloc,
-      numero: Number(req.params.numero)
+      cmSlug: req.body.cmSlug,
+      etage: Number(req.body.etage),
+      bloc: req.body.bloc,
+      numero: Number(req.body.numero)
     });
 
     res.status(200).json({ box });

@@ -13,6 +13,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
+
 app.use(`/${process.env.NOM_DU_CENTRE_COMMERCIAL}/`, routes); // Préfixe global pour l'API
 app.use(errorHandler);
 

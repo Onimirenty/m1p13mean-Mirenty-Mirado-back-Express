@@ -15,11 +15,13 @@ const errorMiddleware = (err, req, res, next) => {
   if (error.name === 'CastError') {
     error = new AppError(`Invalid ${error.path}: ${error.value}`, 400);
   }
-
+  if(error.name === 'SyntaxError'){
+    error = new AppError(`Invalid syntax in a json file`, 400);
+  }
   // MongoDB duplicate key
   if (error.code === 11000) {
     const field = Object.keys(error.keyValue || {})[0];
-    error = new AppError(`${field} already exists`, 400);
+    error = new AppError(`duplicate keys :${field} already exists`, 400);
   }
 
   // Mongoose validation
@@ -61,7 +63,8 @@ const errorMiddleware = (err, req, res, next) => {
     });
 
     return res.status(500).json({
-      status: 'error',
+      status_nature: 'error',
+      status_code: 500,
       message: 'Internal server error'
     });
   }
@@ -77,9 +80,11 @@ const errorMiddleware = (err, req, res, next) => {
 //error :erreur cote serveur
 
   const response = {
-    status: 'fail',
+    status_nature: 'fail',
+    status_code: error.status,
     message: `error middleware : ${error.message} `,
   };
+  
   logger.error(`Operational error: ${error.message}`)
   logger.error(`error stackTrace: ${error.stack}`)
   // En dev on expose plus d'infos
