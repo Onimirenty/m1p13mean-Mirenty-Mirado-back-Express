@@ -6,27 +6,82 @@ const mongoose = require("mongoose");
 
 
 const createBoutique = async (data) => {
-  if (!data.name || !data.categorieId || !data.ownerId) {
-    throw new AppError("name, categorieId and ownerId are required", 400);
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const { name, owner, categoryId, boxIds } = data;
+
+    // 1. Vérifier les box
+    const boxes = await Box.find({
+      _id: { $in: boxIds },
+      status: "AVAILABLE",
+    }).session(session);
+
+    if (boxes.length !== boxIds.length) {
+      throw new AppError("Certaines box ne sont pas disponibles", 400);
+    }
+
+    // 2. Créer la boutique
+    const boutiqueSlug = Utils.generateSlug(name);
+
+    const boutique = await Boutique.create(
+      [{ name, owner, categoryId, boutiqueSlug }],
+      { session }
+    );
+
+    const boutiqueId = boutique[0]._id;
+
+    // 3. Assigner les box
+    await Box.updateMany(
+      { _id: { $in: boxIds } },
+      {
+        $set: {
+          boutiqueId: boutiqueId,
+          status: "OCCUPIED",
+        },
+      },
+      { session }
+    );
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return boutique[0];
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    throw error;
+  }
+};
+const getBoutiqueWithBoxes = async (id) => {
+  const boutique = await Boutique.findById(id);
+
+  if (!boutique) {
+    throw new Error("Boutique non trouvée");
   }
 
-  const existing = await Boutique.findOne({ name: data.name });
-  if (existing) {
-    throw new AppError("Boutique with same name already exists", 409);
-  }
-  const boutique = await Boutique.create(data);
+  const boxes = await Box.find({ boutiqueId: id });
 
-  return boutique;
+  return {
+    boutique,
+    boxes,
+  };
 };
 
-const getAllBoutiques = async (filters = {}) => {
-  return await Boutique.find(filters)
-    .populate("categorieId", "nom")
-    .populate("ownerId", "email")
-    .populate("boxIds")
-    .sort({ createdAt: -1 });
-};
 
+const getAllBoutiques = async () => {
+  return await Boutique.aggregate([
+    {
+      $lookup: {
+        from: "boxes",
+        localField: "_id",
+        foreignField: "boutiqueId",
+        as: "boxes",
+      },
+    },
+  ]);
+};
 
 const getBoutiqueById = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -69,17 +124,34 @@ const updateBoutique = async (id, data) => {
 
 
 const deleteBoutique = async (id) => {
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new AppError("Invalid Boutique ID", 400);
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    // 1. Libérer les box
+    await Box.updateMany(
+      { boutiqueId: id },
+      {
+        $set: {
+          boutiqueId: null,
+          status: "AVAILABLE",
+        },
+      },
+      { session }
+    );
+
+    // 2. Supprimer la boutique
+    const boutiqueSupprime = await Boutique.findById(id).session(session);
+    boutiqueSupprime.status = "INACTIVE";
+
+    await boutiqueSupprime.save({ session });
+    await session.commitTransaction();
+    session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    throw error;
   }
-
-  const boutique = await Boutique.findByIdAndDelete(id);
-
-  if (!boutique) {
-    throw new AppError("Boutique not found", 404);
-  }
-
-  return boutique;
 };
 
 module.exports = {
@@ -87,5 +159,6 @@ module.exports = {
   getAllBoutiques,
   getBoutiqueById,
   updateBoutique,
-  deleteBoutique
+  deleteBoutique,
+  getBoutiqueWithBoxes
 };

@@ -22,9 +22,9 @@ const demandeBoutiqueSchema = new mongoose.Schema(
     ownerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      index: true
+      required : true
     },
-    
+
 
     contact: {
       telephone: String,
@@ -40,16 +40,35 @@ const demandeBoutiqueSchema = new mongoose.Schema(
       statFileUrl: String
     },
 
-    statut: {
+    status: {
       type: String,
       enum: ["PENDING", "ACCEPTED", "REJECTED"],
-      default: "PENDING",
-      index: true
+      default: "PENDING"
     },
+    boxIds: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Box",
+        required: true,
+        index: true
+      }
+    ],
 
     commentaireAdmin: String
   },
   { timestamps: true }
 );
+
+demandeBoutiqueSchema.index({ status: 1 });
+demandeBoutiqueSchema.index({ ownerId: 1 });
+
+demandeBoutiqueSchema.pre('save', async function () {
+  try {
+    this.status = this.status.toUpperCase();
+  } catch (error) {
+    logger.error('insert failed', { error });
+    throw error
+  }
+});
 
 module.exports = mongoose.model("DemandeBoutique", demandeBoutiqueSchema);

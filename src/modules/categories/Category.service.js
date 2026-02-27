@@ -1,6 +1,7 @@
 const Categorie = require("./Category.model");
 const AppError = require('../../utils/AppError');
 const logger = require('../../utils/logger')
+const utils = require('../../utils/Utils')
 
 
 exports.createCategorie = async (nom, iconClass) => {
@@ -68,7 +69,7 @@ exports.updateCategorieByName = async (nom, newNom, iconClass) => {
     try {
         const categorie = await Categorie.findOneAndUpdate(
             { nom },
-            { nom: newNom, iconClass },
+            { nom: utils.generateSlugPreserveCase(newNom), iconClass },
             { new: true, runValidators: true }
         );
 

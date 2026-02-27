@@ -31,7 +31,7 @@ const produitSchema = new mongoose.Schema(
 
     images: [String],
 
-    statut: {
+    status: {
       type: String,
       enum: ["AVAILABLE", "SOLD_OUT", "INACTIVE"],
       default: "AVAILABLE",
@@ -43,4 +43,17 @@ const produitSchema = new mongoose.Schema(
 
 produitSchema.index({ boutiqueId: 1, productSlug: 1 }, { unique: true });
 
+produitSchema.pre('save', async function () {
+  try {
+    if (this.isModified('status')){
+        this.status = this.status.toUpperCase();
+    }
+    if(this.status){
+        this.status = this.status.toUpperCase();
+    }
+  } catch (error) {
+    logger.error('insert failed', { error });
+    throw error
+  }
+});
 module.exports = mongoose.model("Produit", produitSchema);

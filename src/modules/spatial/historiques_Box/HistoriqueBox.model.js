@@ -8,14 +8,14 @@ const historiqueBoxSchema = new mongoose.Schema({
         index: true
     },
 
-    ancienStatut: {
+    ancienStatus: {
         type: String,
         enum: ["AVAILABLE", "PENDING", "OCCUPIED"],
         default: "AVAILABLE",
         index: true
     },
 
-    nouveauStatut: {
+    nouveauStatus: {
         type: String,
         enum: ["AVAILABLE", "PENDING", "OCCUPIED"],
         default: "AVAILABLE",

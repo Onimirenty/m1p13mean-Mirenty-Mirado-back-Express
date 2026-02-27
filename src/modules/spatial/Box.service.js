@@ -20,8 +20,8 @@ const createBox = async (data) => {
  */
 const getAllBoxes = async (filters = {}) => {
     return await Box.find(filters)
-        .populate("boutiqueId", "name") 
-        .populate("centreCommercialId", "name")
+        .populate("boutiqueId", "name")
+        .populate("centreCommercialId", "cmSlug")
         .sort({ createdAt: -1 });
 };
 
@@ -30,12 +30,12 @@ const getAllBoxes = async (filters = {}) => {
  */
 const getBoxById = async (id) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new AppError("Invalid Box ID", 400);
+        throw new AppError("getBoxById . Invalid Box ID", 400);
     }
 
     const box = await Box.findById(id)
         .populate("boutiqueId", "name")
-        .populate("centreCommercialId", "name");
+        .populate("centreCommercialId", "cmSlug");
 
     if (!box) {
         throw new AppError("Box not found", 404);
@@ -47,18 +47,24 @@ const getBoxById = async (id) => {
 const getBoxByCompositeKey = async ({ cmSlug, etage, bloc, numero }) => {
 
     // Validation primitive
-    if (!cmSlug || etage === undefined || numero === undefined || !bloc) {
-        throw new AppError("cmSlug, etage, bloc and numero are required", 400);
+    if (etage === undefined || numero === undefined || !bloc) {
+        throw new AppError("etage, bloc and numero are required", 400);
+    }
+    if (!cmSlug) { cmSlug = 'UwU'; }
+    // Trouver le centre via son slug
+    const centre = await CentreCommercial.findOne({ cmSlug });
+    let finalCentre = centre;
+    if (!finalCentre) {
+        finalCentre = await CentreCommercial.findById(process.env.CM_ID);
+        if (!finalCentre) {
+            throw new AppError("CentreCommercial not found", 404);
+        }
     }
 
-    // Trouver le centre via son slug
-    const centre = await CentreCommercial.findOne({ cmSlug: cmSlug });
-    if (!centre) {
-        throw new AppError("CentreCommercial not found", 404);
-    }
+    const center_id = finalCentre._id;
     // Requête via index composite
     const box = await Box.findOne({
-        centreCommercialId: centre._id,
+        centreCommercialId: center_id,
         etage: Number(etage),
         bloc: bloc.trim().toUpperCase(),
         numero: Number(numero)
@@ -67,7 +73,7 @@ const getBoxByCompositeKey = async ({ cmSlug, etage, bloc, numero }) => {
         .populate("centreCommercialId", "cmSlug");
 
     if (!box) {
-        throw new AppError("Box not found", 404);
+        throw new AppError("compositeKey . Box not found", 404);
     }
 
     return box;
@@ -78,7 +84,7 @@ const getBoxByCompositeKey = async ({ cmSlug, etage, bloc, numero }) => {
  */
 const updateBox = async (id, data) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new AppError("Invalid Box ID", 400);
+        throw new AppError("updateBox . Invalid Box ID", 400);
     }
 
     const box = await Box.findByIdAndUpdate(id, data, {
@@ -98,7 +104,7 @@ const updateBox = async (id, data) => {
  */
 const deleteBox = async (id) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new AppError("Invalid Box ID", 400);
+        throw new AppError("deleteBox . Invalid Box ID", 400);
     }
 
     const box = await Box.findByIdAndDelete(id);

@@ -34,14 +34,7 @@ const boutiqueSchema = new mongoose.Schema(
       index: true
     },
 
-    boxIds: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Box"
-      }
-    ],
-
-    statut: {
+    status: {
       type: String,
       enum: ["ACTIVE", "INACTIVE", "SUSPENDED"],
       default: "ACTIVE",
@@ -79,11 +72,13 @@ const boutiqueSchema = new mongoose.Schema(
 );
 
 //quand async throw ,quand pas async next 
-boutiqueSchema.pre("save", function () {
-  if (this.isModified("name")) {
-    this.boutiqueSlug = generateSlug(this.name);
+boutiqueSchema.pre("validate", function () {
+  if (!this.boutiqueSlug && this.name && this.isModified('name')) {
+    this.boutiqueSlug = generateSlug(this.name).toLowerCase();
   }
-  // next();
+  if (this.status) {
+    this.status = this.status.toUpperCase();
+  }
 });
 
 module.exports = mongoose.model("Boutique", boutiqueSchema);

@@ -7,10 +7,10 @@ const { checkRole } = require("../../middlewares/role.middleware");
 const BoutiqueController = require("./Boutique.controller");
 
 // ADMIN ONLY
-router.post("/", checkToken, checkRole("admin"), BoutiqueController.createBoutique);
-router.get("/", checkToken, checkRole("admin"), BoutiqueController.getAllBoutiques);
-router.get("/:id", checkToken, checkRole("admin"), BoutiqueController.getBoutiqueById);
-router.put("/:id", checkToken, checkRole("admin"), BoutiqueController.updateBoutique);
-router.delete("/:id", checkToken, checkRole("admin"), BoutiqueController.deleteBoutique);
+router.post("/", checkToken, checkRole("ADMIN"), BoutiqueController.createBoutique);
+router.get("/", checkToken, checkRole("ADMIN"), BoutiqueController.getAllBoutiques);
+router.get("/:id", checkToken, checkRole("ADMIN"), BoutiqueController.getBoutiqueById);
+router.put("/:id", checkToken, checkRole("ADMIN"), BoutiqueController.updateBoutique);
+router.delete("/:id", checkToken, checkRole("ADMIN"), BoutiqueController.deleteBoutique);
 
 module.exports = router;

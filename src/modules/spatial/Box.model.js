@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const logger = require('../../utils/logger')
 const AppError = require('../../utils/AppError')
 
+const DEFAULT_CENTRE_ID = new mongoose.Types.ObjectId(process.env.CM_ID);
+
 const boxSchema = new mongoose.Schema(
   {
     etage: {
@@ -38,7 +40,8 @@ const boxSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "CentreCommercial",
       required: true,
-      index: true
+      index: true,
+      default: DEFAULT_CENTRE_ID
     },
     dimension: {
       length: { type: Number, required: false },
@@ -66,7 +69,13 @@ boxSchema.pre("save", function () {
   if (this.status === "AVAILABLE") {
     this.boutiqueId = null;
   }
+  if (this.status) {
+    this.status = this.status.toUpperCase();
+  }
+  if (this.isModified('status')) {
+    this.status = this.status.toUpperCase();
 
+  }
 });
 
 

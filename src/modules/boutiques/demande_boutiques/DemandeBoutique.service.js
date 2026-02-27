@@ -4,43 +4,46 @@ const Boutique = require("../Boutique.model");
 const Box = require("../../spatial/Box.model");
 const User = require("../../users/User.model");
 const AppError = require("../../../utils/AppError");
+const Utils = require("../../../utils/Utils");
 
-/**
- * CREATE DEMANDE
- * - Box doit être AVAILABLE
- * - Boutique créée en PENDING
- * - Box passe en PENDING
- */
+
+
 const createDemandeBoutique = async (data) => {
-  const { boxId } = data;
+  const { boxIds } = data;
 
-  if (!mongoose.Types.ObjectId.isValid(boxId)) {
-    throw new AppError("Invalid boxId", 400);
-  }
-
-  const box = await Box.findById(boxId);
-  if (!box) throw new AppError("Box not found", 404);
-
-  if (box.status !== "AVAILABLE") {
-    throw new AppError("Box is not available", 400);
+  if (!Array.isArray(boxIds) || boxIds.length === 0) {
+    throw new AppError("boxIds must be a non-empty array", 400);
   }
 
   const session = await mongoose.startSession();
   session.startTransaction();
 
   try {
+    const boxes = await Box.find({
+      _id: { $in: boxIds },
+      status: "AVAILABLE"
+    }).session(session);
+
+    if (boxes.length !== boxIds.length) {
+      throw new AppError("Some boxes not available", 400);
+    }
+
     const demande = await DemandeBoutique.create([{
       ...data,
       status: "PENDING"
     }], { session });
 
-    box.status = "PENDING";
-    await box.save({ session });
+    await Box.updateMany(
+      { _id: { $in: boxIds } },
+      { status: "PENDING" },
+      { session }
+    );
 
     await session.commitTransaction();
     session.endSession();
 
     return demande[0];
+
   } catch (err) {
     await session.abortTransaction();
     session.endSession();
@@ -49,12 +52,14 @@ const createDemandeBoutique = async (data) => {
 };
 
 
+
+
 /**
  * GET ALL
  */
 const getAllDemandes = async () => {
   return await DemandeBoutique.find()
-    .populate("boxId")
+    .populate("boxIds")
     .populate("categorieId")
     .sort({ createdAt: -1 });
 };
@@ -69,7 +74,7 @@ const getDemandeById = async (id) => {
   }
 
   const demande = await DemandeBoutique.findById(id)
-    .populate("boxId")
+    .populate("boxIds")
     .populate("categorieId");
 
   if (!demande) throw new AppError("Demande not found", 404);
@@ -85,39 +90,67 @@ const getDemandeById = async (id) => {
  * - Boutique → ACTIVE
  * - Demande → APPROVED
  */
-const approveDemande = async (demandeId, ownerData) => {
+const approveDemande = async (demandeId) => {
   const session = await mongoose.startSession();
   session.startTransaction();
-
   try {
-    const demande = await DemandeBoutique.findById(demandeId)
-      .populate("boxId")
-      .session(session);
+    const demande = await DemandeBoutique.findById(demandeId).session(session);
+    if (!demande) {
+      throw new AppError("Demande de creation de boutique introuvable", 404);
+    }
+    if (demande.status !== "PENDING") {
+      throw new Error("Demande de creation de boutique  déjà traitée", 409);
+    }
+    const { boxIds, nomBoutique, ownerId, categorieId } = demande;
 
-    if (!demande) throw new AppError("Demande not found", 404);
-    if (demande.status !== "PENDING")
-      throw new AppError("Demande already processed", 400);
+    // 1. Vérifier disponibilité des box
+    const boxes = await Box.find({
+      _id: { $in: boxIds },
+      status: "PENDING",
+    }).session(session);
 
-    // Create owner
-    const owner = await User.create([{
-      ...ownerData,
-      role: "PROPRIETAIRE"
-    }], { session });
+    if (boxes.length !== boxIds.length) {
+      throw new AppError("Certaines box ne sont plus disponibles", 409);
+    }
 
-    // Update box
-    demande.boxId.status = "OCCUPIED";
-    await demande.boxId.save({ session });
+    // 2. Créer la boutique
+    const boutiqueSlug = Utils.generateSlugPreserveCase();
+    const boutique = await Boutique.create(
+      [{ name: nomBoutique, ownerId: ownerId, categorieId, boutiqueSlug: boutiqueSlug }],
+      { session }
+    );
 
-    // Update demande
-    demande.status = "APPROVED";
-    demande.ownerId = owner[0]._id;
+    // const boutiqueInstance = new Boutique({
+    //   name: nomBoutique,
+    //   ownerId,
+    //   categorieId
+    // });
+
+    // const boutique = await boutiqueInstance.save({ session });
+    console.log("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+
+    const boutiqueId = boutique[0]._id;
+
+    // 3. Assigner les box (SEULE source de vérité)
+    await Box.updateMany(
+      { _id: { $in: boxIds } },
+      {
+        $set: {
+          boutiqueId: boutiqueId,
+          status: "OCCUPIED",
+        },
+      },
+      { session }
+    );
+
+    // 4. Update demande
+    demande.status = "ACCEPTED";
     await demande.save({ session });
 
     await session.commitTransaction();
     session.endSession();
 
-    return demande;
-
+    return boutique[0];
   } catch (err) {
     await session.abortTransaction();
     session.endSession();
@@ -137,7 +170,7 @@ const rejectDemande = async (demandeId, reason) => {
 
   try {
     const demande = await DemandeBoutique.findById(demandeId)
-      .populate("boxId")
+      .populate("boxIds")
       .session(session);
 
     if (!demande) throw new AppError("Demande not found", 404);
@@ -145,10 +178,13 @@ const rejectDemande = async (demandeId, reason) => {
       throw new AppError("Demande already processed", 400);
 
     demande.status = "REJECTED";
-    demande.rejectionReason = reason;
+    demande.commentaireAdmin = reason;
 
-    demande.boxId.status = "AVAILABLE";
-    await demande.boxId.save({ session });
+    await Box.updateMany(
+      { _id: { $in: demande.boxIds } },
+      { status: "AVAILABLE" },
+      { session }
+    );
 
     await demande.save({ session });
 
