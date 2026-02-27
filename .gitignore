@@ -7,3 +7,7 @@ repomix_to_md.js
 repomix-output.md
 repomix-output.xml
 repomix-output.xml
+repomix-output.md
+repomix_to_md.js
+src/logs/logger.log
+*.log
