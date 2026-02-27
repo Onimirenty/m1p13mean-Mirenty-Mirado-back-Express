@@ -3,3 +3,7 @@ node_modules/
 .history/
 repomix-output.xml
 repomix-output.xml
+repomix-output.md
+repomix_to_md.js
+src/logs/logger.log
+*.log
