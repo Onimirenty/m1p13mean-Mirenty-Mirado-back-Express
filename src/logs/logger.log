@@ -1795,3 +1795,5 @@ ReferenceError: categoryId is not defined
     at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
     at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
     at process.processImmediate (node:internal/timers:485:21)
+[2026-02-27 23:36:29] INFO : MongoDB connected successfully
+[2026-02-27 23:36:29] INFO : Listening on port 3000
