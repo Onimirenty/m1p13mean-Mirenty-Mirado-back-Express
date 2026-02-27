@@ -71,10 +71,25 @@ const generateSlug = (text) => {
     .replace(/\s+/g, "-");
 };
 
+
+const generateSlugPreserveCase = (text) => {
+  if (!text) return "";
+
+  return text
+    .normalize("NFD")                    // sépare accents
+    .replace(/[\u0300-\u036f]/g, "")     // supprime accents
+    .trim()
+    .replace(/[^A-Za-z0-9\s-]/g, "")     // conserve lettres avec casse
+    .replace(/\s+/g, "-")                // espaces → tirets
+    .replace(/-+/g, "-")                 // évite doubles tirets
+    .replace(/^-|-$/g, "");              // supprime tirets début/fin
+};
 module.exports = {
   normalizePort,
   errorHandler,
   writeJsonFile,
   formatTimestamp,
-  generateSlug
+  generateSlug,
+  generateSlugPreserveCase
+  
 };

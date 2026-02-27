@@ -66,5 +66,17 @@ const centreCommercialSchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
-
+centreCommercialSchema.pre('save', async function () {
+  try {
+    if (this.isModified('status')){
+        this.status = this.status.toUpperCase();
+    }
+    if(this.status){
+        this.status = this.status.toUpperCase();
+    }
+  } catch (error) {
+    logger.error('insert failed', { error });
+    throw error
+  }
+});
 module.exports = mongoose.model("CentreCommercial", centreCommercialSchema);

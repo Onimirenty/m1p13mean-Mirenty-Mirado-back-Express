@@ -1,0 +1,860 @@
+[2026-02-27 10:25:33] ERROR : Operational error: email already exists
+[2026-02-27 10:25:33] ERROR : error stackTrace: Error: email already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:22:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 11:48:47] ERROR : Operational error: wrong authorization type, token not provided
+[2026-02-27 11:48:47] ERROR : error stackTrace: Error: wrong authorization type, token not provided
+    at exports.my_indentity (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/auth/auth.controller.js:101:13)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+    at handle (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:295:15
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Function.handle (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:186:3)
+[2026-02-27 11:53:16] ERROR : Operational error: Email or password incorrect
+[2026-02-27 11:53:16] ERROR : error stackTrace: Error: Email or password incorrect
+    at loginUser (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/auth/auth.service.js:36:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.login (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/auth/auth.controller.js:64:20)
+[2026-02-27 11:53:26] ERROR : Operational error: Email or password incorrect
+[2026-02-27 11:53:26] ERROR : error stackTrace: Error: Email or password incorrect
+    at loginUser (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/auth/auth.service.js:36:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.login (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/auth/auth.controller.js:64:20)
+[2026-02-27 11:56:06] ERROR : Operational error: Email or password incorrect
+[2026-02-27 11:56:06] ERROR : error stackTrace: Error: Email or password incorrect
+    at loginUser (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/auth/auth.service.js:36:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.login (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/auth/auth.controller.js:64:20)
+[2026-02-27 12:29:15] ERROR : Operational error: Token not provided
+[2026-02-27 12:29:15] ERROR : error stackTrace: Error: Token not provided
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:10:13)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+    at handle (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:295:15
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Function.handle (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:186:3)
+[2026-02-27 12:29:42] ERROR : Operational error: Forbidden : your role CUSTOMER doesn't permit this operation
+[2026-02-27 12:29:42] ERROR : error stackTrace: Error: Forbidden : your role CUSTOMER doesn't permit this operation
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:16:19
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:31:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+    at handle (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:295:15
+[2026-02-27 12:30:47] ERROR : Operational error: Forbidden : your role admin doesn't permit this operation
+[2026-02-27 12:30:47] ERROR : error stackTrace: Error: Forbidden : your role admin doesn't permit this operation
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:16:19
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:31:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+    at handle (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:295:15
+[2026-02-27 12:33:18] ERROR : Operational error: Forbidden : your role admin doesn't permit this operation
+[2026-02-27 12:33:18] ERROR : error stackTrace: Error: Forbidden : your role admin doesn't permit this operation
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:16:19
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:31:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+    at handle (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:295:15
+[2026-02-27 12:34:01] ERROR : Operational error: `active` is not a valid enum value for path `status`.
+[2026-02-27 12:34:01] ERROR : error stackTrace: Error: `active` is not a valid enum value for path `status`.
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:30:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 12:49:50] ERROR : UNEXPECTED ERROR: users is not defined
+ReferenceError: users is not defined
+    at exports.getUserByEmail (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/users/User.controller.js:25:41)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2026-02-27 13:00:02] ERROR : UNEXPECTED ERROR: Unexpected token 'n', "null" is not valid JSON
+SyntaxError: Unexpected token 'n', "null" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/body-parser/lib/types/json.js:109:10)
+    at parse (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/body-parser/lib/types/json.js:66:15)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/body-parser/lib/read.js:162:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:206:9)
+    at invokeCallback (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:238:16)
+    at done (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:524:28)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+[2026-02-27 13:02:24] ERROR : UNEXPECTED ERROR: Unexpected token 'n', "null" is not valid JSON
+SyntaxError: Unexpected token 'n', "null" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/body-parser/lib/types/json.js:109:10)
+    at parse (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/body-parser/lib/types/json.js:66:15)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/body-parser/lib/read.js:162:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:206:9)
+    at invokeCallback (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:238:16)
+    at done (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:524:28)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+[2026-02-27 13:03:23] ERROR : UNEXPECTED ERROR: Unexpected token 'n', "null" is not valid JSON
+SyntaxError: Unexpected token 'n', "null" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/body-parser/lib/types/json.js:109:10)
+    at parse (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/body-parser/lib/types/json.js:66:15)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/body-parser/lib/read.js:162:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:206:9)
+    at invokeCallback (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:238:16)
+    at done (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:524:28)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+[2026-02-27 13:03:51] ERROR : UNEXPECTED ERROR: Unexpected token 'n', "null" is not valid JSON
+SyntaxError: Unexpected token 'n', "null" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/body-parser/lib/types/json.js:109:10)
+    at parse (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/body-parser/lib/types/json.js:66:15)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/body-parser/lib/read.js:162:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:206:9)
+    at invokeCallback (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:238:16)
+    at done (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:524:28)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+[2026-02-27 13:04:33] ERROR : Operational error: Token not provided
+[2026-02-27 13:04:33] ERROR : error stackTrace: Error: Token not provided
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:10:13)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+    at handle (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:295:15
+    at param (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:600:14)
+    at param (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:610:14)
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:664:3)
+[2026-02-27 13:42:04] ERROR : Operational error: Email or password incorrect
+[2026-02-27 13:42:04] ERROR : error stackTrace: Error: Email or password incorrect
+    at loginUser (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/auth/auth.service.js:36:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.login (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/auth/auth.controller.js:64:20)
+[2026-02-27 13:46:57] ERROR : Operational error: Email or password incorrect
+[2026-02-27 13:46:57] ERROR : error stackTrace: Error: Email or password incorrect
+    at loginUser (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/auth/auth.service.js:36:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.login (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/auth/auth.controller.js:64:20)
+[2026-02-27 13:49:10] ERROR : UNEXPECTED ERROR: decode is not defined
+ReferenceError: decode is not defined
+    at protectUser (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/users/change-password.middleware.js:10:27)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+    at handle (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:295:15
+[2026-02-27 13:56:19] ERROR : UNEXPECTED ERROR: User.getUserByEmail is not a function
+TypeError: User.getUserByEmail is not a function
+    at protectUser (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/users/change-password.middleware.js:12:29)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+    at handle (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:295:15
+[2026-02-27 13:56:22] ERROR : UNEXPECTED ERROR: User.getUserByEmail is not a function
+TypeError: User.getUserByEmail is not a function
+    at protectUser (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/users/change-password.middleware.js:12:29)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+    at handle (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:295:15
+[2026-02-27 13:56:53] ERROR : UNEXPECTED ERROR: changePassword is not defined
+ReferenceError: changePassword is not defined
+    at exports.changePassword (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/users/User.controller.js:63:20)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at protectUser (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/users/change-password.middleware.js:17:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2026-02-27 13:58:54] ERROR : Operational error: Le nouveau mot de passe doit être différent
+[2026-02-27 13:58:54] ERROR : error stackTrace: Error: Le nouveau mot de passe doit être différent
+    at Object.changePassword (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/users/User.service.js:95:11)
+    at async exports.changePassword (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/users/User.controller.js:63:20)
+[2026-02-27 13:59:06] ERROR : Operational error: Mot de passe actuel incorrect
+[2026-02-27 13:59:06] ERROR : error stackTrace: Error: Mot de passe actuel incorrect
+    at Object.changePassword (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/users/User.service.js:92:11)
+    at async exports.changePassword (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/users/User.controller.js:63:20)
+[2026-02-27 14:10:36] ERROR : Operational error: Forbidden : your role CUSTOMER doesn't permit this operation
+[2026-02-27 14:10:36] ERROR : error stackTrace: Error: Forbidden : your role CUSTOMER doesn't permit this operation
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:16:19
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+    at handle (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:295:15
+[2026-02-27 14:11:16] ERROR : Category.service.createCategorie : Error creating categorie:
+[2026-02-27 14:11:16] ERROR : Operational error: iconClass already exists
+[2026-02-27 14:11:16] ERROR : error stackTrace: Error: iconClass already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:22:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 14:12:31] ERROR : Category.service.updateCategorieByName : 
+[2026-02-27 14:12:31] ERROR : Operational error: nom already exists
+[2026-02-27 14:12:31] ERROR : error stackTrace: Error: nom already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:22:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 14:17:37] ERROR : Category.service.updateCategorieByName : 
+[2026-02-27 14:17:37] ERROR : UNEXPECTED ERROR: utils.generateSlugCaseInsensitive is not a function
+TypeError: utils.generateSlugCaseInsensitive is not a function
+    at exports.updateCategorieByName (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/categories/Category.service.js:72:26)
+    at exports.updateCategory (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/categories/Category.controller.js:37:50)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:18:5
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+[2026-02-27 14:19:42] ERROR : Category.service.getCategorieByName : 
+[2026-02-27 14:19:42] ERROR : Operational error: Category.service.getCategorieByName : Categorie not found
+[2026-02-27 14:19:42] ERROR : error stackTrace: Error: Category.service.getCategorieByName : Categorie not found
+    at exports.getCategorieByName (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/categories/Category.service.js:40:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.getCategory (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/categories/Category.controller.js:26:27)
+[2026-02-27 16:27:52] ERROR : Operational error: Invalid Box ID
+[2026-02-27 16:27:52] ERROR : error stackTrace: Error: Invalid Box ID
+    at Object.getBoxById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.service.js:33:15)
+    at exports.getBoxById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.controller.js:47:34)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:18:5
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+[2026-02-27 16:32:57] ERROR : Operational error: Invalid Box ID
+[2026-02-27 16:32:57] ERROR : error stackTrace: Error: Invalid Box ID
+    at Object.getBoxById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.service.js:33:15)
+    at exports.getBoxById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.controller.js:47:34)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:18:5
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+[2026-02-27 16:35:19] ERROR : Operational error: Invalid Box ID
+[2026-02-27 16:35:19] ERROR : error stackTrace: Error: Invalid Box ID
+    at Object.getBoxById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.service.js:33:15)
+    at exports.getBoxById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.controller.js:48:34)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:18:5
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+[2026-02-27 16:35:53] ERROR : Operational error: Invalid Box ID
+[2026-02-27 16:35:53] ERROR : error stackTrace: Error: Invalid Box ID
+    at Object.getBoxById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.service.js:33:15)
+    at exports.getBoxById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.controller.js:48:34)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:18:5
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+[2026-02-27 16:35:54] ERROR : Operational error: Invalid Box ID
+[2026-02-27 16:35:54] ERROR : error stackTrace: Error: Invalid Box ID
+    at Object.getBoxById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.service.js:33:15)
+    at exports.getBoxById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.controller.js:48:34)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:18:5
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+[2026-02-27 16:36:55] ERROR : Operational error: getBoxById . Invalid Box ID
+[2026-02-27 16:36:55] ERROR : error stackTrace: Error: getBoxById . Invalid Box ID
+    at Object.getBoxById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.service.js:33:15)
+    at exports.getBoxById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.controller.js:48:34)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:18:5
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+[2026-02-27 16:37:59] ERROR : Operational error: getBoxById . Invalid Box ID
+[2026-02-27 16:37:59] ERROR : error stackTrace: Error: getBoxById . Invalid Box ID
+    at Object.getBoxById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.service.js:33:15)
+    at exports.getBoxById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.controller.js:48:34)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:18:5
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+[2026-02-27 16:38:42] ERROR : UNEXPECTED ERROR: body is not defined
+ReferenceError: body is not defined
+    at exports.getBoxByCompositeKey (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.controller.js:33:25)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:18:5
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+[2026-02-27 16:40:03] ERROR : UNEXPECTED ERROR: body is not defined
+ReferenceError: body is not defined
+    at exports.getBoxByCompositeKey (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.controller.js:33:25)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:18:5
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+[2026-02-27 16:40:38] ERROR : Operational error: compositeKey . Box not found
+[2026-02-27 16:40:38] ERROR : error stackTrace: Error: compositeKey . Box not found
+    at Object.getBoxByCompositeKey (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.service.js:76:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.getBoxByCompositeKey (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.controller.js:34:17)
+[2026-02-27 16:50:19] ERROR : Operational error: Failed to create Box: Box validation failed: centreCommercialId: Cast to ObjectId failed for value "{ '$oid': '699d91a09f82fd8a52e5a448' }" (type Object) at path "centreCommercialId" because of "BSONError"
+[2026-02-27 16:50:19] ERROR : error stackTrace: Error: Failed to create Box: Box validation failed: centreCommercialId: Cast to ObjectId failed for value "{ '$oid': '699d91a09f82fd8a52e5a448' }" (type Object) at path "centreCommercialId" because of "BSONError"
+    at Object.createBox (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.service.js:14:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.createBox (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/spatial/Box.controller.js:5:17)
+[2026-02-27 16:50:51] ERROR : UNEXPECTED ERROR: Expected double-quoted property name in JSON at position 95
+SyntaxError: Expected double-quoted property name in JSON at position 95
+    at JSON.parse (<anonymous>)
+    at parse (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/body-parser/lib/types/json.js:72:19)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/body-parser/lib/read.js:162:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:206:9)
+    at invokeCallback (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:238:16)
+    at done (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:524:28)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+[2026-02-27 16:52:25] ERROR : Operational error: Invalid syntax undefined: undefined
+[2026-02-27 16:52:25] ERROR : error stackTrace: Error: Invalid syntax undefined: undefined
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:19:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:111:12)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+[2026-02-27 18:31:07] ERROR : Operational error: Token not provided
+[2026-02-27 18:31:07] ERROR : error stackTrace: Error: Token not provided
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:10:13)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+    at handle (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:295:15
+    at param (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:600:14)
+    at param (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:610:14)
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:664:3)
+[2026-02-27 18:32:50] ERROR : UNEXPECTED ERROR: Cannot read properties of undefined (reading 'reason')
+TypeError: Cannot read properties of undefined (reading 'reason')
+    at exports.reject (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/demande_boutiques/DemandeBoutique.controller.js:46:16)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:18:5
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+[2026-02-27 18:40:36] ERROR : Operational error: rejection reason missing
+[2026-02-27 18:40:36] ERROR : error stackTrace: Error: rejection reason missing
+    at exports.reject (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/demande_boutiques/DemandeBoutique.controller.js:46:13)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:18:5
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:117:3)
+[2026-02-27 18:46:47] ERROR : UNEXPECTED ERROR: Certaines box ne sont plus disponibles
+Error: Certaines box ne sont plus disponibles
+    at Object.approveDemande (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/demande_boutiques/DemandeBoutique.service.js:116:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.approve (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/demande_boutiques/DemandeBoutique.controller.js:33:21)
+[2026-02-27 18:59:16] ERROR : Operational error: Path `ownerId` is required., Path `categorieId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+[2026-02-27 18:59:16] ERROR : error stackTrace: Error: Path `ownerId` is required., Path `categorieId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:32:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 19:30:53] ERROR : Operational error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+[2026-02-27 19:30:53] ERROR : error stackTrace: Error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:32:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 19:33:46] ERROR : Operational error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+[2026-02-27 19:33:46] ERROR : error stackTrace: Error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:32:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 19:35:32] ERROR : Operational error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+[2026-02-27 19:35:32] ERROR : error stackTrace: Error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:32:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 19:35:46] ERROR : Operational error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+[2026-02-27 19:35:46] ERROR : error stackTrace: Error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:32:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 19:36:02] ERROR : Operational error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+[2026-02-27 19:36:02] ERROR : error stackTrace: Error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:32:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 19:36:21] ERROR : Operational error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+[2026-02-27 19:36:21] ERROR : error stackTrace: Error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:32:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 19:36:51] ERROR : Operational error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+[2026-02-27 19:36:51] ERROR : error stackTrace: Error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:32:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 19:37:08] ERROR : Operational error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+[2026-02-27 19:37:08] ERROR : error stackTrace: Error: Path `ownerId` is required., Path `boutiqueSlug` is required., Path `name` is required.
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:32:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 19:40:02] ERROR : Operational error: Path `boutiqueSlug` is required.
+[2026-02-27 19:40:02] ERROR : error stackTrace: Error: Path `boutiqueSlug` is required.
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:32:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 19:40:45] ERROR : Operational error: Path `boutiqueSlug` is required.
+[2026-02-27 19:40:45] ERROR : error stackTrace: Error: Path `boutiqueSlug` is required.
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:32:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 19:40:47] ERROR : Operational error: Path `boutiqueSlug` is required.
+[2026-02-27 19:40:47] ERROR : error stackTrace: Error: Path `boutiqueSlug` is required.
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:32:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 19:46:44] ERROR : Operational error: Path `boutiqueSlug` is required.
+[2026-02-27 19:46:44] ERROR : error stackTrace: Error: Path `boutiqueSlug` is required.
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:32:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:276:14)
+[2026-02-27 19:54:25] ERROR : UNEXPECTED ERROR: Cannot read properties of undefined (reading 'trim')
+TypeError: Cannot read properties of undefined (reading 'trim')
+    at Object.generateSlugCaseInsensitive (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/utils/Utils.js:76:6)
+    at Object.approveDemande (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/demande_boutiques/DemandeBoutique.service.js:117:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.approve (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/demande_boutiques/DemandeBoutique.controller.js:51:21)
+[2026-02-27 19:57:27] ERROR : UNEXPECTED ERROR: Cannot read properties of undefined (reading 'isModified')
+TypeError: Cannot read properties of undefined (reading 'isModified')
+    at model.<anonymous> (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/Boutique.model.js:76:52)
+    at Kareem.execPre (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/kareem/index.js:63:39)
+    at model._execDocumentPreHooks (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/document.js:2965:29)
+    at model.$__validate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/document.js:2982:28)
+    at model.validate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/document.js:2680:16)
+    at model.validateBeforeSave (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/plugins/validateBeforeSave.js:34:18)
+    at Kareem.execPre (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/kareem/index.js:63:39)
+    at model._execDocumentPreHooks (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/document.js:2965:29)
+    at model.$__save (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/model.js:369:16)
+    at model.save (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/model.js:609:16)
+[2026-02-27 22:18:31] ERROR : UNEXPECTED ERROR: Cannot populate path `boxIds` because it is not in your schema. Set the `strictPopulate` option to false to override.
+StrictPopulateError: Cannot populate path `boxIds` because it is not in your schema. Set the `strictPopulate` option to false to override.
+    at getModelsMapForPopulate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/helpers/populate/getModelsMapForPopulate.js:51:12)
+    at _populatePath (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/model.js:4309:21)
+    at Function.populate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/model.js:4276:21)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/query.js:2671:11
+    at _init (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/query.js:3349:5)
+    at Document.init (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/document.js:660:5)
+    at Document.$init (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/document.js:673:42)
+    at Object.createModelAndInit (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/queryHelpers.js:122:12)
+    at completeOne (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/query.js:3327:11)
+    at Query._completeOne (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/query.js:2667:3)
+[2026-02-27 22:25:02] ERROR : UNEXPECTED ERROR: Cannot populate path `boxIds` because it is not in your schema. Set the `strictPopulate` option to false to override.
+StrictPopulateError: Cannot populate path `boxIds` because it is not in your schema. Set the `strictPopulate` option to false to override.
+    at getModelsMapForPopulate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/helpers/populate/getModelsMapForPopulate.js:51:12)
+    at _populatePath (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/model.js:4309:21)
+    at Function.populate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/model.js:4276:21)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/query.js:2671:11
+    at _init (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/query.js:3349:5)
+    at Document.init (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/document.js:660:5)
+    at Document.$init (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/document.js:673:42)
+    at Object.createModelAndInit (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/queryHelpers.js:122:12)
+    at completeOne (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/query.js:3327:11)
+    at Query._completeOne (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/mongoose/lib/query.js:2667:3)
+[2026-02-27 22:36:39] ERROR : UNEXPECTED ERROR: Box is not defined
+ReferenceError: Box is not defined
+    at Object.getBoutiqueWithBoxesById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/Boutique.service.js:68:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.getBoutiqueAndBoxesById (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/Boutique.controller.js:32:22)
+[2026-02-27 22:53:28] ERROR : UNEXPECTED ERROR: Cannot read properties of undefined (reading 'length')
+TypeError: Cannot read properties of undefined (reading 'length')
+    at Object.createBoutique (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/Boutique.service.js:22:33)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.createBoutique (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/Boutique.controller.js:5:22)
+[2026-02-27 22:53:30] ERROR : UNEXPECTED ERROR: Cannot read properties of undefined (reading 'length')
+TypeError: Cannot read properties of undefined (reading 'length')
+    at Object.createBoutique (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/Boutique.service.js:22:33)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.createBoutique (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/Boutique.controller.js:5:22)
+[2026-02-27 23:06:06] ERROR : Operational error: Invalid syntax in a json file
+[2026-02-27 23:06:06] ERROR : error stackTrace: Error: Invalid syntax in a json file
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:19:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:111:12)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+[2026-02-27 23:06:19] ERROR : Operational error: Invalid syntax in a json file
+[2026-02-27 23:06:19] ERROR : error stackTrace: Error: Invalid syntax in a json file
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:19:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:111:12)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+[2026-02-27 23:06:44] ERROR : Operational error: Invalid syntax in a json file
+[2026-02-27 23:06:44] ERROR : error stackTrace: Error: Invalid syntax in a json file
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:19:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:111:12)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+[2026-02-27 23:08:37] ERROR : Operational error: Veuillez fournir le nom,le proprios et la categorie de la boutique
+[2026-02-27 23:08:37] ERROR : error stackTrace: Error: Veuillez fournir le nom,le proprios et la categorie de la boutique
+    at Object.createBoutique (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/Boutique.service.js:13:11)
+    at exports.createBoutique (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/Boutique.controller.js:5:44)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/role.middleware.js:18:5
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+    at checkToken (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/auth.middleware.js:30:5)
+    at Layer.handleRequest (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:152:17)
+    at next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/route.js:157:13)
+[2026-02-27 23:11:00] ERROR : UNEXPECTED ERROR: categoryId is not defined
+ReferenceError: categoryId is not defined
+    at Object.createBoutique (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/Boutique.service.js:37:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async exports.createBoutique (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/modules/boutiques/Boutique.controller.js:5:22)
+[2026-02-27 23:11:28] ERROR : Operational error: slug already exists
+[2026-02-27 23:11:28] ERROR : error stackTrace: Error: slug already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:24:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
+    at process.processImmediate (node:internal/timers:485:21)
+[2026-02-27 23:13:14] ERROR : Operational error: slug already exists
+[2026-02-27 23:13:14] ERROR : error stackTrace: Error: slug already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:24:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
+    at process.processImmediate (node:internal/timers:485:21)
+[2026-02-27 23:13:19] ERROR : Operational error: slug already exists
+[2026-02-27 23:13:19] ERROR : error stackTrace: Error: slug already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:24:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
+    at process.processImmediate (node:internal/timers:485:21)
+[2026-02-27 23:13:21] ERROR : Operational error: slug already exists
+[2026-02-27 23:13:21] ERROR : error stackTrace: Error: slug already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:24:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
+    at process.processImmediate (node:internal/timers:485:21)
+[2026-02-27 23:16:36] ERROR : Operational error: slug already exists
+[2026-02-27 23:16:36] ERROR : error stackTrace: Error: slug already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:24:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
+    at process.processImmediate (node:internal/timers:485:21)
+[2026-02-27 23:16:45] ERROR : Operational error: slug already exists
+[2026-02-27 23:16:45] ERROR : error stackTrace: Error: slug already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:24:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
+    at process.processImmediate (node:internal/timers:485:21)
+[2026-02-27 23:17:32] ERROR : Operational error: slug already exists
+[2026-02-27 23:17:32] ERROR : error stackTrace: Error: slug already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:24:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
+    at process.processImmediate (node:internal/timers:485:21)
+[2026-02-27 23:19:02] ERROR : Operational error: slug already exists
+[2026-02-27 23:19:02] ERROR : error stackTrace: Error: slug already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:24:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
+    at process.processImmediate (node:internal/timers:485:21)
+[2026-02-27 23:19:07] ERROR : Operational error: slug already exists
+[2026-02-27 23:19:07] ERROR : error stackTrace: Error: slug already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:24:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
+    at process.processImmediate (node:internal/timers:485:21)
+[2026-02-27 23:20:49] ERROR : Operational error: duplicate keys :slug already exists
+[2026-02-27 23:20:49] ERROR : error stackTrace: Error: duplicate keys :slug already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:24:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
+    at process.processImmediate (node:internal/timers:485:21)
+[2026-02-27 23:21:58] ERROR : Operational error: duplicate keys :slug already exists
+[2026-02-27 23:21:58] ERROR : error stackTrace: Error: duplicate keys :slug already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:24:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
+    at process.processImmediate (node:internal/timers:485:21)
+[2026-02-27 23:26:21] ERROR : Operational error: duplicate keys :slug already exists
+[2026-02-27 23:26:21] ERROR : error stackTrace: Error: duplicate keys :slug already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:24:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
+    at process.processImmediate (node:internal/timers:485:21)
+[2026-02-27 23:26:35] ERROR : Operational error: duplicate keys :slug already exists
+[2026-02-27 23:26:35] ERROR : error stackTrace: Error: duplicate keys :slug already exists
+    at errorMiddleware (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/src/middlewares/error.middleware.js:24:13)
+    at Layer.handleError (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/lib/layer.js:116:17)
+    at trimPrefix (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:340:13)
+    at /home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:297:9
+    at processParams (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:582:12)
+    at Immediate.next (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:291:5)
+    at Immediate._onImmediate (/home/mirenty/Documents/tech_project/Node/express_js/m1p13mean-Mirenty-Mirado-back-Express/node_modules/router/index.js:688:15)
+    at process.processImmediate (node:internal/timers:485:21)

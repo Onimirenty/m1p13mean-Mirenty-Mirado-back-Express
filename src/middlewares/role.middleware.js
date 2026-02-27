@@ -2,7 +2,7 @@ const AppError = require("../utils/AppError");
 const logger = require('../utils/logger')
 /**
  * Middleware d'autorisation par rôle
- * Usage : role("admin") ou role("admin","proprietaire")
+ * Usage : role("ADMIN") ou role("ADMIN","owner")
  * 
  */
 

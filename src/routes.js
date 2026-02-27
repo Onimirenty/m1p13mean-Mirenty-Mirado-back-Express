@@ -20,7 +20,7 @@ router.use('/users', userRoutes);
 router.use('/categories', categoryRoutes);
 router.use('/centres', centreCommercialRoutes);
 router.use('/boxes', boxRoutes);
+router.use('/demandes-creation-boutiques', DemandeBoutiqueRoutes);
 router.use('/boutiques', BoutiqueRoutes);
-router.use('/demandes-creation-Boutiques', DemandeBoutiqueRoutes);
 
 module.exports = router;

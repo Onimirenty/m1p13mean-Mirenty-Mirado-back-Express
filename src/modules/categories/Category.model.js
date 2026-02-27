@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const utils = require("../../utils/Utils")
 
 const categorieSchema = new mongoose.Schema(
   {
@@ -19,4 +20,14 @@ const categorieSchema = new mongoose.Schema(
 );
 
 categorieSchema.index({ nom: 1 }, { unique: true });
+
+categorieSchema.pre('save', async function () {
+  try {
+    this.nom = utils.generateSlugPreserveCase(this.nom);
+  } catch (error) {
+    logger.error('Password hashing failed', { error });
+    throw error
+  }
+});
+
 module.exports = mongoose.model("Categorie", categorieSchema);
