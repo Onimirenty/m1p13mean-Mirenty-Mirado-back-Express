@@ -84,11 +84,11 @@ promotionSchema.index({
     createdAt: -1
 });
 
-promotionSchema.index({
-    status: 1,
-    dateFin: 1,
-    createdAt: -1
-});
+promotionSchema.index(
+    { titre: 1, produitId: 1, prixPromotion: 1 },
+    { unique: true }
+);
+
 
 promotionSchema.pre("validate", function () {
     if (this.dateFin <= this.dateDebut) {
