@@ -25,7 +25,7 @@ categorieSchema.pre('save', async function () {
   try {
     this.nom = utils.generateSlugPreserveCase(this.nom);
   } catch (error) {
-    logger.error('Password hashing failed', { error });
+    logger.error('categorie slug creation failed', { error });
     throw error
   }
 });
