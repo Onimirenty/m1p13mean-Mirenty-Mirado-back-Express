@@ -4,6 +4,7 @@ const app = require('./app');
 const Utils = require('./utils/Utils');
 const connectDB = require('./config/DataBase');
 const logger = require('./utils/logger')
+const { verifyCloudinaryConnection } = require('./config/Cloudinary');
 
 
 const port = Utils.normalizePort(process.env.PORT || '3000');
@@ -13,10 +14,15 @@ if (!process.env.JWT_SECRET) {
   console.error("CRITICAL ERROR: JWT_SECRET is not defined in .env file");
   process.exit(1);
 }
-
+if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+  console.error("CRITICAL ERROR: CLOUDINARY_* variables are not defined in .env file");
+  process.exit(1);
+}
 (async () => {
   try {
     await connectDB();
+    await verifyCloudinaryConnection();
+    
     const server = http.createServer(app);
     server.on('error', Utils.errorHandler(server, port));
     server.on('listening', () => {
@@ -34,3 +40,4 @@ if (!process.env.JWT_SECRET) {
     process.exit(1);
   }
 })();
+

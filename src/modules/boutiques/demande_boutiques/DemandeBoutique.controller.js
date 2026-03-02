@@ -4,7 +4,8 @@ const UserService = require("../../users/User.service");
 
 exports.create = async (req, res, next) => {
   try {
-    const { email, userId } = req.body;
+    const { email, ownerId } = req.body;
+    const userId = ownerId;
     if (!email && !userId) {
       throw new AppError("Email or userId must be provided", 400);
     }
@@ -18,10 +19,36 @@ exports.create = async (req, res, next) => {
     if (!owner) {
       throw new AppError("creating demande but Owner not found", 404);
     }
+
+    const uploadedDocs = req.uploadedFiles || [];
+    const [rcsFile, nifFile, statFile] = uploadedDocs;
     const payload = {
       ...req.body,
       ownerId: owner._id
     };
+    // Vérifie si au moins un champ document est fourni
+    const hasDocuments =
+      req.body.rcsNumber ||
+      req.body.nifNumber ||
+      req.body.statNumber ||
+      rcsFile?.url ||
+      nifFile?.url ||
+      statFile?.url ||
+      req.body.rcsFileUrl ||
+      req.body.nifFileUrl ||
+      req.body.statFileUrl;
+
+    if (hasDocuments) {
+      payload.documents = {
+        rcsNumber: req.body.rcsNumber || undefined,
+        nifNumber: req.body.nifNumber || undefined,
+        statNumber: req.body.statNumber || undefined,
+
+        rcsFileUrl: rcsFile?.url || req.body.rcsFileUrl || undefined,
+        nifFileUrl: nifFile?.url || req.body.nifFileUrl || undefined,
+        statFileUrl: statFile?.url || req.body.statFileUrl || undefined,
+      };
+    }
     const demande = await DemandeService.createDemandeBoutique(payload);
     res.status(201).json({ demande });
   } catch (err) {
