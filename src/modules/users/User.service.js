@@ -46,12 +46,12 @@ const getUserByEmail = async (email) => {
 
 const getUserById = async (id) => {
 
-  const user = await User.findOne({ id })
+  const user = await User.findOne({ _id : id })
     .select('-password');
 
   if (!user) {
-    const error = new AppError("Email  incorrect", 401);
-    logger.info("User not found "); // email essayer
+    const error = new AppError("id incorrect", 401);
+    logger.error("User not found ",error); // email essayer
     throw error;
   }
 

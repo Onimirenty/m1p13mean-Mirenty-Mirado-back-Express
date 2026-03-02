@@ -1,16 +1,26 @@
 const PromotionService = require("./Promotion.service");
 const Promotion = require("./Promotion.model");
+const { deleteFromCloudinary } = require("../../middlewares/upload.middleware");
 
 // CRÉATION : Validation automatique par le propriétaire
 exports.createPromotion = async (req, res, next) => {
   try {
+    const uploadedImage = req.uploadedFiles?.[0] || null;
+    const payload = {
+      ...req.body,
+      ...(uploadedImage && {
+        image: uploadedImage.url,
+        imagePublicId: uploadedImage.publicId,
+      }),
+    };
+
     // Note : boutiqueId doit être envoyé dans le body par le frontend
-    const promotion = await PromotionService.createPromotion(req.body.boutiqueId, req.body);
-    
-    res.status(201).json({ 
-      success: true, 
-      message: "Promotion créée et validée automatiquement", 
-      data: promotion 
+    const promotion = await PromotionService.createPromotion(payload.boutiqueId, payload);
+
+    res.status(201).json({
+      success: true,
+      message: "Promotion créée et validée automatiquement",
+      data: promotion
     });
   } catch (error) {
     next(error);
@@ -32,7 +42,7 @@ exports.getPromotionById = async (req, res, next) => {
   try {
     const promotion = await Promotion.findById(req.params.id).populate("boutiqueId");
     if (!promotion) return res.status(404).json({ message: "Promotion introuvable" });
-    
+
     res.status(200).json({ success: true, data: promotion });
   } catch (error) {
     next(error);
@@ -42,6 +52,16 @@ exports.getPromotionById = async (req, res, next) => {
 // UPDATE (PUT) : Mise à jour complète par le propriétaire
 exports.updatePromotion = async (req, res, next) => {
   try {
+    const uploadedImage = req.uploadedFiles?.[0] || null;
+    const payload = { ...req.body };
+    if (uploadedImage) {
+      const existing = await Promotion.findById(req.params.id);
+      if (existing?.imagePublicId) {
+        await deleteFromCloudinary(existing.imagePublicId, "image");
+      }
+      payload.image = uploadedImage.url;
+      payload.imagePublicId = uploadedImage.publicId;
+    }
     const promotion = await PromotionService.updatePromotion(req.params.id, req.body);
     res.status(200).json({ success: true, data: promotion });
   } catch (error) {
@@ -62,6 +82,10 @@ exports.patchPromotion = async (req, res, next) => {
 // SUPPRESSION
 exports.deletePromotion = async (req, res, next) => {
   try {
+    const existing = await Promotion.findById(req.params.id);
+    if (existing?.imagePublicId) {
+      await deleteFromCloudinary(existing.imagePublicId, "image");
+    }
     await Promotion.findByIdAndDelete(req.params.id);
     res.status(200).json({ success: true, message: "Promotion supprimée" });
   } catch (error) {

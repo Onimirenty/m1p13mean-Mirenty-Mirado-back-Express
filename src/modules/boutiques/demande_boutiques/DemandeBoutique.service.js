@@ -93,53 +93,53 @@ const getDemandeById = async (id) => {
 const approveDemande = async (demandeId) => {
   const session = await mongoose.startSession();
   session.startTransaction();
+
   try {
     const demande = await DemandeBoutique.findById(demandeId).session(session);
+
     if (!demande) {
       throw new AppError("Demande de creation de boutique introuvable", 404);
+
     }
+
     if (demande.status !== "PENDING") {
-      throw new Error("Demande de creation de boutique  déjà traitée", 409);
+      throw new AppError("Demande de creation de boutique  déjà traitée", 409);
+
     }
+
     const { boxIds, nomBoutique, ownerId, categorieId } = demande;
 
-    // 1. Vérifier disponibilité des box
-    const boxes = await Box.find({
-      _id: { $in: boxIds },
-      status: "PENDING",
-    }).session(session);
+    // 1. Créer la boutique
+    const boutiqueSlug = Utils.generateSlugPreserveCase(nomBoutique);
 
-    if (boxes.length !== boxIds.length) {
-      throw new AppError("Certaines box ne sont plus disponibles", 409);
-    }
-
-    // 2. Créer la boutique
-    const boutiqueSlug = Utils.generateSlugPreserveCase();
-    const boutique = await Boutique.create(
+    const [boutique] = await Boutique.create(
       [{ name: nomBoutique, ownerId: ownerId, categorieId, boutiqueSlug: boutiqueSlug }],
       { session }
     );
 
-    // const boutiqueInstance = new Boutique({
-    //   name: nomBoutique,
-    //   ownerId,
-    //   categorieId
-    // });
-
-    // const boutique = await boutiqueInstance.save({ session });
-    console.log("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
-
-    const boutiqueId = boutique[0]._id;
-
-    // 3. Assigner les box (SEULE source de vérité)
-    await Box.updateMany(
-      { _id: { $in: boxIds } },
+    // 2. Mettre à jour les box de façon atomique
+    const updateResult = await Box.updateMany(
+      {
+        _id: { $in: boxIds },
+        status: "PENDING",
+      },
       {
         $set: {
-          boutiqueId: boutiqueId,
+          boutiqueId: boutique._id,
           status: "OCCUPIED",
         },
       },
+      { session }
+    );
+
+    if (updateResult.modifiedCount !== boxIds.length) {
+      throw new AppError("Certaines box ne sont plus disponibles", 409);
+    }
+
+    // 3. Mettre à jour le rôle user (dans la transaction)
+    await User.findByIdAndUpdate(
+      ownerId,
+      { role: "OWNER" },
       { session }
     );
 
@@ -150,7 +150,8 @@ const approveDemande = async (demandeId) => {
     await session.commitTransaction();
     session.endSession();
 
-    return boutique[0];
+    return boutique;
+
   } catch (err) {
     await session.abortTransaction();
     session.endSession();

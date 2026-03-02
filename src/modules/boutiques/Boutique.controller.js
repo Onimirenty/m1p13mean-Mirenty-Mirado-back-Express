@@ -2,7 +2,18 @@ const BoutiqueService = require("./Boutique.service");
 
 exports.createBoutique = async (req, res, next) => {
   try {
-    const boutique = await BoutiqueService.createBoutique(req.body);
+    // req.uploadedFiles est injecté par uploadBoutiqueImage
+    const uploadedImage = req.uploadedFiles?.[0] || null;
+
+    const payload = {
+      ...req.body,
+      ...(uploadedImage && {
+        images: [{ type: "logo", url: uploadedImage.url }],
+        imagePublicId: uploadedImage.publicId, // pour pouvoir la supprimer plus tard
+      }),
+    };
+
+    const boutique = await BoutiqueService.createBoutique(payload);
     res.status(201).json({ message: "Boutique created", boutique });
   } catch (error) {
     next(error);
@@ -38,15 +49,37 @@ exports.getBoutiqueAndBoxesById = async (req, res, next) => {
 
 exports.updateBoutique = async (req, res, next) => {
   try {
-    const boutique = await BoutiqueService.updateBoutique(req.params.id, req.body);
+    const uploadedImage = req.uploadedFiles?.[0] || null;
+
+    const payload = { ...req.body };
+
+    if (uploadedImage) {
+      // Récupérer l'ancienne image pour la supprimer de Cloudinary
+      const existing = await BoutiqueService.getBoutiqueById(req.params.id);
+      if (existing?.imagePublicId) {
+        await deleteFromCloudinary(existing.imagePublicId, "image");
+      }
+
+      payload.images = [{ type: "logo", url: uploadedImage.url }];
+      payload.imagePublicId = uploadedImage.publicId;
+    }
+
+    const boutique = await BoutiqueService.updateBoutique(req.params.id, payload);
     res.status(200).json({ message: "Boutique updated", boutique });
   } catch (error) {
     next(error);
   }
 };
 
+
 exports.deleteBoutique = async (req, res, next) => {
   try {
+    // Supprimer l'image Cloudinary associée avant la suppression
+    const existing = await BoutiqueService.getBoutiqueById(req.params.id);
+    if (existing?.imagePublicId) {
+      await deleteFromCloudinary(existing.imagePublicId, "image");
+    }
+
     await BoutiqueService.deleteBoutique(req.params.id);
     res.status(200).json({ message: "Boutique deleted successfully" });
   } catch (error) {
