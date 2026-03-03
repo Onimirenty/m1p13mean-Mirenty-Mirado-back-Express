@@ -64,16 +64,15 @@ const userSchema = new mongoose.Schema(
 //  Hash password before save
 userSchema.pre('save', async function () {
   try {
-    if (!this.isModified('password')) return;
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    this.passwordChangedAt = Date.now();
-
     if (this.isModified('status') || this.isModified('role')) {
       this.status = this.status.toUpperCase();
       this.role = this.role.toUpperCase();
     }
-    
+    if (!this.isModified('password')) return;
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    this.passwordChangedAt = Date.now();
+  
   } catch (error) {
     logger.error('Password hashing failed', { error });
     throw error

@@ -3,15 +3,17 @@ const router = express.Router();
 
 const { checkToken } = require("../../middlewares/auth.middleware");
 const { checkRole } = require("../../middlewares/role.middleware");
+const { requireMultipart, uploadBoxImage } = require("../../middlewares/upload.middleware");
 
 const BoxController = require("./Box.controller");
 
-// ADMIN ONLY
-router.get("/composite",checkToken,checkRole("ADMIN"),BoxController.getBoxByCompositeKey);
-router.post("/", checkToken, checkRole("ADMIN"), BoxController.createBox);
+router.get("/composite", checkToken, checkRole("ADMIN"), BoxController.getBoxByCompositeKey);
 router.get("/", checkToken, checkRole("ADMIN"), BoxController.getAllBoxes);
-router.get("/:id", checkToken, checkRole("ADMIN"), BoxController.getBoxById);
-router.put("/:id", checkToken, checkRole("ADMIN"), BoxController.updateBox);
+router.get("/:id", checkToken, checkRole("ADMIN","OWNER"), BoxController.getBoxById);
 router.delete("/:id", checkToken, checkRole("ADMIN"), BoxController.deleteBox);
 
+router.post("/", checkToken, checkRole("ADMIN"), requireMultipart, uploadBoxImage, BoxController.createBox);
+router.put("/:id", checkToken, checkRole("ADMIN"), requireMultipart, uploadBoxImage, BoxController.updateBox);
+
 module.exports = router;
+

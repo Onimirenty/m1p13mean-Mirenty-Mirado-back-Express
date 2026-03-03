@@ -40,6 +40,15 @@ const centreCommercialSchema = new mongoose.Schema(
             instagram: String,
             tiktok: String
         },
+        image: {
+            type: String,
+            default: null
+        },
+
+        imagePublicId: {
+            type: String,
+            default: null
+        },
 
         configuration: {
             max_promo_per_boutique: {
@@ -68,9 +77,9 @@ const centreCommercialSchema = new mongoose.Schema(
 );
 
 centreCommercialSchema.pre("validate", function () {
-  if (this.status) {
-    this.status = this.status.toUpperCase();
-  }
+    if (this.status) {
+        this.status = this.status.toUpperCase();
+    }
 });
 
 module.exports = mongoose.model("CentreCommercial", centreCommercialSchema);

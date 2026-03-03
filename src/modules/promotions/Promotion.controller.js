@@ -62,7 +62,7 @@ exports.updatePromotion = async (req, res, next) => {
       payload.image = uploadedImage.url;
       payload.imagePublicId = uploadedImage.publicId;
     }
-    const promotion = await PromotionService.updatePromotion(req.params.id, req.body);
+    const promotion = await PromotionService.updatePromotion(req.params.id, payload);
     res.status(200).json({ success: true, data: promotion });
   } catch (error) {
     next(error);
@@ -88,6 +88,40 @@ exports.deletePromotion = async (req, res, next) => {
     }
     await Promotion.findByIdAndDelete(req.params.id);
     res.status(200).json({ success: true, message: "Promotion supprimée" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getAllPromotionsAdmin = async (req, res, next) => {
+  try {
+    const filter = {};
+    if (req.query.status) {
+      filter.status = req.query.status.toUpperCase();
+    }
+
+    const promotions = await Promotion.find(filter)
+      .populate('boutiqueId', 'name')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: promotions.length,
+      data: promotions.map(p => ({
+        _id: p._id,
+        titre: p.titre,
+        taux: p.pourcentageReduction,
+        prixInitial: p.prixOrigine,
+        prixReduit: p.prixPromotion,
+        description: p.description,
+        imageUrl: p.image || null,
+        dateDebut: p.dateDebut,
+        dateFin: p.dateFin,
+        status: p.status,
+        vues: p.stats?.vues || 0,
+        createdAt: p.createdAt,
+      })),
+    });
   } catch (error) {
     next(error);
   }

@@ -3,7 +3,7 @@
  *  UPLOAD MIDDLEWARE — Centre Commercial API
  * ============================================================
  *  Gère :
- *   - Upload image  → Cloudinary (boutiques, produits, promotions)
+ *   - Upload image  → Cloudinary (boutiques, produits, promotions, centre commercial, box)
  *   - Upload document → Cloudinary raw (PDF légaux des demandes)
  *   - Validation content-type stricte par contexte
  *   - Limite de taille par type de fichier
@@ -60,6 +60,23 @@ const UPLOAD_PROFILES = {
     resourceType: "raw",
     label: "document légal (PDF)",
   },
+  // Image du centre commercial (logo / photo principale)
+  centre_commercial_image: {
+    allowedMimeTypes: ["image/jpeg", "image/png", "image/webp"],
+    maxSizeBytes: 8 * 1024 * 1024, // 8 Mo
+    cloudinaryFolder: "centre_commercial/centres",
+    resourceType: "image",
+    label: "image centre commercial",
+  },
+
+  // Image d'une box (photo de l'emplacement vide ou occupé)
+  box_image: {
+    allowedMimeTypes: ["image/jpeg", "image/png", "image/webp"],
+    maxSizeBytes: 5 * 1024 * 1024, // 5 Mo
+    cloudinaryFolder: "centre_commercial/boxes",
+    resourceType: "image",
+    label: "image box",
+  },
 };
 
 // ─────────────────────────────────────────
@@ -94,7 +111,7 @@ const buildMulterMiddleware = (profileName, fieldName, maxCount = 1) => {
       cb(
         new AppError(
           `Type de fichier non autorisé pour ${profile.label}. ` +
-            `Types acceptés : ${profile.allowedMimeTypes.join(", ")}`,
+          `Types acceptés : ${profile.allowedMimeTypes.join(", ")}`,
           415
         ),
         false
@@ -319,6 +336,12 @@ module.exports = {
 
   /** Upload jusqu'à 3 documents PDF légaux pour une demande (non obligatoire) */
   uploadDocumentsLegaux: createUploadMiddleware("document_legal", "documents", 3, false),
+
+  /** Upload 1 image pour un centre commercial (non obligatoire) */
+  uploadCentreCommercialImage: createUploadMiddleware("centre_commercial_image", "image", 1, false),
+
+  /** Upload 1 image pour une box (non obligatoire) */
+  uploadBoxImage: createUploadMiddleware("box_image", "image", 1, false),
 
   // ── Utilitaires ──────────────────────────
   deleteFromCloudinary,

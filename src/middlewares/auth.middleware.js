@@ -18,15 +18,17 @@ const checkToken = (req, res, next) => {
     });
 
     // Normalisation des données attachées à la requête
-    if (process.env.NODE_ENV === 'development') {
-      //ressource garder dans le frontend en production 
-      req.user = {
-        accessToken: token,
-        role: decoded.role,
-        email: decoded.email,
-      };
+    // if (process.env.NODE_ENV === 'development') {
+    //les ressources devraient etre garder dans le frontend en production 
+    req.user = {
+      accessToken: token,
+      role: decoded.role,
+      email: decoded.email,
+      id: decoded.userId,
+    };
 
-    }
+    // }
+
     next();
   } catch (error) {
     next(error);
