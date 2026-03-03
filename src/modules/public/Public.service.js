@@ -82,8 +82,11 @@ const getBoutiques = async ({ page = 1, limit = 10, query, category } = {}) => {
 const getBoutiqueById = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id)) throw new AppError('ID boutique invalide', 400);
 
+
   const boutique = await Boutique.findById(id).populate('categorieId', 'nom iconClass');
-  if (!boutique) throw new AppError('Boutique introuvable', 404);
+  if (!boutique || boutique.status !== 'ACTIVE') {
+    throw new AppError('Boutique introuvable', 404);
+  }
 
   const box = await Box.findOne({ boutiqueId: boutique._id });
 
@@ -191,10 +194,10 @@ const searchGlobal = async ({ page = 1, limit = 10, query, category } = {}) => {
 // PLAN DU CENTRE
 // ─────────────────────────────────────────
 
-const getPlanCentre = async () => {
-  const centre = await CentreCommercial.findById(process.env.CM_ID).select('planImageUrl');
-  return { planImageUrl: centre?.planImageUrl || null };
-};
+// const getPlanCentre = async () => {
+//   const centre = await CentreCommercial.findById(process.env.CM_ID).select('planImageUrl');
+//   return { planImageUrl: centre?.planImageUrl || null };
+// };
 
 module.exports = {
   getBoutiques,
@@ -202,5 +205,5 @@ module.exports = {
   getPromotions,
   getPromotionById,
   searchGlobal,
-  getPlanCentre,
+  // getPlanCentre,
 };

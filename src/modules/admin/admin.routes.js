@@ -4,6 +4,8 @@ const router = express.Router();
 const { checkToken } = require('../../middlewares/auth.middleware');
 const { checkRole } = require('../../middlewares/role.middleware');
 const { requireMultipart, uploadBoutiqueImage } = require('../../middlewares/upload.middleware');
+const DemandeController = require("../boutiques/demande_boutiques/DemandeBoutique.controller");
+const BoutiqueController = require("../boutiques/Boutique.controller");
 
 const AdminController = require('./admin.controller');
 
@@ -16,9 +18,11 @@ router.put('/center', requireMultipart, uploadBoutiqueImage, AdminController.upd
 
 // ── Boutiques ─────────────────────────────
 router.get('/boutiques', AdminController.getAllBoutiquesAdmin);
-router.patch('/boutiques/:id/validate', AdminController.validateBoutique);
-router.patch('/boutiques/:id/activate', AdminController.activateBoutique);
-router.patch('/boutiques/:id/disable', AdminController.disableBoutique);
+router.patch('/boutiques/:id/validate', DemandeController.approve);
+router.patch("/boutiques/:id/reject", DemandeController.reject);
+
+router.patch('/boutiques/:id/activate', BoutiqueController.activateBoutique);
+router.patch('/boutiques/:id/disable', BoutiqueController.deactivateBoutique);
 
 // ── Catégories ────────────────────────────
 router.post('/categories', AdminController.createCategorie);

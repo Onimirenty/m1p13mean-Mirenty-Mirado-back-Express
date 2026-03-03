@@ -71,6 +71,28 @@ const generateSlug = (text) => {
     .replace(/\s+/g, "-");
 };
 
+const normalizeBody = (body) => {
+  const result = {};
+  for (const [key, value] of Object.entries(body)) {
+    if (key.includes(".")) {
+      const parts = key.split(".");
+      if (parts.length === 2) {
+        const [parent, child] = parts;
+        if (!result[parent]) result[parent] = {};
+        result[parent][child] = value;
+      } else if (parts.length === 3) {
+        const [grandParent, parent, child] = parts;
+        if (!result[grandParent]) result[grandParent] = {};
+        if (!result[grandParent][parent]) result[grandParent][parent] = {};
+        result[grandParent][parent][child] = value;
+      }
+    } else {
+      result[key] = value;
+    }
+  }
+  return result;
+};
+
 
 const generateSlugPreserveCase = (text) => {
   if (!text) return "";
@@ -90,6 +112,7 @@ module.exports = {
   writeJsonFile,
   formatTimestamp,
   generateSlug,
-  generateSlugPreserveCase
-  
+  generateSlugPreserveCase,
+  normalizeBody
+
 };

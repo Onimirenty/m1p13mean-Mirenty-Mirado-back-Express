@@ -17,6 +17,6 @@ router.get('/promotions/:id', PublicController.getPromotionById);
 router.get('/search', PublicController.searchGlobal);
 
 // ── Plan du centre ────────────────────────
-router.get('/center/plan', PublicController.getPlanCentre);
+// router.get('/center/plan', PublicController.getPlanCentre);
 
 module.exports = router;

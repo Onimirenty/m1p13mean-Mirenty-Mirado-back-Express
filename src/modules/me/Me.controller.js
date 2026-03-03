@@ -9,6 +9,7 @@ const PromotionController = require('../promotions/Promotion.controller');
 exports.getMonProfil = async (req, res, next) => {
   try {
     const profil = await MeService.getMonProfil(req.user.id);
+    console.log("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ ",req.user.id )
     res.status(200).json(profil);
   } catch (error) {
     next(error);
@@ -21,7 +22,10 @@ exports.updateMonProfil = async (req, res, next) => {
 
     const data = {
       ...req.body,
-      ...(uploadedImage && { logoUrl: uploadedImage.url }),
+      ...(uploadedImage && {
+        logoUrl: uploadedImage.url,
+        logoPublicId: uploadedImage.publicId, 
+      }),
     };
 
     const profil = await MeService.updateMonProfil(req.user.id, data);

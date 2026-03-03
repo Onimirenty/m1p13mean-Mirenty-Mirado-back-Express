@@ -10,7 +10,8 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       lowercase: true,
-      minlength: 2
+      minlength: 2,
+      sparse: true
     },
     email: {
       type: String,
@@ -72,7 +73,7 @@ userSchema.pre('save', async function () {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     this.passwordChangedAt = Date.now();
-  
+
   } catch (error) {
     logger.error('Password hashing failed', { error });
     throw error

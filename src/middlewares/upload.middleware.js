@@ -335,7 +335,152 @@ module.exports = {
   uploadPromotionImage: createUploadMiddleware("promotion_image", "image", 1, false),
 
   /** Upload jusqu'à 3 documents PDF légaux pour une demande (non obligatoire) */
-  uploadDocumentsLegaux: createUploadMiddleware("document_legal", "documents", 3, false),
+
+
+  // uploadDocumentsLegaux: createUploadMiddleware("document_legal", "documents", 3, false),
+
+  uploadDocumentsLegaux: (() => {
+    const profile = UPLOAD_PROFILES["document_legal"];
+
+    const multerMw = multer({
+      storage: memoryStorage,
+      limits: { fileSize: profile.maxSizeBytes },
+    }).any();
+
+    return async (req, res, next) => {
+      multerMw(req, res, async (err) => {
+        if (err) {
+          // ← Intercepter spécifiquement "Field name missing" et continuer
+          if (err instanceof multer.MulterError && err.message === "Field name missing") {
+            req.uploadedFiles = [];
+            return next();
+          }
+
+          if (err instanceof multer.MulterError) {
+            if (err.code === "LIMIT_FILE_SIZE") {
+              const maxMo = (profile.maxSizeBytes / 1024 / 1024).toFixed(0);
+              return next(new AppError(`Fichier trop volumineux. Maximum : ${maxMo} Mo`, 413));
+            }
+            return next(new AppError(`Erreur upload : ${err.message}`, 400));
+          }
+          return next(err);
+        }
+
+        const allFiles = (req.files || []).filter(file =>
+          profile.allowedMimeTypes.includes(file.mimetype)
+        );
+
+        if (allFiles.length === 0) {
+          req.uploadedFiles = [];
+          return next();
+        }
+
+        try {
+          const entityId = req.params.id || req.body.boutiqueId || "tmp";
+          const uploads = await Promise.all(
+            allFiles.map((file) => uploadFileToCloudinary(file, "document_legal", entityId))
+          );
+          req.uploadedFiles = uploads;
+          logger.info(`[Upload] ${uploads.length} document(s) uploadé(s) — profil: document_legal`);
+          next();
+        } catch (uploadError) {
+          logger.error("[Upload] Cloudinary error:", uploadError.message);
+          next(new AppError("Echec de l'upload vers le stockage cloud", 502));
+        }
+      });
+    };
+  })(),
+
+
+
+  uploadRegisterBoutique: (() => {
+    const profileDoc = UPLOAD_PROFILES["document_legal"];
+    const profileImg = UPLOAD_PROFILES["boutique_image"];
+
+    const multerMw = multer({
+      storage: memoryStorage,
+      limits: { fileSize: Math.max(profileDoc.maxSizeBytes, profileImg.maxSizeBytes) },
+    }).any();
+
+    return async (req, res, next) => {
+      multerMw(req, res, async (err) => {
+        if (err) {
+          if (err instanceof multer.MulterError && err.message === "Field name missing") {
+            req.uploadedFiles = [];
+            return next();
+          }
+          if (err instanceof multer.MulterError) {
+            return next(new AppError(`Erreur upload : ${err.message}`, 400));
+          }
+          return next(err);
+        }
+
+        // Parser le champ "data" JSON
+        if (req.body.data) {
+          try {
+            const parsed = JSON.parse(req.body.data);
+            req.body = { ...req.body, ...parsed };
+            delete req.body.data;
+          } catch (e) {
+            return next(new AppError("Le champ 'data' doit être un JSON valide", 400));
+          }
+        }
+        const files = req.files || [];
+
+        // ── LOG TEMPORAIRE ──────────────────────
+       
+        logger.info("[uploadRegisterBoutique] files reçus : " +
+          JSON.stringify(files.map(f => ({
+            fieldname: f.fieldname,
+            mimetype: f.mimetype,
+            size: f.size,
+            originalname: f.originalname
+          })))
+        );
+        logger.info("[uploadRegisterBoutique] body keys : " + JSON.stringify(Object.keys(req.body)));
+        // ────────────────────────────────────────
+
+        // Chercher le logo — fieldname "logo" OU "image"
+        const logoFile = files.find(f =>
+          ["logo", "image"].includes(f.fieldname) &&
+          profileImg.allowedMimeTypes.includes(f.mimetype)
+        );
+
+        const docFiles = files.filter(f =>
+          ["documents", "rcsFile", "nifFile", "statFile"].includes(f.fieldname) &&
+          profileDoc.allowedMimeTypes.includes(f.mimetype)
+        );
+
+        try {
+          const entityId = req.params.id || "tmp";
+
+          if (logoFile) {
+            logger.info(`[uploadRegisterBoutique] Logo trouvé : ${logoFile.fieldname} — ${logoFile.originalname}`);
+            const uploaded = await uploadFileToCloudinary(logoFile, "boutique_image", entityId);
+            req.uploadedLogo = uploaded;
+            logger.info(`[uploadRegisterBoutique] Logo uploadé : ${uploaded.url}`);
+          } else {
+            logger.warn("[uploadRegisterBoutique] Aucun logo trouvé dans les fichiers");
+            req.uploadedLogo = null;
+          }
+
+          if (docFiles.length > 0) {
+            req.uploadedFiles = await Promise.all(
+              docFiles.map(f => uploadFileToCloudinary(f, "document_legal", entityId))
+            );
+          } else {
+            req.uploadedFiles = [];
+          }
+
+          next();
+        } catch (uploadError) {
+          logger.error("[Upload] Cloudinary error:", uploadError.message);
+          next(new AppError("Echec de l'upload vers le stockage cloud", 502));
+        }
+      });
+    };
+  })(),
+
 
   /** Upload 1 image pour un centre commercial (non obligatoire) */
   uploadCentreCommercialImage: createUploadMiddleware("centre_commercial_image", "image", 1, false),

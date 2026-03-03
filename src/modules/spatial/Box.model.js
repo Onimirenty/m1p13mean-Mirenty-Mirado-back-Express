@@ -71,16 +71,35 @@ boxSchema.index(
   { unique: true }
 );
 
+// boxSchema.pre("save", function () {
+//   if (this.status === "OCCUPIED" && !this.boutiqueId) {
+//     throw new AppError("OCCUPIED box must have boutiqueId", 400);
+//   }
+
+//   if (this.status === "AVAILABLE") {
+//     this.boutiqueId = null;
+//   }
+
+//   if (this.isModified('status')) {
+//     this.status = this.status.toUpperCase();
+//   }
+// });
+
 boxSchema.pre("save", function () {
   if (this.status === "OCCUPIED" && !this.boutiqueId) {
-    throw new AppError("OCCUPIED box must have boutiqueId", 400);
+    const err = new Error("OCCUPIED box must have boutiqueId");
+    err.name = "ValidationError";
+    err.errors = {
+      boutiqueId: { message: "OCCUPIED box must have boutiqueId" }
+    };
+    throw err;
   }
 
   if (this.status === "AVAILABLE") {
     this.boutiqueId = null;
   }
 
-  if (this.isModified('status')) {
+  if (this.isModified("status")) {
     this.status = this.status.toUpperCase();
   }
 });
