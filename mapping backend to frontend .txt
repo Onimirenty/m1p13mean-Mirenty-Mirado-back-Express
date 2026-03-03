@@ -1,0 +1,6 @@
+modele                  backend                 frontend        
+
+promotion               prixOrigine             prixInitial
+promotion               prixPromotion             prixReduit
+
+ 

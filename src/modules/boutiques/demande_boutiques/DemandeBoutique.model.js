@@ -24,13 +24,38 @@ const demandeBoutiqueSchema = new mongoose.Schema(
     ownerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required : true
+      required: true
     },
 
 
     contact: {
       telephone: String,
       emailBoutique: String
+    },
+    logoUrl: {
+      type: String,
+      default: null
+    },
+
+    logoPublicId: {
+      type: String,
+      default: null
+    },
+    opening: {
+      days: {
+        firstDay: String,
+        lastDay: String
+      }, // e.g. ["Monday", "Tuesday"]
+      hours: {
+        openingTime: String, // e.g. "09:00"
+        closingTime: String  // e.g. "18:00"
+      }
+    },
+    password: {
+      type: String,
+      // required: [true, 'Password is required'],
+      minlength: 6,
+      select: false
     },
 
     documents: {

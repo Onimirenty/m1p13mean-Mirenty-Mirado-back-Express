@@ -8,18 +8,32 @@ const PromotionHelper = require("./Promotion.helper");
 const mongoose = require("mongoose");
 
 
-
 exports.createPromotion = async (boutiqueId, data) => {
     const session = await mongoose.startSession();
     try {
         return await session.withTransaction(async () => {
-            await PromotionHelper.assertBoutiqueExists(boutiqueId);
-            const produit = await PromotionHelper.getProduitOrThrow(data.produitId, boutiqueId);
+            // 1. La boutique existe ?
+            await PromotionHelper.assertBoutiqueExists(boutiqueId, session);
+            // 2. Le produit appartient bien à cette boutique ?
+            const produit = await PromotionHelper.getProduitOrThrow(
+                data.produitId, boutiqueId, session
+            );
+            // 3. Calcul de la réduction (synchrone, pas de DB)
             const reduction = PromotionHelper.computeReduction(produit.prix, data, true);
-            const { box, centre } = await PromotionHelper.getBoxAndCentre(boutiqueId);
+            // 4. Récupérer box + centre (nécessaire pour la suite)
+            const { box, centre } = await PromotionHelper.getBoxAndCentre(boutiqueId, session);
+            // 5. Valider les dates selon les règles du centre (synchrone)
             const { debut, fin } = PromotionHelper.validateDatesWithCentreRules(data.dateDebut, data.dateFin, centre);
-            await PromotionHelper.assertPromotionLimit(boutiqueId, centre);
-            await PromotionHelper.checkPromotionOverlap({ produitId: data.produitId, dateDebut: debut, dateFin: fin, session });
+            // 6. Vérifier la limite de promos actives par boutique
+            await PromotionHelper.assertPromotionLimit(boutiqueId, centre, session);
+            // 7. Vérifier chevauchement (debut et fin sont maintenant définis)
+            await PromotionHelper.checkPromotionOverlap({
+                produitId: data.produitId,
+                dateDebut: debut,
+                dateFin: fin,
+                session
+            });
+            // 8. Créer la promotion
             const promotion = await Promotion.create(
                 [{
                     ...data,
@@ -33,7 +47,7 @@ exports.createPromotion = async (boutiqueId, data) => {
                         boxNumero: box.numero,
                         centreNom: centre.name
                     },
-                    status: "VALIDER" //ToDo : peut etre modifier selon la logique de gestion et de metier
+                    status: "VALIDER"
                 }],
                 { session }
             );
@@ -48,6 +62,14 @@ exports.createPromotion = async (boutiqueId, data) => {
 
 exports.updatePromotion = async (promotionId, data) => {
     const { boutiqueId } = data;
+    if (!boutiqueId) {
+        throw new AppError("boutiqueId est requis", 400);
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(boutiqueId)) {
+        throw new AppError("boutiqueId invalide", 400);
+    }
+
     const promotion = await Promotion.findOne({
         _id: promotionId,
         boutiqueId

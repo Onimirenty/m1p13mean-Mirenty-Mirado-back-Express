@@ -87,7 +87,7 @@ boutiqueSchema.pre("validate", function () {
     this.boutiqueSlug = generateSlug(this.boutiqueSlug);
   }
   // 2. Si AUCUN slug n'est fourni MAIS que le nom est présent/modifié
-  else if (!this.boutiqueSlug && this.name && this.isModified('name')) {
+  else if (this.name && this.isModified('name')) {
     this.boutiqueSlug = generateSlug(this.name);
   }
   // 3. Normalisation du status

@@ -9,13 +9,12 @@ const { requireMultipart, uploadPromotionImage } = require("../../middlewares/up
 
 // --- ROUTES PUBLIQUES (OU VISITEURS CONNECTÉS) ---
 // Récupère les promos selon l'ordre de priorité du CDC
-router.get("/vitrine", PromotionController.getVitrine);
-router.get("/:id", PromotionController.getPromotionById);
+// router.get("/vitrine", PromotionController.getVitrine);
+// router.get("/:id", PromotionController.getPromotionById);
 
 // --- ROUTES PROTÉGÉES (OWNER & ADMIN) ---
 router.post("/", checkToken, checkRole("OWNER", "ADMIN"), requireMultipart, uploadPromotionImage, PromotionController.createPromotion);
 router.put("/:id", checkToken, checkRole("OWNER", "ADMIN"), requireMultipart, uploadPromotionImage, PromotionController.updatePromotion);
-
 
 router.delete("/:id", checkToken, checkRole("OWNER", "ADMIN"),PromotionController.deletePromotion);
 router.patch("/:id", checkToken, checkRole("OWNER", "ADMIN"),PromotionController.patchPromotion);

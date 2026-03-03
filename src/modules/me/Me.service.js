@@ -6,6 +6,7 @@ const Promotion = require('../promotions/Promotion.model');
 const ProduitService = require('../produits/Produit.service');
 const BoutiqueService = require('../boutiques/Boutique.service');
 const AppError = require('../../utils/AppError');
+const { deleteFromCloudinary } = require('../../middlewares/upload.middleware');
 
 // ─────────────────────────────────────────
 // HELPER PRIVÉ
@@ -14,9 +15,10 @@ const AppError = require('../../utils/AppError');
 const getBoutiqueOfOwner = async (ownerId) => {
   const boutique = await Boutique.findOne({ ownerId, status: 'ACTIVE' })
     .populate('categorieId', 'nom iconClass');
-  if (!boutique) throw new AppError('Boutique introuvable pour cet utilisateur', 404);
+  if (!boutique) throw new AppError("soit la Boutique est introuvable pour cet utilisateur,soit le la boutique de l'utilisateur a ete suspendue ", 404);
   return boutique;
 };
+
 
 // ─────────────────────────────────────────
 // PROFIL BOUTIQUE
@@ -46,17 +48,29 @@ const updateMonProfil = async (ownerId, data) => {
   const boutique = await getBoutiqueOfOwner(ownerId);
 
   const updateData = {};
-  if (data.nom)         updateData.name        = data.nom;
+  if (data.nom) updateData.name = data.nom;
   if (data.description) updateData.description = data.description;
-  if (data.horaires)    updateData.opening     = data.horaires;
+  if (data.horaires) updateData.opening = data.horaires;
   if (data.telephoneBoutique || data.email) {
     updateData.contact = {
       phone: data.telephoneBoutique || boutique.contact?.phone,
       email: data.email || boutique.contact?.email,
     };
   }
+
   if (data.logoUrl) {
+    const ancienPublicId = boutique.imagePublicIds?.[0] || null;
+    if (ancienPublicId) {
+      await deleteFromCloudinary(ancienPublicId, 'image');
+    }
     updateData.images = [{ type: 'logo', url: data.logoUrl }];
+    if (data.logoPublicId) {
+      updateData.imagePublicIds = [data.logoPublicId];
+    }
+  }
+
+  if (Object.keys(updateData).length === 0) {
+    throw new AppError('Aucun champ valide fourni pour la mise à jour', 400);
   }
 
   const updated = await BoutiqueService.updateBoutique(boutique._id.toString(), updateData);
@@ -82,11 +96,11 @@ const updateMonProfil = async (ownerId, data) => {
 // PRODUITS
 // ─────────────────────────────────────────
 
+
 const getMesBoutiqueId = async (ownerId) => {
-  const boutique = await getBoutiqueOfOwner(ownerId);
+  const boutique = await getBoutiqueOfOwner(ownerId); // appel manquant
   return boutique._id;
 };
-
 const getMesProduits = async (ownerId) => {
   const boutiqueId = await getMesBoutiqueId(ownerId);
   const produits = await ProduitService.getAllProduits({ boutiqueId });
@@ -132,7 +146,7 @@ const getMesStats = async (ownerId) => {
   const boutique = await getBoutiqueOfOwner(ownerId);
 
   const stats = await Promotion.aggregate([
-    { $match: { boutiqueId: boutique._id } },
+    { $match: { boutiqueId: new mongoose.Types.ObjectId(boutique._id.toString()) } },
     { $group: { _id: null, promoClics: { $sum: '$stats.cliques' } } },
   ]);
 
@@ -150,4 +164,5 @@ module.exports = {
   getMesProduits,
   getMesPromotions,
   getMesStats,
+
 };

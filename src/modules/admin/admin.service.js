@@ -9,6 +9,9 @@ const AnnonceService = require('../annonce/Annonce.service');
 const Promotion = require('../promotions/Promotion.model');
 const Boutique = require('../boutiques/Boutique.model');
 const AppError = require('../../utils/AppError');
+const DemandeBoutique = require('../boutiques/demande_boutiques/DemandeBoutique.model');
+  
+const { normalizeBody } = require('../../utils/Utils');
 
 // ─────────────────────────────────────────
 // CENTRE COMMERCIAL
@@ -24,9 +27,8 @@ const getCentre = async () => {
     email: centre.contact?.email || null,
   };
 };
-
 const updateCentre = async (body, uploadedImage) => {
-  const updateData = { ...body };
+  const updateData = normalizeBody({ ...body });
 
   if (uploadedImage) {
     updateData.planImageUrl = uploadedImage.url;
@@ -44,14 +46,48 @@ const updateCentre = async (body, uploadedImage) => {
     planImageUrl: centre.planImageUrl || null,
   };
 };
+
+
 // ─────────────────────────────────────────
 // BOUTIQUES
 // ─────────────────────────────────────────
-
 const getAllBoutiques = async (query) => {
+  // ── Cas spécial : EN_ATTENTE → retourner les DemandeBoutique PENDING ──
+  if (query.status?.toUpperCase() === "EN_ATTENTE") {
+    const demandes = await DemandeBoutique.find({ status: "PENDING" })
+      .populate('categorieId', 'nom iconClass')
+      .populate('ownerId', 'email')
+      .sort({ createdAt: -1 });
+
+    return demandes.map(d => ({
+      _id:       d._id,
+      email:     d.ownerId?.email || null,
+      nom:       d.nomBoutique,
+      categorie: d.categorieId,
+      horaires:  d.opening || null,
+      contact:   d.contact?.telephone || null,
+      status:    "EN_ATTENTE",
+      type:      "DEMANDE",   // ← pour que le frontend sache que c'est une demande
+      createdAt: d.createdAt,
+    }));
+  }
+
+  // ── Cas normal : ACTIVE | INACTIVE | SUSPENDED ──
   const filter = {};
+
   if (query.status) {
-    filter.status = query.status.toUpperCase();
+    const statuses = query.status
+      .split("|")
+      .map(s => s.trim().toUpperCase())
+      .filter(s => ["ACTIVE", "INACTIVE", "SUSPENDED"].includes(s));
+
+    if (statuses.length === 0) {
+      throw new AppError("Statut invalide. Valeurs acceptées : ACTIVE, INACTIVE, SUSPENDED, EN_ATTENTE", 400);
+    }
+
+    filter.status = statuses.length === 1
+      ? statuses[0]
+      : { $in: statuses };
   }
 
   const boutiques = await Boutique.find(filter)
@@ -60,14 +96,16 @@ const getAllBoutiques = async (query) => {
     .sort({ createdAt: -1 });
 
   return boutiques.map(b => ({
-    _id: b._id,
-    email: b.ownerId?.email || null,
-    nom: b.name,
-    logoUrl: b.images?.[0]?.url || null,
+    _id:       b._id,
+    email:     b.ownerId?.email || null,
+    nom:       b.name,
+    logoUrl:   b.images?.[0]?.url || null,
     categorie: b.categorieId,
-    horaires: b.opening || null,
-    contact: b.contact?.phone || null,
-    status: b.status,
+    horaires:  b.opening || null,
+    contact:   b.contact?.phone || null,
+    status:    b.status,
+    type:      "BOUTIQUE",
+    createdAt: b.createdAt,
   }));
 };
 
@@ -90,12 +128,8 @@ const activateBoutique = async (id) => {
 };
 
 const disableBoutique = async (id) => {
-  const boutique = await BoutiqueService.updateBoutique(id, { status: 'INACTIVE' });
-  return {
-    _id: boutique._id,
-    nom: boutique.name,
-    status: boutique.status,
-  };
+  const boutique = await BoutiqueService.deactivateBoutique(id);
+  return { _id: boutique._id, nom: boutique.name, status: boutique.status };
 };
 
 // ─────────────────────────────────────────
@@ -123,9 +157,23 @@ const createZone = async (body) => {
 
 const getAllZones = async (query) => {
   const filter = {};
+
   if (query.status) {
-    filter.status = query.status.toUpperCase();
+    // Support "AVAILABLE|PENDING|OCCUPIED" → { status: { $in: [...] } }
+    const statuses = query.status
+      .split("|")
+      .map(s => s.trim().toUpperCase())
+      .filter(s => ["AVAILABLE", "PENDING", "OCCUPIED"].includes(s));
+
+    if (statuses.length === 0) {
+      throw new AppError("Statut invalide. Valeurs acceptées : AVAILABLE, PENDING, OCCUPIED", 400);
+    }
+
+    filter.status = statuses.length === 1
+      ? statuses[0]           // { status: "AVAILABLE" }
+      : { $in: statuses };    // { status: { $in: ["AVAILABLE", "PENDING"] } }
   }
+
   return BoxService.getAllBoxes(filter);
 };
 

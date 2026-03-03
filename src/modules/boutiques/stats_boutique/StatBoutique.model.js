@@ -36,7 +36,7 @@ const statsBoutiqueSchema = new mongoose.Schema(
 );
 
 statsBoutiqueSchema.index(
-  { boutiqueId: 1, periodStart: 1 },
+  { boutiqueId: 1, periodType: 1, periodStart: 1 },
   { unique: true }
 );
 

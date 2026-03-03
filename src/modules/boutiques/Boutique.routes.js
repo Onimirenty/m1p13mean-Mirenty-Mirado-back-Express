@@ -8,10 +8,10 @@ const { requireMultipart, uploadBoutiqueImage } = require("../../middlewares/upl
 
 const BoutiqueController = require("./Boutique.controller");
 
-router.get("/", checkToken, checkRole("ADMIN"), BoutiqueController.getAllBoutiques);
-router.get("/:id", checkToken, checkRole("ADMIN"), BoutiqueController.getBoutiqueById);
-router.get("/plus-boxes/:id", checkToken, checkRole("ADMIN"), BoutiqueController.getBoutiqueAndBoxesById);
+// router.get("/",  BoutiqueController.getAllBoutiques);
+// router.get("/:id", BoutiqueController.getBoutiqueById);
 
+router.get("/plus-boxes/:id", checkToken, checkRole("ADMIN"), BoutiqueController.getBoutiqueAndBoxesById);
 router.put("/deactivate/:id", checkToken, checkRole("ADMIN"), BoutiqueController.deactivateBoutique);
 router.put("/:id", checkToken, checkRole("ADMIN"), requireMultipart, uploadBoutiqueImage, BoutiqueController.updateBoutique);
 router.post("/", checkToken, checkRole("ADMIN"), requireMultipart, uploadBoutiqueImage, BoutiqueController.createBoutique);

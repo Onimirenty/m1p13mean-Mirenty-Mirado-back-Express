@@ -1,4 +1,5 @@
 const AdminService = require('./admin.service');
+const DemandeService = require("../boutiques/demande_boutiques/DemandeBoutique.service");
 
 // ─────────────────────────────────────────
 // CENTRE COMMERCIAL
@@ -38,7 +39,8 @@ exports.getAllBoutiquesAdmin = async (req, res, next) => {
 
 exports.validateBoutique = async (req, res, next) => {
   try {
-    const boutique = await AdminService.validateBoutique(req.params.id);
+    // const boutique = await AdminService.validateBoutique(req.params.id);
+    const boutique = await DemandeService.approveDemande(req.params.id);
     res.status(200).json(boutique);
   } catch (error) {
     next(error);

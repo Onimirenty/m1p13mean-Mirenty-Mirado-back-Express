@@ -15,14 +15,17 @@ const createToken = (user, durationnString, secretKey) => {
 
 
 const generateTokens = async (user, refreshTokenDurationInDays) => {
+  const tokenDurationInDays = Number(refreshTokenDurationInDays);
+  if (isNaN(tokenDurationInDays) || tokenDurationInDays <= 0) {
+    throw new AppError('refresh Token Duration In Days invalide', 500);
+  }
 
   const accessToken = createToken(user, `${process.env.ACCES_TOKEN_DURATION_IN_MINUTES}m`, process.env.JWT_SECRET);
   const refreshToken = createToken(user, `${refreshTokenDurationInDays}d`, process.env.JWT_REFRESH_SECRET);
-
   await RefreshToken.create({
     user: user._id,
     token: refreshToken,
-    expiresAt: new Date(Date.now() + refreshTokenDurationInDays * 24 * 60 * 60 * 1000)
+    expiresAt: new Date(Date.now() + tokenDurationInDays * 24 * 60 * 60 * 1000)
   });
   return { accessToken, refreshToken };
 };

@@ -26,8 +26,8 @@ exports.getPublicBoutiques = async (req, res, next) => {
       limit: +limit,
       query,
       category,
-      estFavoris,
-      userId,
+      // estFavoris,
+      // userId,
     });
     res.status(200).json(result);
   } catch (error) {
@@ -48,32 +48,32 @@ exports.getPublicBoutiqueById = async (req, res, next) => {
 // ROUTES OWNER (/me)
 // ─────────────────────────────────────────
 
-exports.getMyBoutique = async (req, res, next) => {
-  try {
-    const boutique = await BoutiqueService.getBoutiqueDetailForOwner(req.boutique._id);
-    res.status(200).json(boutique);
-  } catch (error) {
-    next(error);
-  }
-};
+// exports.getMyBoutique = async (req, res, next) => {
+//   try {
+//     const boutique = await BoutiqueService.getBoutiqueDetailForOwner(req.boutique._id);
+//     res.status(200).json(boutique);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
-exports.updateMyBoutique = async (req, res, next) => {
-  try {
-    const uploadedImage = req.uploadedFiles?.[0] || null;
-    const payload = { ...req.body };
+// exports.updateMyBoutique = async (req, res, next) => {
+//   try {
+//     const uploadedImage = req.uploadedFiles?.[0] || null;
+//     const payload = { ...req.body };
 
-    if (uploadedImage) {
-      await deleteImages(req.boutique.imagePublicIds);
-      payload.images = [{ type: "logo", url: uploadedImage.url }];
-      payload.imagePublicIds = [uploadedImage.publicId];
-    }
+//     if (uploadedImage) {
+//       await deleteImages(req.boutique.imagePublicIds);
+//       payload.images = [{ type: "logo", url: uploadedImage.url }];
+//       payload.imagePublicIds = [uploadedImage.publicId];
+//     }
 
-    const boutique = await BoutiqueService.updateBoutique(req.boutique._id, payload);
-    res.status(200).json(boutique);
-  } catch (error) {
-    next(error);
-  }
-};
+//     const boutique = await BoutiqueService.updateBoutique(req.boutique._id, payload);
+//     res.status(200).json(boutique);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 // ─────────────────────────────────────────
 // ROUTES ADMIN
@@ -91,7 +91,7 @@ exports.getAdminBoutiques = async (req, res, next) => {
 // validateBoutique approuve la demande (crée boutique + met à jour box + rôle user)
 exports.validateBoutique = async (req, res, next) => {
   try {
-    const DemandeService = require("../demande_boutiques/DemandeBoutique.service");
+    const DemandeService = require("./demande_boutiques/DemandeBoutique.service");
     const boutique = await DemandeService.approveDemande(req.params.id);
     res.status(200).json(boutique);
   } catch (error) {

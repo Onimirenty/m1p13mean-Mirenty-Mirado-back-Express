@@ -1,6 +1,7 @@
 const PromotionService = require("./Promotion.service");
 const Promotion = require("./Promotion.model");
 const { deleteFromCloudinary } = require("../../middlewares/upload.middleware");
+const AppError = require("../../utils/AppError");
 
 // CRÉATION : Validation automatique par le propriétaire
 exports.createPromotion = async (req, res, next) => {
@@ -70,9 +71,28 @@ exports.updatePromotion = async (req, res, next) => {
 };
 
 // PATCH : Pour le retrait administratif ou mise à jour partielle
+// exports.patchPromotion = async (req, res, next) => {
+//   try {
+//     const promotion = await Promotion.findByIdAndUpdate(req.params.id, req.body, { new: true });
+//     res.status(200).json({ success: true, data: promotion });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 exports.patchPromotion = async (req, res, next) => {
   try {
-    const promotion = await Promotion.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const allowed = ['titre', 'description', 'prioriteAffichage', 'status','dateDebut','dateFin','image','prixOrigine','pourcentageReduction'];
+    const updateData = {};
+    allowed.forEach(f => { if (req.body[f] !== undefined) updateData[f] = req.body[f]; });
+
+    if (Object.keys(updateData).length === 0) {
+      return next(new AppError('Aucun champ valide fourni', 400));
+    }
+
+    const promotion = await Promotion.findByIdAndUpdate(
+      req.params.id, updateData, { new: true, runValidators: true }
+    );
+    if (!promotion) return next(new AppError('Promotion introuvable', 404));
     res.status(200).json({ success: true, data: promotion });
   } catch (error) {
     next(error);

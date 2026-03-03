@@ -5,7 +5,7 @@ const logger = require('../../utils/logger')
 const controller = require('./User.controller');
 const { checkToken } = require('../../middlewares/auth.middleware');
 const { checkRole } = require('../../middlewares/role.middleware');
-const { protectUser } = require('./change-password.middleware');
+// const { protectUser } = require('./change-password.middleware');
 
 router.post('/', checkToken, checkRole('ADMIN'), controller.createUser);
 router.get('/', checkToken, checkRole('ADMIN'), controller.getUsers);
