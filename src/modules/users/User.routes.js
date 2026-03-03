@@ -13,6 +13,6 @@ router.get('/user/', checkToken, checkRole('ADMIN'), controller.getUserByEmail);
 router.put('/:id', checkToken, checkRole('ADMIN'), controller.updateUser);
 router.patch('/:id/disable', checkToken, checkRole('ADMIN'), controller.disableUser);
 router.patch('/:id/enable', checkToken, checkRole('ADMIN'), controller.enableUser);
-router.patch("/change-password", checkToken, protectUser,controller.changePassword);
+router.patch("/change-password", checkToken, controller.changePassword);
 
 module.exports = router;

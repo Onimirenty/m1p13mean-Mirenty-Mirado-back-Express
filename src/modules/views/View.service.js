@@ -17,8 +17,14 @@ const resolveVisitorKey = (authHeader, bodyVisitorKey) => {
     try {
       const decoded = jwt.verify(authHeader.substring(7), process.env.JWT_SECRET);
       return decoded.userId;
-    } catch {
-      // Token invalide ou expiré → on tombe sur le UUID frontend
+    } catch (err) {
+      // Token expiré → on accepte le fallback visitorKey
+      if (err.name === 'TokenExpiredError') {
+        // fall through
+      } else {
+        // Token falsifié ou malformé → on rejette
+        throw new AppError('Token invalide', 401);
+      }
     }
   }
 

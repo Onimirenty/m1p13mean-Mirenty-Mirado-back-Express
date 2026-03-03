@@ -18,7 +18,7 @@ exports.createPromotion = async (boutiqueId, data) => {
             const reduction = PromotionHelper.computeReduction(produit.prix, data, true);
             const { box, centre } = await PromotionHelper.getBoxAndCentre(boutiqueId);
             const { debut, fin } = PromotionHelper.validateDatesWithCentreRules(data.dateDebut, data.dateFin, centre);
-            await PromotionHelper.assertPromotionLimit(boutiqueId, centre, session);
+            await PromotionHelper.assertPromotionLimit(boutiqueId, centre);
             await PromotionHelper.checkPromotionOverlap({ produitId: data.produitId, dateDebut: debut, dateFin: fin, session });
             const promotion = await Promotion.create(
                 [{

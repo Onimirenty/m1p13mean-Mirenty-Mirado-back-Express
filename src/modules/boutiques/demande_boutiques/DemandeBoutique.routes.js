@@ -12,7 +12,7 @@ router.get("/:id", checkToken, checkRole("ADMIN"), DemandeController.getOne);
 router.patch("/:id/approve", checkToken, checkRole("ADMIN"), DemandeController.approve);
 router.patch("/:id/reject", checkToken, checkRole("ADMIN"), DemandeController.reject);
 
-router.post('/register-boutique', checkToken, requireMultipart, uploadDocumentsLegaux, DemandeController.create);
+// router.post('/register-boutique', checkToken, requireMultipart, uploadDocumentsLegaux, DemandeController.create);
 
 
 module.exports = router;

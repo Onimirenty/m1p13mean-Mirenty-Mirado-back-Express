@@ -191,10 +191,10 @@ const searchGlobal = async ({ page = 1, limit = 10, query, category } = {}) => {
 // PLAN DU CENTRE
 // ─────────────────────────────────────────
 
-const getPlanCentre = async () => {
-  const centre = await CentreCommercial.findById(process.env.CM_ID).select('planImageUrl');
-  return { planImageUrl: centre?.planImageUrl || null };
-};
+// const getPlanCentre = async () => {
+//   const centre = await CentreCommercial.findById(process.env.CM_ID).select('planImageUrl');
+//   return { planImageUrl: centre?.planImageUrl || null };
+// };
 
 module.exports = {
   getBoutiques,
@@ -202,5 +202,5 @@ module.exports = {
   getPromotions,
   getPromotionById,
   searchGlobal,
-  getPlanCentre,
+  // getPlanCentre,
 };

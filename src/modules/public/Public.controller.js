@@ -61,11 +61,11 @@ exports.searchGlobal = async (req, res, next) => {
 // PLAN DU CENTRE
 // ─────────────────────────────────────────
 
-exports.getPlanCentre = async (req, res, next) => {
-  try {
-    const plan = await PublicService.getPlanCentre();
-    res.status(200).json(plan);
-  } catch (error) {
-    next(error);
-  }
-};
+// exports.getPlanCentre = async (req, res, next) => {
+//   try {
+//     const plan = await PublicService.getPlanCentre();
+//     res.status(200).json(plan);
+//   } catch (error) {
+//     next(error);
+//   }
+// };

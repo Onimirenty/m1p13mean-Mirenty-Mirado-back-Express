@@ -1,4 +1,5 @@
 const BoxService = require("./Box.service");
+const { deleteFromCloudinary } = require("../../middlewares/upload.middleware");
 
 exports.createBox = async (req, res, next) => {
   try {

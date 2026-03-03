@@ -179,11 +179,25 @@ const deactivateBoutique = async (id) => {
   }
 };
 
+const setBoutiqueStatus = async (id, status) => {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new AppError("Invalid Boutique ID", 400);
+  }
+  const boutique = await Boutique.findByIdAndUpdate(
+    id,
+    { status },
+    { new: true, runValidators: true }
+  );
+  if (!boutique) throw new AppError("Boutique not found", 404);
+  return boutique;
+};
+
 module.exports = {
   createBoutique,
   getAllBoutiques,
   getBoutiqueById,
   updateBoutique,
   deactivateBoutique,
-  getBoutiqueWithBoxesById
+  getBoutiqueWithBoxesById,
+    setBoutiqueStatus,
 };

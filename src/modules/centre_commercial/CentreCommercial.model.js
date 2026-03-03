@@ -66,7 +66,26 @@ const centreCommercialSchema = new mongoose.Schema(
                 default: 30
             }
         },
+        horaires: {
+            days: {
+                firstDay: String,
+                lastDay: String,
+            },
+            hours: {
+                openingTime: String,
+                closingTime: String,
+            },
+        },
 
+        planImageUrl: {
+            type: String,
+            default: null,
+        },
+
+        planImagePublicId: {
+            type: String,
+            default: null,
+        },
         status: {
             type: String,
             enum: ["ACTIVE", "INACTIVE"],
