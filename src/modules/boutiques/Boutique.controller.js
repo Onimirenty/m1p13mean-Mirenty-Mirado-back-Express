@@ -1,4 +1,5 @@
 const BoutiqueService = require("./Boutique.service");
+const { deleteFromCloudinary } = require("../../middlewares/upload.middleware");
 
 exports.createBoutique = async (req, res, next) => {
   try {
@@ -72,7 +73,7 @@ exports.updateBoutique = async (req, res, next) => {
 };
 
 
-exports.deleteBoutique = async (req, res, next) => {
+exports.deactivateBoutique = async (req, res, next) => {
   try {
     // Supprimer l'image Cloudinary associée avant la suppression
     const existing = await BoutiqueService.getBoutiqueById(req.params.id);
@@ -80,7 +81,7 @@ exports.deleteBoutique = async (req, res, next) => {
       await deleteFromCloudinary(existing.imagePublicId, "image");
     }
 
-    await BoutiqueService.deleteBoutique(req.params.id);
+    await BoutiqueService.deactivateBoutique(req.params.id);
     res.status(200).json({ message: "Boutique deleted successfully" });
   } catch (error) {
     next(error);

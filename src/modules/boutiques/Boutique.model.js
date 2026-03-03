@@ -54,6 +54,11 @@ const boutiqueSchema = new mongoose.Schema(
         url: String
       }
     ],
+    imagePublicIds: [
+      {
+        type: String, // IDs Cloudinary pour pouvoir supprimer les photos plus tard
+      }
+    ],
     opening: {
       days: {
         firstDay: String,
@@ -78,7 +83,7 @@ const boutiqueSchema = new mongoose.Schema(
 
 boutiqueSchema.pre("validate", function () {
   // 1. Si un slug est fourni manuellement, on le nettoie (slugify + lowercase)
-  if (this.boutiqueSlug ) {
+  if (this.boutiqueSlug) {
     this.boutiqueSlug = generateSlug(this.boutiqueSlug);
   }
   // 2. Si AUCUN slug n'est fourni MAIS que le nom est présent/modifié

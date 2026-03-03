@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
-const logger = require('../../utils/logger')
-const AppError = require('../../utils/AppError')
-
-const DEFAULT_CENTRE_ID = new mongoose.Types.ObjectId(process.env.CM_ID);
+const logger = require('../../utils/logger');
+const AppError = require('../../utils/AppError');
 
 const boxSchema = new mongoose.Schema(
   {
@@ -41,15 +39,28 @@ const boxSchema = new mongoose.Schema(
       ref: "CentreCommercial",
       required: true,
       index: true,
-      default: DEFAULT_CENTRE_ID
+      default: () => new mongoose.Types.ObjectId(process.env.CM_ID)
     },
+
     dimension: {
       length: { type: Number, required: false },
       width: { type: Number, required: false },
       height: { type: Number, required: false }
     },
+
+    // URL de la photo de l'emplacement (vide ou occupé) affichée dans le frontend
     vanillaImageUrl: {
-      type: String, required: false
+      type: String,
+      required: false,
+      default: null
+    },
+
+    // ID Cloudinary de la photo → conservé pour supprimer l'ancienne image
+    // lors d'une mise à jour ou suppression de la box
+    vanillaImagePublicId: {
+      type: String,
+      required: false,
+      default: null
     },
   },
   { timestamps: true }
@@ -61,7 +72,6 @@ boxSchema.index(
 );
 
 boxSchema.pre("save", function () {
-
   if (this.status === "OCCUPIED" && !this.boutiqueId) {
     throw new AppError("OCCUPIED box must have boutiqueId", 400);
   }
@@ -69,15 +79,10 @@ boxSchema.pre("save", function () {
   if (this.status === "AVAILABLE") {
     this.boutiqueId = null;
   }
-  if (this.status) {
-    this.status = this.status.toUpperCase();
-  }
+
   if (this.isModified('status')) {
     this.status = this.status.toUpperCase();
-
   }
 });
-
-
 
 module.exports = mongoose.model("Box", boxSchema);

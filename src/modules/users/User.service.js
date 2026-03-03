@@ -32,7 +32,7 @@ const getUserByEmail = async (email) => {
     .select('-password');
 
   if (!user) {
-    const error = new AppError("Email  incorrect", 401);
+    const error = new AppError("Email incorrect", 401);
     logger.info("User not found for email:", email); // email essayer
     throw error;
   }
@@ -46,12 +46,11 @@ const getUserByEmail = async (email) => {
 
 const getUserById = async (id) => {
 
-  const user = await User.findOne({ _id : id })
-    .select('-password');
-
+  if (!mongoose.Types.ObjectId.isValid(id)) throw new AppError("ID invalide", 400);
+  const user = await User.findById(id).select('-password');
   if (!user) {
     const error = new AppError("id incorrect", 401);
-    logger.error("User not found ",error); // email essayer
+    logger.error("User not found ", error); // email essayer
     throw error;
   }
 

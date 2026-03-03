@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const utils = require("../../utils/Utils")
+const logger = require('../../utils/logger')
 
 const categorieSchema = new mongoose.Schema(
   {

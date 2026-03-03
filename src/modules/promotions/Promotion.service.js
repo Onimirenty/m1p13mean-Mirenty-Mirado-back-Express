@@ -4,7 +4,7 @@ const Produit = require('../produits/Produit.model')
 const AppError = require("../../utils/AppError");
 const centreCommerciale = require("../centre_commercial/CentreCommercial.model");
 const Boutique = require("../boutiques/Boutique.model");
-const BoutiqueHelper = require("./Promotion.helper");
+const PromotionHelper = require("./Promotion.helper");
 const mongoose = require("mongoose");
 
 
@@ -13,13 +13,13 @@ exports.createPromotion = async (boutiqueId, data) => {
     const session = await mongoose.startSession();
     try {
         return await session.withTransaction(async () => {
-            await BoutiqueHelper.assertBoutiqueExists(boutiqueId);
-            const produit = await BoutiqueHelper.getProduitOrThrow(data.produitId, boutiqueId, session);
-            const reduction = BoutiqueHelper.computeReduction(produit.prix, data, true);
-            const { box, centre } = await BoutiqueHelper.getBoxAndCentre(boutiqueId, session);
-            const { debut, fin } = BoutiqueHelper.validateDatesWithCentreRules(data.dateDebut, data.dateFin, centre);
-            await BoutiqueHelper.assertPromotionLimit(boutiqueId, centre, session);
-            await BoutiqueHelper.checkPromotionOverlap({ produitId: data.produitId, dateDebut: debut, dateFin: fin, session });
+            await PromotionHelper.assertBoutiqueExists(boutiqueId);
+            const produit = await PromotionHelper.getProduitOrThrow(data.produitId, boutiqueId);
+            const reduction = PromotionHelper.computeReduction(produit.prix, data, true);
+            const { box, centre } = await PromotionHelper.getBoxAndCentre(boutiqueId);
+            const { debut, fin } = PromotionHelper.validateDatesWithCentreRules(data.dateDebut, data.dateFin, centre);
+            await PromotionHelper.assertPromotionLimit(boutiqueId, centre, session);
+            await PromotionHelper.checkPromotionOverlap({ produitId: data.produitId, dateDebut: debut, dateFin: fin, session });
             const promotion = await Promotion.create(
                 [{
                     ...data,
@@ -33,7 +33,7 @@ exports.createPromotion = async (boutiqueId, data) => {
                         boxNumero: box.numero,
                         centreNom: centre.name
                     },
-                    status: "VALIDER"
+                    status: "VALIDER" //ToDo : peut etre modifier selon la logique de gestion et de metier
                 }],
                 { session }
             );
@@ -59,16 +59,16 @@ exports.updatePromotion = async (promotionId, data) => {
         throw new AppError("Promotion expirée", 400);
     }
     const produit = data.produitId
-        ? await BoutiqueHelper.getProduitOrThrow(data.produitId, boutiqueId)
+        ? await PromotionHelper.getProduitOrThrow(data.produitId, boutiqueId)
         : await Produit.findById(promotion.produitId);
-    const reduction = BoutiqueHelper.computeReduction(produit.prix, data, false);
+    const reduction = PromotionHelper.computeReduction(produit.prix, data, false);
     if (reduction) {
         Object.assign(promotion, reduction);
     }
     if (data.dateDebut || data.dateFin) {
-        const { centre } = await BoutiqueHelper.getBoxAndCentre(boutiqueId);
+        const { centre } = await PromotionHelper.getBoxAndCentre(boutiqueId);
 
-        const { debut, fin } = BoutiqueHelper.validateDatesWithCentreRules(
+        const { debut, fin } = PromotionHelper.validateDatesWithCentreRules(
             data.dateDebut || promotion.dateDebut,
             data.dateFin || promotion.dateFin,
             centre

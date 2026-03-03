@@ -44,6 +44,11 @@ const produitSchema = new mongoose.Schema(
         type: String, // URLs des images
       }
     ],
+    imagePublicIds: [
+      {
+        type: String, // IDs Cloudinary pour pouvoir supprimer les photos plus tard
+      }
+    ],
     isAvailable: {
       type: Boolean,
       default: true,

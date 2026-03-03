@@ -1,4 +1,5 @@
 const ProduitService = require("./Produit.service");
+const { deleteFromCloudinary } = require("../../middlewares/upload.middleware");
 
 exports.createProduit = async (req, res, next) => {
   try {

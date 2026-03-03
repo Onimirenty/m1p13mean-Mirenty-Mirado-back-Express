@@ -2,7 +2,18 @@ const BoxService = require("./Box.service");
 
 exports.createBox = async (req, res, next) => {
   try {
-    const box = await BoxService.createBox(req.body);
+    const uploadedImage = req.uploadedFiles?.[0] || null;
+
+    const payload = {
+      ...req.body,
+      // Si une image a été uploadée, on sauvegarde son URL et son publicId
+      ...(uploadedImage && {
+        vanillaImageUrl: uploadedImage.url,
+        vanillaImagePublicId: uploadedImage.publicId,
+      }),
+    };
+
+    const box = await BoxService.createBox(payload);
     res.status(201).json({ message: "Box created", box });
   } catch (error) {
     next(error);
@@ -17,6 +28,7 @@ exports.getAllBoxes = async (req, res, next) => {
     next(error);
   }
 };
+
 exports.getBoxByCompositeKey = async (req, res, next) => {
   try {
     // console.log("swwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwdfghjkl;");
@@ -43,6 +55,7 @@ exports.getBoxByCompositeKey = async (req, res, next) => {
     next(error);
   }
 };
+
 exports.getBoxById = async (req, res, next) => {
   try {
     const box = await BoxService.getBoxById(req.params.id);
@@ -54,7 +67,21 @@ exports.getBoxById = async (req, res, next) => {
 
 exports.updateBox = async (req, res, next) => {
   try {
-    const box = await BoxService.updateBox(req.params.id, req.body);
+    const uploadedImage = req.uploadedFiles?.[0] || null;
+    const payload = { ...req.body };
+
+    if (uploadedImage) {
+      // Récupérer l'ancienne image pour la supprimer de Cloudinary
+      const existing = await BoxService.getBoxById(req.params.id);
+      if (existing?.vanillaImagePublicId) {
+        await deleteFromCloudinary(existing.vanillaImagePublicId, "image");
+      }
+
+      payload.vanillaImageUrl = uploadedImage.url;
+      payload.vanillaImagePublicId = uploadedImage.publicId;
+    }
+
+    const box = await BoxService.updateBox(req.params.id, payload);
     res.status(200).json({ message: "Box updated", box });
   } catch (error) {
     next(error);
@@ -63,6 +90,12 @@ exports.updateBox = async (req, res, next) => {
 
 exports.deleteBox = async (req, res, next) => {
   try {
+    // Supprimer l'image Cloudinary avant de supprimer la box
+    const existing = await BoxService.getBoxById(req.params.id);
+    if (existing?.vanillaImagePublicId) {
+      await deleteFromCloudinary(existing.vanillaImagePublicId, "image");
+    }
+
     await BoxService.deleteBox(req.params.id);
     res.status(200).json({ message: "Box deleted successfully" });
   } catch (error) {

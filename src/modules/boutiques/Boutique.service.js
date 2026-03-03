@@ -83,9 +83,21 @@ const getBoutiqueWithBoxesById = async (id) => {
   };
 };
 
+const getAllBoutiques = async (filters = {}) => {
+  const allowedFilters = {};
 
-const getAllBoutiques = async () => {
+  if (filters.status) {
+    allowedFilters.status = filters.status.toUpperCase();
+  }
+  if (filters.categorieId && mongoose.Types.ObjectId.isValid(filters.categorieId)) {
+    allowedFilters.categorieId = new mongoose.Types.ObjectId(filters.categorieId);
+  }
+  if (filters.ownerId && mongoose.Types.ObjectId.isValid(filters.ownerId)) {
+    allowedFilters.ownerId = new mongoose.Types.ObjectId(filters.ownerId);
+  }
+
   return await Boutique.aggregate([
+    { $match: allowedFilters },
     {
       $lookup: {
         from: "boxes",
@@ -136,7 +148,7 @@ const updateBoutique = async (id, data) => {
 };
 
 
-const deleteBoutique = async (id) => {
+const deactivateBoutique = async (id) => {
   const session = await mongoose.startSession();
   session.startTransaction();
 
@@ -172,6 +184,6 @@ module.exports = {
   getAllBoutiques,
   getBoutiqueById,
   updateBoutique,
-  deleteBoutique,
+  deactivateBoutique,
   getBoutiqueWithBoxesById
 };
