@@ -24,7 +24,7 @@ const getCentre = async () => {
     description: centre.description,
     horaires: centre.horaires || null,
     contact: centre.contact?.phone || null,
-    email: centre.contact?.email || null,
+    email: centre.contact?.email || null ,
   };
 };
 const updateCentre = async (body, uploadedImage) => {
